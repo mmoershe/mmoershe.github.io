@@ -244,3 +244,17 @@ Bibiliogrpahie braucht 3 register
 aus rtf PDF machen und EINE PDF abgeben.  
 Bewertungsbogen wird mit Aufgabenstellung veröffentlicht.  
 Schreibfehler werden nicht toleriert!!
+
+# Codierungstabelle 
+
+|normal|utf-8|Ansi|
+|:---:|:---:|:---:|
+|Ü|||
+|ü|||
+|Ö|||
+|ö|||
+|Ä|||
+|ä|||
+||||
+||||
+||||
