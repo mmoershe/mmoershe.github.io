@@ -9,6 +9,8 @@ Although this quiz has two sections (Intervalle und Töne), the latter one is th
 
 ### TODO
 
+- [ ] Background image(s) mit AI generieren
+- [ ] Sprachauswahl???
 - [ ] keybindings erklären / customizable machen?
 - [ ] "settings" mobile friendly machen 
 - [ ] Add Sounds 
