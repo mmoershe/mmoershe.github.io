@@ -9,6 +9,8 @@ Although this quiz has two sections (Intervalle und Töne), the latter one is th
 
 ### TODO
 
+- [ ] keybindings erklären / customizable machen?
+- [ ] "settings" mobile friendly machen 
 - [ ] Add Sounds 
-- [ ] Vorzeichen hinzufügen  
 - [ ] Notengenerierung automatisieren und dadurch normalisieren
+  - [ ] Vorzeichen hinzufügen  
