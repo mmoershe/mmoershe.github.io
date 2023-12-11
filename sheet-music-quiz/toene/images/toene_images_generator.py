@@ -45,9 +45,7 @@ def delete_leftover(path=CURRENT_PATH):
 def generate_sheetmusic(path=CURRENT_PATH, note: str="c''", tonart: str="c", minor: bool=False, clef: str="treble") -> None:
     global VIOLIN_OUTPUT_PATH, BASS_OUTPUT_PATH, VORZEICHEN_VIOLIN_OUTPUT_PATH, VORZEICHEN_BASS_OUTPUT_PATH
     mode: str = "minor" if minor else "major"
-    newnote = abjad.NamedPitch(note)
-    print(newnote)
-    voice = abjad.Voice([newnote], name="RH_Voice")
+    voice = abjad.Voice(note, name="RH_Voice")
     staff = abjad.Staff([voice], name="RH_Staff")
     score = abjad.Score([staff], name="Score")
     # time_signatures = [(2, 4), (1, 4), (3, 4), (4, 4), (6, 8), (12, 8)]
@@ -89,6 +87,6 @@ if __name__ == "__main__":
     # for bass_note in BASS_NOTEN:
     #     generate_sheetmusic(note=bass_note, clef="bass", tonart="c", minor=False)
     
-    generate_sheetmusic(tonart="b#", note="c''")
+    generate_sheetmusic(tonart="c", note="cs''")
     
     delete_leftover()
