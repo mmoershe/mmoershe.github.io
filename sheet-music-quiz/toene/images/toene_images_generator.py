@@ -45,7 +45,9 @@ def delete_leftover(path=CURRENT_PATH):
 def generate_sheetmusic(path=CURRENT_PATH, note: str="c''", tonart: str="c", minor: bool=False, clef: str="treble") -> None:
     global VIOLIN_OUTPUT_PATH, BASS_OUTPUT_PATH, VORZEICHEN_VIOLIN_OUTPUT_PATH, VORZEICHEN_BASS_OUTPUT_PATH
     mode: str = "minor" if minor else "major"
-    voice = abjad.Voice(note, name="RH_Voice")
+    newnote = abjad.NamedPitch(note)
+    print(newnote)
+    voice = abjad.Voice([newnote], name="RH_Voice")
     staff = abjad.Staff([voice], name="RH_Staff")
     score = abjad.Score([staff], name="Score")
     # time_signatures = [(2, 4), (1, 4), (3, 4), (4, 4), (6, 8), (12, 8)]
@@ -79,49 +81,14 @@ def generate_sheetmusic(path=CURRENT_PATH, note: str="c''", tonart: str="c", min
 
 
 if __name__ == "__main__":
-    VIOLIN_NOTEN = [
-        "a",
-        "b", 
-        "c'", 
-        "d'", 
-        "e'", 
-        "f'",
-        "g'", 
-        "a'",
-        "b'", 
-        "c''", 
-        "d''", 
-        "e''", 
-        "f''",
-        "g''", 
-        "a''",
-        "b''",
-        "c'''"
-    ]
-    BASS_NOTEN = [
-        "c,", 
-        "d,", 
-        "e,", 
-        "f,",
-        "g,", 
-        "a,",
-        "b,", 
-        "c", 
-        "d", 
-        "e", 
-        "f",
-        "g", 
-        "a",
-        "b", 
-        "c'", 
-        "d'", 
-        "e'", 
-        "f'",
-        "g'"
-    ]
-    for violin_note in VIOLIN_NOTEN:
-        generate_sheetmusic(note=violin_note, clef="treble", tonart="c", minor=False)   
-    for bass_note in BASS_NOTEN:
-        generate_sheetmusic(note=bass_note, clef="bass", tonart="c", minor=False)
+    VIOLIN_NOTEN = ["a","b", "c'", "d'", "e'", "f'","g'", "a'","b'", "c''", "d''", "e''", "f''","g''", "a''","b''","c'''"]
+    BASS_NOTEN = ["c,", "d,", "e,", "f,","g,", "a,","b,", "c", "d", "e", "f","g", "a","b", "c'", "d'", "e'", "f'","g'"]
+    ALLE_TONARTEN = [""]
+    # for violin_note in VIOLIN_NOTEN:
+    #     generate_sheetmusic(note=violin_note, clef="treble", tonart="c", minor=False)   
+    # for bass_note in BASS_NOTEN:
+    #     generate_sheetmusic(note=bass_note, clef="bass", tonart="c", minor=False)
+    
+    generate_sheetmusic(tonart="b#", note="c''")
     
     delete_leftover()
