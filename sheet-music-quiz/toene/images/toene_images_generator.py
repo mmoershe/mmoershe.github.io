@@ -1,5 +1,7 @@
 import os 
 
+import sys
+
 import random 
 
 import PIL  
@@ -7,64 +9,24 @@ import PIL
 import abjad
 
 import fitz
-CURRENT_PATH: str = os.path.dirname(os.path.abspath(__file__))
+CURRENT_PATH: str = os.path.dirname(os.path.abspath(__file__)) 
+VIOLIN_OUTPUT_PATH: str = os.path.join(CURRENT_PATH, "violin")
+BASS_OUTPUT_PATH: str = os.path.join(CURRENT_PATH, "bass")
+VORZEICHEN_VIOLIN_OUTPUT_PATH: str = os.path.join(CURRENT_PATH, "vorzeichen_violin")
+VORZEICHEN_BASS_OUTPUT_PATH: str = os.path.join(CURRENT_PATH, "vorzeichen_bass")
 
 
-def convert_pdf_to_png(path=CURRENT_PATH):
-    pdf_files: list = [i for i in os.listdir(path) if i.endswith(".pdf")]
-    if not os.path.exists(path):
-        print(f"{path} doesn't exist.")
-        return
-    if len(pdf_files) == 0:
-        print("There are no PDF-files in the directory.")
-        return
-    
-    print(f"Found {len(pdf_files)} PDF-file(s).")
-    for pdf_file in pdf_files:
-        pdf_file_path: str = os.path.join(path, pdf_file)
-        png_file: str = f"{pdf_file[:-4:]}.png"
-        png_file_path: str = os.path.join(path, png_file)
-        doc = fitz.open(pdf_file_path)
-        first_page = doc[0]
-        image = first_page.get_pixmap()
-        pil_image = PIL.Image.frombytes("RGB", [image.width, image.height], image.samples)
-        pil_image.save(png_file_path)
-        os.remove(pdf_file_path)
-        print(f"\tConverted {pdf_file} to {png_file}")
-        
-        
-        
-def convert_pdf_to_svg(path=CURRENT_PATH):
-    pdf_files: list = [i for i in os.listdir(path) if i.endswith(".pdf")]
-    if not os.path.exists(path):
-        print(f"{path} doesn't exist.")
-        return
-    if len(pdf_files) == 0:
-        print("There are no PDF-files in the directory.")
-        return
-    
-    print(f"Found {len(pdf_files)} PDF-file(s).")
-    for pdf_file in pdf_files:
-        pdf_file_path: str = os.path.join(path, pdf_file)
-        doc = fitz.open(pdf_file_path)
-        first_page = doc[0]
-        svg_content = first_page.get_svg_image()
-        
-        with open(os.path.join(path, f"{pdf_file[:-4:]}.svg"), "w", encoding="utf-8") as svg_file:
-            svg_file.write(svg_content)
-    
-    
-
-def crop_svg():
-    input_svg_path = os.path.join(CURRENT_PATH, [i for i in os.listdir(CURRENT_PATH) if i.endswith(".svg")][0])
-    output_svg_path = os.path.join(CURRENT_PATH, "test.svg")
-    # Read the SVG file
-    pass
+def clean_all_names(path=CURRENT_PATH) -> None: 
+    for file in os.listdir(path): 
+        # print(file)
+        if file.endswith(".preview.png"):
+            new_file_name = file.replace(".preview.png", ".png")
+            os.replace(os.path.join(path, file), os.path.join(path, new_file_name))
 
 
-
-def move_images():
-    pass
+def move_image(from_path: str, to_path: str) -> None:
+    os.rename(from_path, to_path)
+    print(f"\tMoved {from_path} to {to_path}")
 
 
 def delete_leftover(path=CURRENT_PATH):
@@ -80,33 +42,46 @@ def delete_leftover(path=CURRENT_PATH):
         print(f"\t{leftover} has been deleted.")
 
 
-def main(note: str="c''", tonart: str="c", minor: bool=False, clef: str="treble"):
+def generate_sheetmusic(path=CURRENT_PATH, note: str="c''", tonart: str="c", minor: bool=False, clef: str="treble") -> None:
+    global VIOLIN_OUTPUT_PATH, BASS_OUTPUT_PATH, VORZEICHEN_VIOLIN_OUTPUT_PATH, VORZEICHEN_BASS_OUTPUT_PATH
     mode: str = "minor" if minor else "major"
     voice = abjad.Voice(note, name="RH_Voice")
     staff = abjad.Staff([voice], name="RH_Staff")
     score = abjad.Score([staff], name="Score")
-
     time_signatures = [(2, 4), (1, 4), (3, 4), (4, 4), (6, 8), (12, 8)]
     abjad.attach(abjad.TimeSignature(random.choice(time_signatures)), voice[0])
-
     key_signature = abjad.KeySignature(
-        abjad.NamedPitchClass(note), abjad.Mode(mode)
+        abjad.NamedPitchClass(tonart), abjad.Mode(mode)
     )
     abjad.attach(key_signature, voice[0])
-    
     clef = abjad.Clef(clef)
     abjad.attach(clef, voice[0])
     
-    filename: str = f"{int(clef == 'bass')}{'c'}.png"
-    print(filename)
+    obstructed_note: str = note.replace("'", "+")
+    filename: str = f"{int(clef=='bass')}{obstructed_note}.png"
+    temporary_output_path: str = os.path.join(path, filename)
     
-    abjad.persist.as_png(score, os.path.join(CURRENT_PATH, filename), flags="-dcrop", preview=True, resolution=300)
-    # abjad.show(score)
+    abjad.persist.as_png(score, temporary_output_path, flags="-dcrop", preview=True, resolution=300)
 
+    clean_all_names(path)
+    output_path = ""    
+    if clef.name == "treble" and tonart == "c":
+        output_path = VIOLIN_OUTPUT_PATH
+    if clef.name == "bass" and tonart == "c":
+        output_path = BASS_OUTPUT_PATH
+    if clef.name == "treble" and tonart != "c":
+        output_path = VORZEICHEN_VIOLIN_OUTPUT_PATH
+    if clef.name == "bass" and tonart != "c":
+        output_path = VORZEICHEN_BASS_OUTPUT_PATH
+    output_path = os.path.join(output_path, filename.replace("+", "'"))
+    move_image(temporary_output_path, output_path)
 
 
 if __name__ == "__main__":
-    print(f"{abjad.__version__ = }")
-    print(f"{CURRENT_PATH = }")
-    main()
-    # delete_leftover()
+    VIOLIN_NOTEN = [
+        "c''",
+        "d''"
+    ]
+    for violin_note in VIOLIN_NOTEN:
+        generate_sheetmusic(note=violin_note, clef="treble", tonart="c", minor=False)   
+    delete_leftover()
