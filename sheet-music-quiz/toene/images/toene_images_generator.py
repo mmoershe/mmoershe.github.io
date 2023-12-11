@@ -48,14 +48,15 @@ def generate_sheetmusic(path=CURRENT_PATH, note: str="c''", tonart: str="c", min
     voice = abjad.Voice(note, name="RH_Voice")
     staff = abjad.Staff([voice], name="RH_Staff")
     score = abjad.Score([staff], name="Score")
-    time_signatures = [(2, 4), (1, 4), (3, 4), (4, 4), (6, 8), (12, 8)]
-    abjad.attach(abjad.TimeSignature(random.choice(time_signatures)), voice[0])
+    # time_signatures = [(2, 4), (1, 4), (3, 4), (4, 4), (6, 8), (12, 8)]
+    # abjad.attach(abjad.TimeSignature(random.choice(time_signatures)), voice[0])
     key_signature = abjad.KeySignature(
         abjad.NamedPitchClass(tonart), abjad.Mode(mode)
     )
     abjad.attach(key_signature, voice[0])
     clef = abjad.Clef(clef)
     abjad.attach(clef, voice[0])
+    
     
     obstructed_note: str = note.replace("'", "+")
     filename: str = f"{int(clef=='bass')}{obstructed_note}.png"
@@ -79,9 +80,49 @@ def generate_sheetmusic(path=CURRENT_PATH, note: str="c''", tonart: str="c", min
 
 if __name__ == "__main__":
     VIOLIN_NOTEN = [
-        "c''",
-        "d''"
+        "a",
+        "b", 
+        "c'", 
+        "d'", 
+        "e'", 
+        "f'",
+        "g'", 
+        "a'",
+        "b'", 
+        "c''", 
+        "d''", 
+        "e''", 
+        "f''",
+        "g''", 
+        "a''",
+        "b''",
+        "c'''"
+    ]
+    BASS_NOTEN = [
+        "c,", 
+        "d,", 
+        "e,", 
+        "f,",
+        "g,", 
+        "a,",
+        "b,", 
+        "c", 
+        "d", 
+        "e", 
+        "f",
+        "g", 
+        "a",
+        "b", 
+        "c'", 
+        "d'", 
+        "e'", 
+        "f'",
+        "g'"
     ]
     for violin_note in VIOLIN_NOTEN:
         generate_sheetmusic(note=violin_note, clef="treble", tonart="c", minor=False)   
+    for bass_note in BASS_NOTEN:
+        generate_sheetmusic(note=bass_note, clef="bass", tonart="c", minor=False)
+        
+    
     delete_leftover()
