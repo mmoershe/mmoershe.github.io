@@ -24,8 +24,10 @@ def clean_all_names(path=CURRENT_PATH) -> None:
             os.replace(os.path.join(path, file), os.path.join(path, new_file_name))
 
 
-def move_image(from_path: str, to_path: str) -> None:
-    os.rename(from_path, to_path)
+def move_image(from_path: str, to_path: str, filename: str) -> None:
+    if not os.path.exists(to_path):
+        os.mkdir(to_path)
+    os.rename(from_path, os.path.join(to_path, filename))
     print(f"\tMoved {from_path} to {to_path}")
 
 
@@ -74,19 +76,23 @@ def generate_sheetmusic(path=CURRENT_PATH, note: str="c''", tonart: str="c", min
         output_path = VORZEICHEN_VIOLIN_OUTPUT_PATH
     if clef.name == "bass" and tonart != "c":
         output_path = VORZEICHEN_BASS_OUTPUT_PATH
-    output_path = os.path.join(output_path, filename.replace("+", "'"))
-    move_image(temporary_output_path, output_path)
+    
+    if tonart != "c":
+        output_path: str = os.path.join(output_path, f"tonart_{tonart}")
+    filename = filename.replace("+", "'")
+    move_image(temporary_output_path, output_path, filename)
 
 
 if __name__ == "__main__":
     VIOLIN_NOTEN = ["a","b", "c'", "d'", "e'", "f'","g'", "a'","b'", "c''", "d''", "e''", "f''","g''", "a''","b''","c'''"]
     BASS_NOTEN = ["c,", "d,", "e,", "f,","g,", "a,","b,", "c", "d", "e", "f","g", "a","b", "c'", "d'", "e'", "f'","g'"]
-    ALLE_TONARTEN = [""]
+    ALLE_TONARTEN = ["g", "d", "a", "e", "b", "fs", "gf", "df", "af", "ef", "bf", "f"]
     # for violin_note in VIOLIN_NOTEN:
     #     generate_sheetmusic(note=violin_note, clef="treble", tonart="c", minor=False)   
     # for bass_note in BASS_NOTEN:
     #     generate_sheetmusic(note=bass_note, clef="bass", tonart="c", minor=False)
     
-    generate_sheetmusic(tonart="c", note="cs''")
+    for i in ALLE_TONARTEN:
+        generate_sheetmusic(tonart=i, note="fs'")
     
     delete_leftover()
