@@ -123,6 +123,5 @@ if __name__ == "__main__":
         generate_sheetmusic(note=violin_note, clef="treble", tonart="c", minor=False)   
     for bass_note in BASS_NOTEN:
         generate_sheetmusic(note=bass_note, clef="bass", tonart="c", minor=False)
-        
     
     delete_leftover()
