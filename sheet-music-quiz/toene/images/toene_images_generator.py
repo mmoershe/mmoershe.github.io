@@ -8,7 +8,8 @@ import PIL
 
 import abjad
 
-import fitz
+import json 
+
 CURRENT_PATH: str = os.path.dirname(os.path.abspath(__file__)) 
 VIOLIN_OUTPUT_PATH: str = os.path.join(CURRENT_PATH, "violin")
 BASS_OUTPUT_PATH: str = os.path.join(CURRENT_PATH, "bass")
@@ -84,15 +85,22 @@ def generate_sheetmusic(path=CURRENT_PATH, note: str="c''", tonart: str="c", min
 
 
 if __name__ == "__main__":
-    VIOLIN_NOTEN = ["a","b", "c'", "d'", "e'", "f'","g'", "a'","b'", "c''", "d''", "e''", "f''","g''", "a''","b''","c'''"]
-    BASS_NOTEN = ["c,", "d,", "e,", "f,","g,", "a,","b,", "c", "d", "e", "f","g", "a","b", "c'", "d'", "e'", "f'","g'"]
-    ALLE_TONARTEN = ["g", "d", "a", "e", "b", "fs", "gf", "df", "af", "ef", "bf", "f"]
+    # VIOLIN_NOTEN = ["a","b", "c'", "d'", "e'", "f'","g'", "a'","b'", "c''", "d''", "e''", "f''","g''", "a''","b''","c'''"]
+    # BASS_NOTEN = ["c,", "d,", "e,", "f,","g,", "a,","b,", "c", "d", "e", "f","g", "a","b", "c'", "d'", "e'", "f'","g'"]
+    # ALLE_TONARTEN = ["g", "d", "a", "e", "b", "fs", "gf", "df", "af", "ef", "bf", "f"]
     # for violin_note in VIOLIN_NOTEN:
     #     generate_sheetmusic(note=violin_note, clef="treble", tonart="c", minor=False)   
     # for bass_note in BASS_NOTEN:
     #     generate_sheetmusic(note=bass_note, clef="bass", tonart="c", minor=False)
     
-    for i in ALLE_TONARTEN:
-        generate_sheetmusic(tonart=i, note="fs'")
+    # for i in ALLE_TONARTEN:
+    #     generate_sheetmusic(tonart=i, note="fs'")
+
+    with open(os.path.join(CURRENT_PATH, "tonarten.json"), "r") as f:
+        tonarten = json.load(f)
+    for clef in tonarten:
+        for tonart in tonarten[clef]:
+            for note in tonarten[clef][tonart]:
+                print(f"{clef}\t{tonart}\t{note}")
     
     delete_leftover()
