@@ -81,15 +81,15 @@ def generate_sheetmusic(path=CURRENT_PATH, note: str="c''", tonart: str="c", min
     output_path = ""    
     if clef.name == "treble" and tonart == "c" and note in toene_data["toene"][clef.name]["clean"]:
         output_path = VIOLIN_OUTPUT_PATH
-    if clef.name == "bass" and tonart == "c" and note in toene_data["toene"][clef.name]["clean"]:
+    elif clef.name == "bass" and tonart == "c" and note in toene_data["toene"][clef.name]["clean"]:
         output_path = BASS_OUTPUT_PATH
-    if clef.name == "treble" and tonart != "c":
+    elif clef.name == "treble":
         output_path = VORZEICHEN_VIOLIN_OUTPUT_PATH
-    if clef.name == "bass" and tonart != "c":
-        output_path = VORZEICHEN_BASS_OUTPUT_PATH
-    
-    if tonart != "c":
         output_path: str = os.path.join(output_path, f"tonart_{tonart}")
+    elif clef.name == "bass":
+        output_path = VORZEICHEN_BASS_OUTPUT_PATH
+        output_path: str = os.path.join(output_path, f"tonart_{tonart}")
+        
     filename = filename.replace("+", "'")
     move_image(temporary_output_path, output_path, filename)
 
@@ -97,7 +97,6 @@ def generate_sheetmusic(path=CURRENT_PATH, note: str="c''", tonart: str="c", min
 if __name__ == "__main__":   
     with open(os.path.join(CURRENT_PATH, "toene_data.json"), "r") as f:
         toene_data = json.load(f)
-    
     create_directories()
     
     for tonart in tqdm(toene_data["tonarten"], leave=False):
@@ -106,6 +105,7 @@ if __name__ == "__main__":
             tqdm.write("")
             for note in tqdm(toene_data["toene"][clef]["all"], leave=False):
                 generate_sheetmusic(note=note, tonart=tonart, clef=clef, minor=False)
+            delete_leftover()
     
     delete_leftover()
 
