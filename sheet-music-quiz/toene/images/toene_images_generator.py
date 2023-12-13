@@ -10,6 +10,8 @@ import abjad
 
 import json 
 
+from tqdm import tqdm 
+
 CURRENT_PATH: str = os.path.dirname(os.path.abspath(__file__)) 
 VIOLIN_OUTPUT_PATH: str = os.path.join(CURRENT_PATH, "violin")
 BASS_OUTPUT_PATH: str = os.path.join(CURRENT_PATH, "bass")
@@ -17,9 +19,17 @@ VORZEICHEN_VIOLIN_OUTPUT_PATH: str = os.path.join(CURRENT_PATH, "vorzeichen_viol
 VORZEICHEN_BASS_OUTPUT_PATH: str = os.path.join(CURRENT_PATH, "vorzeichen_bass")
 
 
+def create_directories(path=CURRENT_PATH) -> None: 
+    global VIOLIN_OUTPUT_PATH, BASS_OUTPUT_PATH, VORZEICHEN_VIOLIN_OUTPUT_PATH, VORZEICHEN_BASS_OUTPUT_PATH
+    for directory in [VIOLIN_OUTPUT_PATH, BASS_OUTPUT_PATH, VORZEICHEN_VIOLIN_OUTPUT_PATH, VORZEICHEN_BASS_OUTPUT_PATH]:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+            tqdm.write(f"Created {directory}")
+
+
 def clean_all_names(path=CURRENT_PATH) -> None: 
     for file in os.listdir(path): 
-        # print(file)
+        # tqdm.write(file)
         if file.endswith(".preview.png"):
             new_file_name = file.replace(".preview.png", ".png")
             os.replace(os.path.join(path, file), os.path.join(path, new_file_name))
@@ -29,20 +39,20 @@ def move_image(from_path: str, to_path: str, filename: str) -> None:
     if not os.path.exists(to_path):
         os.mkdir(to_path)
     os.rename(from_path, os.path.join(to_path, filename))
-    print(f"\tMoved {from_path} to {to_path}")
+    tqdm.write(f"Moved {filename} to {to_path}")
 
 
 def delete_leftover(path=CURRENT_PATH):
     # deletes all .ly and .log files that are somehow created with abjad
     all_leftovers: list = [i for i in os.listdir(path) if i.endswith(".ly") or i.endswith(".log")]
     if not all_leftovers:
-        print("No leftovers were found.")
+        tqdm.write("No leftovers were found.")
         return
-    print(f"Found {len(all_leftovers)} leftover-file(s).")
+    tqdm.write(f"Found {len(all_leftovers)} leftover-file(s).")
     
     for leftover in all_leftovers: 
         os.remove(os.path.join(path, leftover))
-        print(f"\t{leftover} has been deleted.")
+        tqdm.write(f"\t{leftover} has been deleted.")
 
 
 def generate_sheetmusic(path=CURRENT_PATH, note: str="c''", tonart: str="c", minor: bool=False, clef: str="treble") -> None:
@@ -69,9 +79,9 @@ def generate_sheetmusic(path=CURRENT_PATH, note: str="c''", tonart: str="c", min
 
     clean_all_names(path)
     output_path = ""    
-    if clef.name == "treble" and tonart == "c" and note in toene_data[clef.name]["clean"]:
+    if clef.name == "treble" and tonart == "c" and note in toene_data["toene"][clef.name]["clean"]:
         output_path = VIOLIN_OUTPUT_PATH
-    if clef.name == "bass" and tonart == "c" and note in toene_data[clef.name]["clean"]:
+    if clef.name == "bass" and tonart == "c" and note in toene_data["toene"][clef.name]["clean"]:
         output_path = BASS_OUTPUT_PATH
     if clef.name == "treble" and tonart != "c":
         output_path = VORZEICHEN_VIOLIN_OUTPUT_PATH
@@ -84,7 +94,21 @@ def generate_sheetmusic(path=CURRENT_PATH, note: str="c''", tonart: str="c", min
     move_image(temporary_output_path, output_path, filename)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":   
+    with open(os.path.join(CURRENT_PATH, "toene_data.json"), "r") as f:
+        toene_data = json.load(f)
+    
+    create_directories()
+    
+    for tonart in tqdm(toene_data["tonarten"], leave=False):
+        tqdm.write("")
+        for clef in tqdm(toene_data["toene"], leave=False):
+            tqdm.write("")
+            for note in tqdm(toene_data["toene"][clef]["all"], leave=False):
+                generate_sheetmusic(note=note, tonart=tonart, clef=clef, minor=False)
+    
+    delete_leftover()
+
     # VIOLIN_NOTEN = ["a","b", "c'", "d'", "e'", "f'","g'", "a'","b'", "c''", "d''", "e''", "f''","g''", "a''","b''","c'''"]
     # BASS_NOTEN = ["c,", "d,", "e,", "f,","g,", "a,","b,", "c", "d", "e", "f","g", "a","b", "c'", "d'", "e'", "f'","g'"]
     # ALLE_TONARTEN = ["g", "d", "a", "e", "b", "fs", "gf", "df", "af", "ef", "bf", "f"]
@@ -92,18 +116,5 @@ if __name__ == "__main__":
     #     generate_sheetmusic(note=violin_note, clef="treble", tonart="c", minor=False)   
     # for bass_note in BASS_NOTEN:
     #     generate_sheetmusic(note=bass_note, clef="bass", tonart="c", minor=False)
-    
     # for i in ALLE_TONARTEN:
     #     generate_sheetmusic(tonart=i, note="fs'")
-    generate_sheetmusic()
-    sys.exit()
-
-    with open(os.path.join(CURRENT_PATH, "toene_data.json"), "r") as f:
-        toene_data = json.load(f)
-    for tonart in tqdm(toene_data["tonarten"]):
-        for clef in toene_data["toene"]:
-            for note in tqdm(toene_data["toene"][clef]["all"]):
-                generate_sheetmusic(note=note, tonart=tonart, clef=clef, minor=False)
-    
-
-    delete_leftover()
