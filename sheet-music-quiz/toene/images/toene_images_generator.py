@@ -69,9 +69,9 @@ def generate_sheetmusic(path=CURRENT_PATH, note: str="c''", tonart: str="c", min
 
     clean_all_names(path)
     output_path = ""    
-    if clef.name == "treble" and tonart == "c":
+    if clef.name == "treble" and tonart == "c" and note in toene_data[clef.name]["clean"]:
         output_path = VIOLIN_OUTPUT_PATH
-    if clef.name == "bass" and tonart == "c":
+    if clef.name == "bass" and tonart == "c" and note in toene_data[clef.name]["clean"]:
         output_path = BASS_OUTPUT_PATH
     if clef.name == "treble" and tonart != "c":
         output_path = VORZEICHEN_VIOLIN_OUTPUT_PATH
@@ -95,12 +95,15 @@ if __name__ == "__main__":
     
     # for i in ALLE_TONARTEN:
     #     generate_sheetmusic(tonart=i, note="fs'")
+    generate_sheetmusic()
+    sys.exit()
 
-    with open(os.path.join(CURRENT_PATH, "tonarten.json"), "r") as f:
-        tonarten = json.load(f)
-    for clef in tonarten:
-        for tonart in tonarten[clef]:
-            for note in tonarten[clef][tonart]:
-                print(f"{clef}\t{tonart}\t{note}")
+    with open(os.path.join(CURRENT_PATH, "toene_data.json"), "r") as f:
+        toene_data = json.load(f)
+    for tonart in tqdm(toene_data["tonarten"]):
+        for clef in toene_data["toene"]:
+            for note in tqdm(toene_data["toene"][clef]["all"]):
+                generate_sheetmusic(note=note, tonart=tonart, clef=clef, minor=False)
     
+
     delete_leftover()
