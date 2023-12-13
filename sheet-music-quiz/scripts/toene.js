@@ -64,11 +64,14 @@ function resetColor() {
 
 // buttonpressed
 function buttonPressed(input) {
+    console.log(`Buttonpressed = ${input}`)
     if (blockInput) {
         console.log("WAIT FFS")
         return;
     }
-    slicedchosenImage = chosenImage.replace(".png", "").slice(1,-1)
+    slicedchosenImage = chosenImage.split("/")
+    slicedchosenImage = slicedchosenImage[slicedchosenImage.length - 1].replace(".png", "").replace("'", "").replace("'", "").replace("'", "").replace(",", "").replace(",", "").replace("0", "").toUpperCase()
+    slicedchosenImage = convert_key(slicedchosenImage)
     if (slicedchosenImage == input) {
         blockInput = true;
         updateScore(1);
@@ -78,6 +81,31 @@ function buttonPressed(input) {
     }   else {
         document.getElementById(input).style.backgroundColor = "red";
         updateScore("reset");
+    }
+    console.log(`slicedchosenImage = ${slicedchosenImage}`)
+}
+function convert_key(input) {
+    switch(input) {
+        default: 
+            return input
+        case "BS":
+            return "C"
+        case "CF":
+            return "B"
+        case "ES":
+            return "F"
+        case "FF": 
+            return "E"
+        case "DF":
+            return "CS"
+        case "EF":
+            return "DS"
+        case "GF":
+            return "FS"
+        case "AF":
+            return "GS"
+        case "BF":
+            return "AS"
     }
 }
 
