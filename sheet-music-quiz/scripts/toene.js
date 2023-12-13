@@ -126,7 +126,7 @@ document.addEventListener("keypress", function(event) {
         v: "F",
         b: "G",
         n: "A",
-        m: "H"
+        m: "B"
       };
       if (keyboardinput in keyMappings) {
         buttonPressed(keyMappings[keyboardinput]);
