@@ -9,47 +9,6 @@ var sleeptime = 500;
 
 
 // RANDOM IMAGE
-var imagesViolin = [
-    "0A2.png",
-    "0H2.png",
-    "0C3.png",
-    "0D3.png",
-    "0E3.png",
-    "0F3.png",
-    "0G3.png",
-    "0A3.png",
-    "0H3.png",
-    "0C4.png",
-    "0D4.png",
-    "0E4.png",
-    "0F4.png",
-    "0G4.png",
-    "0A4.png",
-    "0H4.png",
-    "0C5.png",
-];
-var imagesBass = [
-    "1C1.png",
-    "1D1.png",
-    "1E1.png",
-    "1F1.png",
-    "1G1.png",
-    "1A1.png",
-    "1H1.png",
-    "1C2.png",
-    "1D2.png",
-    "1E2.png",
-    "1F2.png",
-    "1G2.png",
-    "1A2.png",
-    "1H2.png",
-    "1C3.png",
-    "1D3.png",
-]
-var imagesViolinVorzeichen = [
-];
-var imagesBassVorzeichen = [
-];
 function changeImage() {
     // SETTINGS
     images = []
@@ -84,8 +43,9 @@ function changeImage() {
     }
     blockInput = false;
     chosenImage = images[Math.floor(Math.random() * images.length)];
-    document.getElementById("change-img").src = `../images/toene/${chosenImage}`;
+    document.getElementById("change-img").src = `../toene/images/${chosenImage}`;
     if (chosenImage == lastchosenImage) {
+        console.log("doing it again.")
         changeImage()
     }   else {
         resetColor();
@@ -144,3 +104,5 @@ document.addEventListener("keypress", function(event) {
         buttonPressed(keyMappings[keyboardinput]);
       }
 })
+
+
