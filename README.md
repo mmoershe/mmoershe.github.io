@@ -14,5 +14,5 @@ Although this quiz has two sections (Intervalle und Töne), the latter one is th
 - [ ] keybindings erklären / customizable machen?
 - [ ] "settings" mobile friendly machen 
 - [ ] Add Sounds 
-- [ ] Notengenerierung automatisieren und dadurch normalisieren
-  - [ ] Vorzeichen hinzufügen  
+- [x] Notengenerierung automatisieren und dadurch normalisieren
+  - [x] Vorzeichen hinzufügen  
