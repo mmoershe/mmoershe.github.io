@@ -77,6 +77,24 @@ a {
     background-color: black;
     padding: 1vw;
 }
+.basesettings {
+    position: fixed;
+    bottom: 1vw;
+    left: 1vw;
+    background-color: black;
+    padding: 0.4vw;
+}
+.basesettings:hover {
+    background-color: white;
+    transition-duration: 1000ms;
+}
+.basesettings span {
+    color: white;
+}
+.basesettings:hover span {
+    color: black;
+    transition-duration: 1000ms
+}
 /* input {
     
 } */

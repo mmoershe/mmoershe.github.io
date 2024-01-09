@@ -121,11 +121,16 @@ document.addEventListener("keypress", function(event) {
     console.log(keyboardinput);
     const keyMappings = {
         y: "C",
+        s: "CS",
         x: "D",
+        d: "DS",
         c: "E",
         v: "F",
+        g: "FS",
         b: "G",
+        h: "GS",
         n: "A",
+        j: "AS",
         m: "B"
       };
       if (keyboardinput in keyMappings) {
