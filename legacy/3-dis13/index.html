@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>DIS13</title>
+<link rel="stylesheet" type="text/css" href="styles/styles.css">
+</head>
+<body>
+<p><a href="#1">1. select mit from, where, order by</a><br />
+<a href="#2">2. Erweiterungen mit group by, having</a><br />
+<a href="#3">3. Erweiterungen mit den verschiedenen join-Arten</a><br />
+<a href="#4">4. Erweiterungen mit union</a><br />
+<a href="#5">5. Erweiterungen mit berechneten Spalten, Aliasnamen</a><br />
+<a href="#6">6. Views, Funktionen</a><br />
+<a href="#7">7. case, like</a><br />
+<a href="#8">8. Datentypen</a><br />
+<a href="#9">9. Umgang mit null-Werten</a><br />
+<a href="#10">10. Das CRUD-Prinzip</a><br />
+<a href="#11">11. ER-Modelle</a><br />
+<a href="#12">12. Erstellen von Tabellen</a><br />
+<a href="#13">13. Constraints und die jeweilige Wirkung,</a><br />
+<a href="#14">14. Wozu dient ein Index</a><br />
+<a href="#15">15. Transaktionen</a><br />
+<a href="#16">16. Der ETL-Prozess</a><br />
+<a href="#17">17. REST / UNORGANISED</a></p>
+<h1>KLAUSUR</h1>
+<p><em>Folgende Stichworte sollten Sie verstanden haben und anwenden können:</em></p>
+<p><a name="1"></a> </p>
+<h2>select mit from, where, order by</h2>
+<h3>distinct</h3>
+<p>Unique Values im Select<br />
+<code>select distinct MonthOfYear as uninquemonths from Datumswerte D
+    order by MonthOfYear</code></p>
+<h3>top</h3>
+<p><code>select top(1) Date, WeekOfYear from Datumswerte 
+     order by WeekOfYear DESC</code></p>
+<h3>order by</h3>
+<p><strong>asc</strong> ist default value, other is <strong>desc</strong></p>
+<p><a name="2"></a></p>
+<h2>Erweiterungen mit group by, having</h2>
+<h3>Important Aggregate Functions</h3>
+<ul>
+<li>count</li>
+<li>sum</li>
+<li>avg</li>
+<li>vorher in float umwandeln (mit cast() oder convert())!</li>
+<li>min</li>
+<li>max</li>
+<li>stdev (statistical standard deviation)</li>
+<li><em>many more</em> </li>
+</ul>
+<h3>group by</h3>
+<p><code>select Year, MonthOfYear, avg(DayOfMonth) as Average_DayOfMonth from Datumswerte 
+     group by Year, MonthOfYear 
+     order by Year, MonthOfYear</code></p>
+<p>When you use more than one column in the GROUP BY clause, it groups the results based on the unique combinations of those columns. In your query, it means that each unique combination of "Year" and "MonthOfYear" will be treated as a group, and the AVG(DayOfMonth) will be calculated for each group separately.</p>
+<h3>having</h3>
+<p><strong>having</strong> wird nur in Verbindung mit group by benutzt. Damit kann man eine weitere Kondition setzen und Daten aussortieren.<br />
+Der Unterschied zu <strong>where</strong> liegt darin, dass <strong>having</strong> diese Konditionen NACH der Aggregation anwendet.<br />
+Natürlich mit logischer Verknüpfung möglich.  </p>
+<p><a name="3"></a></p>
+<h2>Erweiterungen mit den verschiedenen join-Arten</h2>
+<h3>INNER JOIN [default]</h3>
+<p>only returns rows where both tables match the conditiony</p>
+<h3>LEFT JOIN</h3>
+<p>returns ALL row from the left (first) table and all matching from the right(second) one.<br />
+No matches -&gt; null values for the right table </p>
+<h3>RIGHT JOIN</h3>
+<p>vice versa </p>
+<h3>FULL JOIN</h3>
+<p>also "full outer join" in Pandas.<br />
+Combined LEFT and RIGHT JOIN<br />
+every row from both tables will appear!</p>
+<h3>CROSS JOIN</h3>
+<p>combined every row from the first table with every row from the second table<br />
+utter chaos </p>
+<p><a name="4"></a></p>
+<h2>Erweiterungen mit union</h2>
+<p><a name="5"></a></p>
+<h2>Erweiterungen mit berechneten Spalten, Aliasnamen</h2>
+<p><a name="6"></a></p>
+<h2>Views, Funktionen</h2>
+<p><a name="7"></a></p>
+<h2>case, like</h2>
+<h3>case expression</h3>
+<ul>
+<li>ELSE is optional </li>
+</ul>
+<p><code>CASE
+    WHEN condition1 THEN result1
+    WHEN condition2 THEN result2
+    WHEN conditionN THEN resultN
+    ELSE result
+END</code></p>
+<p><code>select case 
+     when DayOfWeek = 1 then 'Monday'
+     when DayOfWeek = 2 then 'Tuesday'
+     when DayOfWeek = 3 then 'Wednesday'
+     when DayOfWeek = 4 then 'Thursday'
+     when DayOfWeek = 5 then 'Friday'
+     when DayOfWeek = 6 then 'Saturday'
+     else 'Sunday' end as 'DayOfTheWeek', 
+     count(*) from Datumswerte 
+          group by DayOfWeek</code></p>
+<h3>like operator</h3>
+<ul>
+<li>The percent sign % represents zero, one, or multiple characters</li>
+<li>The underscore sign _ represents one, single character</li>
+</ul>
+<p><code>select * from elden_ring_weapons
+     where name like 'Malenia%'</code></p>
+<p><a name="8"></a></p>
+<h2>Datentypen</h2>
+<h3>STRINGS</h3>
+<blockquote>
+<p>N = Unicode</p>
+</blockquote>
+<h4>char(n) / nchar(n)</h4>
+<p>Fixed-length character string with the length <em>n</em>. Missing characters are padded with spaces.  </p>
+<h4>varchar(n)</h4>
+<p>kleiner, schneller, sparsamer, deutsch Sonderzeichen such as aöü<br />
+nvarchar, doppelt so schnell für andere Sonderzeichen und Akzente, für Namen sinnvoll<br />
+es gibt auch varchar(max)  hat kein Maximum, welches natürlicherweise bei ~4096 liegt.   </p>
+<blockquote>
+<p>PLZ einfach immer als varchar(5) in Deutschland, smallint ist zu klein, int ist ungünstig weil im Osten PLZen mit 0 anfangen! (Außerdem müssen wir nicht mit diesen rechnen)  </p>
+</blockquote>
+<h3>INT</h3>
+<p>int<br />
+smallint  </p>
+<h3>float</h3>
+<p>float</p>
+<h3>MORE PARTICULAR DATATYPES</h3>
+<h4>MONEY</h4>
+<h4>DATE</h4>
+<p><a name="9"></a></p>
+<h2>Umgang mit null-Werten</h2>
+<p>"is not null" anstatt von "=null" <br />
+<code>select distinct P.Name from Professoren P 
+     left join Vorlesungen V 
+          on V.gelesenVon = P.PersNr
+     where Titel is null</code></p>
+<p><a name="10"></a></p>
+<h2>Das CRUD-Prinzip</h2>
+<h3>CREATE</h3>
+<h4>insert</h4>
+<blockquote>
+<p>column names are not required if all values are passed. <br />
+<code>INSERT INTO table_name (column1, column2, column3, ...)
+VALUES (value1, value2, value3, ...)</code></p>
+</blockquote>
+<h4>(create)</h4>
+<p><code>CREATE TABLE table_name (
+    column1 datatype,
+    column2 datatype,
+    column3 datatype,
+   ....
+)</code></p>
+<h3>READ</h3>
+<h4>select</h4>
+<p><code>SELECT column1, column2, ...
+FROM table_name</code></p>
+<h3>UPDATE</h3>
+<h4>update</h4>
+<p><code>UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition</code></p>
+<h4>(alter)</h4>
+<blockquote>
+<p>Modify entire table / database structure<br />
+<code>ALTER TABLE TableName
+ADD NewColumn datatype</code><br />
+<code>ALTER TABLE table_name
+DROP COLUMN column_name</code><br />
+<code>ALTER TABLE table_name
+RENAME COLUMN old_name to new_name</code></p>
+</blockquote>
+<h3>DELETE</h3>
+<h4>delete</h4>
+<blockquote>
+<p>deletes rows where condition is met<br />
+<code>DELETE FROM table_name WHERE condition</code></p>
+</blockquote>
+<h4>(drop)</h4>
+<blockquote>
+<p>deletes entire tables <br />
+<code>drop table table_name</code><br />
+<code>drop table if exists table_name</code></p>
+</blockquote>
+<p><a name="11"></a></p>
+<h2>ER-Modelle</h2>
+<p><a name="12"></a></p>
+<h2>Erstellen von Tabellen</h2>
+<p><a name="13"></a></p>
+<h2>Constraints und die jeweilige Wirkung,</h2>
+<p><a name="14"></a></p>
+<h2>Wozu dient ein Index</h2>
+<p><a name="15"></a></p>
+<h2>Transaktionen</h2>
+<p><a name="16"></a></p>
+<h2>Der ETL-Prozess</h2>
+<h2>---</h2>
+<p><a name="167"></a></p>
+<h1>UNORGANISED</h1>
+<p>SQL ist mengenbasiert (?)<br />
+mengenbasierter Ansatz, MENGENLEHRE (??)<br />
+Seit 1992 ging die Sprache in viele Richtungen, in Details leider unterschiedlich :( [SQL Dialekte (tf?)]<br />
+Wir gehen auf die Version von Microsoft<br />
+Variabilität eines Kommandos ist extrem hoch<br />
+Man unterscheidet zwischen relationalen (SQL) Datenbanken und NoSQL (not only SQL)  </p>
+<h1>SQL Basics</h1>
+<h2>Statements</h2>
+<h3>Variables</h3>
+<p>```<br />
+declare @given_number INT<br />
+set @given_number = 2137</p>
+<p>select count(*) anzahl_Vorlesungen_von_bestimmter_Personalnr from Professoren P <br />
+     join Vorlesungen V <br />
+          on P.PersNr = V.gelesenVon<br />
+     where PersNr = @given_number<br />
+```</p>
+<h3>case when then end</h3>
+<p><code>CASE
+   WHEN condition1 THEN result1
+   WHEN condition2 THEN result2
+   ...
+   ELSE else_result
+END</code></p>
+<p><code>select case 
+     when DayOfWeek = 1 then 'Monday'
+     when DayOfWeek = 2 then 'Tuesday'
+     when DayOfWeek = 3 then 'Wednesday'
+     when DayOfWeek = 4 then 'Thursday'
+     when DayOfWeek = 5 then 'Friday'
+     when DayOfWeek = 6 then 'Saturday'
+     else 'Sunday' end as 'DayOfTheWeek', 
+     count(*) from Datumswerte 
+          group by DayOfWeek</code></p>
+<h2>Functions</h2>
+<h3>concat(<em>string1 + string2 + string_n</em>)</h3>
+<p>concatenates two or more values into a string.<br />
+works with all datatypes and variables<br />
+<code>select concat(Titel, 'asf') from Vorlesungen V 
+     join Professoren P 
+          on V.gelesenVon = P.PersNr
+     where Name like concat('%', @ProfessorName, '%')</code></p>
+<h3>left(<em>string, n: int</em>) / right(<em>string, n: int</em>)</h3>
+<p>returns the first n characters from the left (or right) side of a string. If n is higher than len(string), the entire string is returned. Negative values for n throws an error. </p>
+<p><code>select left('I adore Python', 5)
+--&gt; 'I ado'
+select right('I adore Python', 5)
+--&gt; 'ython'</code></p>
+<h3>len(x)</h3>
+<h3>convert(), try_convert() or cast()</h3>
+<p>minor differences I don't care about. <em>cast()</em> is the simpler and more basic function.  </p>
+<h4>convert(<em>datatype, expression</em>)</h4>
+<p><code>convert(int, '1')</code></p>
+<h4>try_convert(<em>datatype, experssion</em>)</h4>
+<blockquote>
+<p>if conversion fails, it returns <strong><em>null</em></strong> instead of throwing an error. MSSQL exlusive.  </p>
+</blockquote>
+<p><code>try_convert(int, '1')</code></p>
+<h4>cast(<em>expression</em> <strong>as</strong> <em>datatype</em>)</h4>
+<p><code>cast('1' as int)</code></p>
+<h3>choose(<em>index, val1, val2, ..., valn</em>)</h3>
+<p><code>select choose(DayOfWeek, 'Monday', 'Tuesday', 'Wednesday', 'Thursady', 'Friday', 'Saturday', 'Sunday') as 'DayOfWeek', 
+     count(*) from Datumswerte
+          group by DayOfWeek</code></p>
+<h1>Basics</h1>
+<p>SQL ist formatfrei<br />
+Bei MS SQL ist das Semicolon nicht erforderlich (außer bei common tables expressions (with))<br />
+NICHT case sensitive! select == SELECT<br />
+AUCH NICHT IN STRINGS????<br />
+Ist bei Datenbanken standard. crazy fucking horny shit<br />
+(COLLATION)   </p>
+<p>Umlaute werden interpretiert, beispielsweise ß ist ss  </p>
+<p>between schließt Ränder mit ein <br />
+between 50 and 59 INKLUSIVE 50 und 59  </p>
+<p>trim() wie strip()<br />
+subselect  </p>
+<p>SQL interpretiert strings nach lexikanischer Sortierung  ("c4"&gt;"c3")  </p>
+<p>&lt;&gt; ist ungleich  </p>
+<p>letzte Stelle eines Integers % 10  </p>
+<p>Tabellennamen fangen mit Buchstaben an und haben einen sinnvollen Namen<br />
+Name einer Spalte ist ein Attribut<br />
+Datensätze = Zeilen <br />
+Elemente haben keine Reihenfolge, bzw. die Reihenfolge ist unerheblich<br />
+Wenn es auf Reihenfolge ankommt, muss man diese extern anfordern.<br />
+Relationale Abfragen sollten die gesamte Tabellenstruktur berücksichtigen um eine Frage zu beantworten.<br />
+SQL ist immer eine Beigabe zu anderen Programmiersprachen (PYTHONNNNN :snake_emoji:)<br />
+Maßgabe war: mit einem englischen Satz Datenbank befragen (ist aber nicht mehr ganz so lollo)<br />
+join nicht wie in Python, sondern es "joined" zwei Tabellen.  <br />
+mit Python Script auf SQL Datenbank zugreifen?<br />
+SQL Queries sind unumkehrbar  </p>
+<p>Bei einem binären Operator wird der kleinere von beiden Datentypen verwendet<br />
+Beispiel:<br />
+332/100 --&gt; 3</p>
+<p><strong>'' statt ""!</strong>  </p>
+<p>"gruppiert nach" heißt nicht direkt dass group by verwendet werden soll  </p>
+<p>arrays: ()  </p>
+<p>"is not null" anstatt von "=null"  </p>
+<h2>Gesamtkonstrukt</h2>
+<p>Ein Datenbankserver muss laufen, damit er die Datenbank benutzen kann. Datenbankserver ist eine Software Komponente welche lokal läuft und hat eine Verbindung zu einer Datenbank. An diesen Datenbankserver werden auch die Commands gescchickt und wir bekommen einen Ergebnistext zurück (Recordset).<br />
+Um diese Anfrage erst stellen zu können, braucht man eine weitere Softwarekomponente (Management Studio oder Azure Data Studio oder VSCode)</p>
+<p>Dreiwertige Logik </p>
+<p>Null ist auch zu sich selbst verschieden.  </p>
+<h1>Kommandos</h1>
+<p>use </p>
+<p>count, zählt nur Anzahl, für Anzahl individueller Werte count(distinct "Spalte") benutzen  </p>
+<p>alias<br />
+sql abbeitet nicht von oben nach unten ab, "P" kann hier benutzt werden bevor dieser Alias "definiert" wird. <br />
+<code>select P.Name, V.Titel 
+    from Professoren P
+        join Vorlesungen V
+            on P.PersNr = V.gelesenVon</code></p>
+<hr />
+<p>Distinct zusatz an Menge dransetzen, um Dubletten zu entfernen<br />
+distinct value1, value2<br />
+heißt, dass die Kombination von value1, value2 distinct sein muss!<br />
+Selationen Kalkül   </p>
+<p>like <br />
+eine art Filterbedingung ig?<br />
+Trunkierungsoperatoren<br />
+like ist kein RegEx äquivalent<br />
+Platzhalter %, steht für 0-n Zeichen, im RegEx: .*?<br />
+Platzhaler _, steht für genau ein Zeichen, im RegEx: .<br />
+Platzhalter [a-c] ein Zeichen mit a, b, c und [^e-g] ohne die Zeichen e, f, g  </p>
+<p>GO unterteilt das Script in logische Sinneinheiten, welche einzlend ausgeführt werden. Wenn ein Error auftaucht, springt er zum nächsten GO.  </p>
+<p>group by <br />
+asc ist default value, desc nicht<br />
+mehrere Sortierkriterien<br />
+group by Rang desc, Name asc  </p>
+<p>top()<br />
+wählt eine gewisse menge an Zeilen zurück<br />
+"with ties"  um bei Dopplungen alle zu bekommen.  </p>
+<p>as or = für Bennenung  von Ausgabespalten  </p>
+<p><strong>Namen der Tabellen anzeigen:</strong><br />
+select * from sys.tables</p>
+<p>iif()<br />
+inline function<br />
+erstes teil ist eine Bedingung<br />
+zweites wenn true<br />
+drittes wenn false <br />
+geht auch verschachtelt<br />
+toll für Einzelvergleiche  </p>
+<p>case when (bedingung) then (wenn True) else (wenn False) end as (name)<br />
+(gibt es irgendwie auch mit enumerate)<br />
+lässt sich natürlich auch verschachteln<br />
+else ist optional  </p>
+<p>Select<br />
+Select * from Tablename<br />
+EIGENTLICH ist das eine Kürzung von dem hier: <br />
+select * from dbo.Tablename  </p>
+<p><strong>Aggregatfunktionen</strong> == Werte sind durch Zählen oder anderen Mathematischen Funktionen, anstelle dass man einfach eine Menge zurückgibt. </p>
+<p>stringaggregate <br />
+try_convert <br />
+case when then <br />
+first day of a wekk is nicht immer Montag!!!!!!!!!  </p>
+<h2>constraints</h2>
+<p>primary key (MatrNr, VorlNr)<br />
+kann auch bedeuten, dass die KOMBINATION unique ist. Hier könnte zum Beispiel jeweils eins von beiden Null sein<br />
+Null-Werte sind auch eindeutige Werte. Null müsste man explizit ausschließen mit beispielsweise <br />
+<code>MatrNr int not null, 
+VorlNr int not null</code></p>
+<p>Einschränkungen für Werte beim Erstellen von Tabellen <br />
+<code>create table test (
+  ID int primary key, -- Die IDs sind garantiert unterschiedlich
+  -- uniqueidentifier kann bei verteilten Systemen verwendet werden. 
+  Sp2 varchar(10) null, 
+  Sp3 varchar(10) not null, -- Hier muss immer ein Wer stehen 
+)</code></p>
+<p>Was ist ein Index?????<br />
+Ein Index wird in der Regel nicht explizit benutzt. Er beschleunigt lediglich das Arbeiten in der Datenbank.<br />
+Ein richtiger Index ist extrem wichtig beim Beschleunigen einer Datenbank<br />
+beim Kreiieren wird automatisch auf ID Primärschlüssel ein Index gelegt.<br />
+Ohne Index muss man immer einen Tablescan machen num mit einem where einen Datensatz zu finden.<br />
+Indizen werden besonders schnell, wenn man einen unique Index erstellt.<br />
+<code>create unique index ixtextsp3 on test</code></p>
+<p>Fremdschlüssel ist mit einem Primärschlüssel verknüpft, er kann aber nicht NUR an einem primärschlüssel verbunden sein, sondern auch an eine Spalte, welche einen Unique Constraint hat.<br />
+Vorteil:<br />
+- Möglichkeit dass aus Referenz "Kaskaden" entstehen können, welche beim Löschen oder Updaten verwendet werden.  </p>
+<p>Mit Kaskade wird zum Beispiel, wenn man den Carnap löscht, auch die referenzierten Datensätze aus anderen Tabellen mit gelöscht.  [on delete cascade]<br />
+mit on update delete werden Änderungen an Datensätzen auch an referenzierte Datensätze in anderen Tabellen übernommen   </p>
+<p>Lösch anomalie, wenn keine Fremdschlüsselverbindung, mithilfe des Löschens schaffen </p>
+<h2>CRUD</h2>
+<ul>
+<li>Create</li>
+<li>insert</li>
+<li>(create)</li>
+<li>Read</li>
+<li>select</li>
+<li>Update </li>
+<li>update</li>
+<li>(alter)<ul>
+<li>gesamte Tabelle</li>
+</ul>
+</li>
+<li>Delete </li>
+<li>delete</li>
+<li>(drop)<ul>
+<li>gesamte Tabelle</li>
+</ul>
+</li>
+</ul>
+<h2>create</h2>
+<h3>Datentypen</h3>
+<p>varchar, kleiner, schneller, sparsamer, deutsch Sonderzeichen such as aöü<br />
+nvarchar, doppelt so schnell für andere Sonderzeichen und Akzente, für Namen sinnvoll<br />
+es gibt auch varchar(max)  hat kein Maximum, welches natürlicherweise bei ~4096 liegt.<br />
+eingebauter "Date" Datentyp<br />
+smallint<br />
+PLZ als varchar(5) in Deutschland, smallint ist zu klein, int ist ungünstig weil im Osten PLZen mit 0 anfangen! (Außerdem müssen wir nicht mit diesen rechnen)<br />
+money  </p>
+<p>Wichtige Aspekte beim Modellieren von Datenbanken:<br />
+Beziehungen zwischen Entitäten mit Primary Key<br />
+Datentypen  </p>
+<p>Implizite Typenkonvertierung wenn zwei verschiedene Datentypen aufeinandertreffen, beispielsweise wenn man einen varchar durch hundert teilt </p>
+<h1>Entitäten und Datebankstrukturierung</h1>
+<p>beispiel vornamen csv mit Jahr Vorname Anzahl Geschlecht Position  [Position ist wegen zweiter Vorname und so]<br />
+was ist eine Entität?<br />
+Klasse eines konkreten Objektes, Beschreibung von gleichartigen Objekten<br />
+Ist Maria W der gleiche Name wie Maria M??<br />
+Das Jahr ist eine gute Entität<br />
+Anzahl ist eine schlecht Entität, die Anzahl muss zu was anderem dazugehören!<br />
+Geschlecht könnte eine eigene Entität sein.<br />
+Position ist eine schlechte Entität, es sagt nichts +ber den Namen aus.<br />
+drei Tabellen: <br />
+<em>Name</em> mit Vorname und Geschlecht (+ID)<br />
+<em>vergeben</em> mit Position und Anzahl<br />
+<em>Jahr</em> mit Jahr<br />
+Regel: Jede Entität wird zu einer Tabelle und jede mzum-Beziehung wird zu einer Tabelle.<br />
+1:n / n:1  </p>
+<h1>ER Modell</h1>
+<p>Grundsätzliches Ziel der Normalisierung der Daten, um Redundanzen zu entfernen.  </p>
+<h2>ETL Prozess</h2>
+<p>Extract, Transform, Load (einer der Hauptaufgaben von Data Scientists)<br />
+Redundanz entfernen </p>
+<h1>SQL Transaktion</h1>
+<p>zum "ausprobieren"<br />
+man kann einen bestimmten Code in SQL zu einer Transaction machen und diese dann wieder collbacken </p>
+<p><code>begin transaction 
+commit 
+begin transaction 
+  select * from Studenten 
+  delete * from Studenten 
+  ...
+rollback</code></p>
+<p>LOCKS verstehen lollo<br />
+deadlock = zwei systeme warten auf sich gegenseitig, lösung: eins wir geopfert  </p>
+<p>INDEX = sortierte teilsichten auf Daten, sortiert in Bäumen</p>
+<p>DML = Data Manipulation Language <br />
+DDL = Data Definition Language</p>
+</body>
