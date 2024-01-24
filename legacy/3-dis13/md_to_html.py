@@ -17,8 +17,10 @@ if __name__ == '__main__':
 
     html_content = markdown.markdown(markdown_text, extensions=used_extensions)
 
+    script_tag: str = "<script>var codeElements = document.querySelectorAll('code'); codeElements.forEach(function(codeElement) { var brElement = document.createElement('br'); codeElement.parentNode.insertBefore(brElement, codeElement);});</script>"
+
     with open(HTML_PATH, 'w') as file:
-        file.write(f"<!DOCTYPE html>\n<html>\n<head>\n<title>DIS13</title>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"styles/styles.css\">\n</head>\n<body>\n{html_content}\n</body>")
+        file.write(f"<!DOCTYPE html>\n<html>\n<head>\n<title>DIS13</title>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"styles/styles.css\">\n</head>\n<body>\n{html_content}\n{script_tag}\n</body>")
 
     print("done.")
 

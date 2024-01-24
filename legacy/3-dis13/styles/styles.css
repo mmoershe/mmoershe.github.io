@@ -3,11 +3,17 @@ html {
 }
 body {
     background-color: rgb(19, 19, 19);
+    background-color: #263238;
     color: white;
+    font-family: monospace;
+}
+h1, h2, h3, h4, h5 {
+    color: #75da0e;
 }
 a, a:visited {
     text-decoration: none;
     color: orange;
+    color: #ff2d88;
     line-height: 2;
 }
 /*code {
@@ -20,10 +26,17 @@ a, a:visited {
 code {
   font-family: 'Courier New', monospace;
   background-color: #f4f4f4;
+  background-color: #1a2327;
   color: #333;
+  color: white;
   white-space: pre-wrap;
-  padding: 0.2em 0.4em;
-/*  border-radius: 4px;
+  /*padding: 0.2em 0.4em;
+  border-radius: 4px;
   border: 1px solid #ccc;*/
 }
-
+br::before {
+    content: '<br>';
+}
+blockquote {
+    color: #2bbbe4;
+}

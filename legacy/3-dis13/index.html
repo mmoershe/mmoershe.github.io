@@ -21,7 +21,7 @@
 <a href="#14">14. Wozu dient ein Index</a><br />
 <a href="#15">15. Transaktionen</a><br />
 <a href="#16">16. Der ETL-Prozess</a><br />
-<a href="#17">17. REST / UNORGANISED</a></p>
+<a href="#17">17. REST / UNORGANISED</a>  </p>
 <h1>KLAUSUR</h1>
 <p><em>Folgende Stichworte sollten Sie verstanden haben und anwenden können:</em></p>
 <p><a name="1"></a> </p>
@@ -79,6 +79,46 @@ utter chaos </p>
 <h2>Erweiterungen mit berechneten Spalten, Aliasnamen</h2>
 <p><a name="6"></a></p>
 <h2>Views, Funktionen</h2>
+<h3>VIEW</h3>
+<p>Erstellung virtueller Tabellen um Datenzugriff zu steuern.<br />
+Beispielsweise um bestimmte Columns aus Sicherheitsgründen zu verbergen, unnötige komplexe Daten zu abstrahieren und erleichtern, etc...   </p>
+<p><code>CREATE VIEW sales_summary AS
+SELECT product_id, SUM(quantity * price) AS total_sales
+FROM sales
+GROUP BY product_id;</code></p>
+<blockquote>
+<p>Von nun an kann <em>sales_summary</em> als eigener table benutzt werden.  </p>
+</blockquote>
+<h3>Functions</h3>
+<h4>concat(<em>string1 + string2 + string_n</em>)</h4>
+<p>concatenates two or more values into a string.<br />
+works with all datatypes and variables<br />
+<code>select concat(Titel, 'asf') from Vorlesungen V 
+     join Professoren P 
+          on V.gelesenVon = P.PersNr
+     where Name like concat('%', @ProfessorName, '%')</code></p>
+<h4>left(<em>string, n: int</em>) / right(<em>string, n: int</em>)</h4>
+<p>returns the first n characters from the left (or right) side of a string. If n is higher than len(string), the entire string is returned. Negative values for n throws an error. </p>
+<p><code>select left('I adore Python', 5)
+--&gt; 'I ado'
+select right('I adore Python', 5)
+--&gt; 'ython'</code></p>
+<h4>len(x)</h4>
+<h4>convert(), try_convert() or cast()</h4>
+<p>minor differences I don't care about. <em>cast()</em> is the simpler and more basic function.  </p>
+<h5>convert(<em>datatype, expression</em>)</h5>
+<p><code>convert(int, '1')</code></p>
+<h5>try_convert(<em>datatype, experssion</em>)</h5>
+<blockquote>
+<p>if conversion fails, it returns <strong><em>null</em></strong> instead of throwing an error. MSSQL exlusive.  </p>
+</blockquote>
+<p><code>try_convert(int, '1')</code></p>
+<h5>cast(<em>expression</em> <strong>as</strong> <em>datatype</em>)</h5>
+<p><code>cast('1' as int)</code></p>
+<h4>choose(<em>index, val1, val2, ..., valn</em>)</h4>
+<p><code>select choose(DayOfWeek, 'Monday', 'Tuesday', 'Wednesday', 'Thursady', 'Friday', 'Saturday', 'Sunday') as 'DayOfWeek', 
+     count(*) from Datumswerte
+          group by DayOfWeek</code></p>
 <p><a name="7"></a></p>
 <h2>case, like</h2>
 <h3>case expression</h3>
@@ -190,9 +230,84 @@ RENAME COLUMN old_name to new_name</code></p>
 <p><a name="12"></a></p>
 <h2>Erstellen von Tabellen</h2>
 <p><a name="13"></a></p>
-<h2>Constraints und die jeweilige Wirkung,</h2>
+<h2>Constraints und die jeweilige Wirkungen</h2>
+<h3>PRIMARY KEY</h3>
+<p>Gewährleistet die Eindeutigkeit und Unveränderlichkeit der ausgewählten Spalten in einer Tabelle. Der Primärschlüssel identifiziert eindeutig jeden Datensatz in der Tabelle.</p>
+<h4>IDENTITY</h4>
+<p>to automatically increment ID, so theres no need to give it with every insert()<br />
+only one allowed per table<br />
+<code>IDENTITY(*seed:int=1, increment:int=1*)</code></p>
+<p><code>CREATE TABLE employees ( 
+     employee_id PRIMARY KEY IDENTITY(1,1)
+)</code></p>
+<h3>FOREIGN KEY</h3>
+<p>Definiert eine Beziehung zwischen den Datensätzen in zwei Tabellen, indem sie sicherstellt, dass Werte in einer Spalte einer Tabelle auf Werte in einer anderen Spalte in einer anderen Tabelle verweisen. Dies wird als referenzielle Integrität bezeichnet.</p>
+<p><code>CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    product_id INT,
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+)</code></p>
+<h4>CASCADE</h4>
+<p>```<br />
+-- Erstellen der Haupttabelle (orders)<br />
+CREATE TABLE orders (<br />
+    order_id INT PRIMARY KEY,<br />
+    customer_name VARCHAR(50)<br />
+);</p>
+<p>-- Erstellen der referenzierenden Tabelle (order_items) mit FOREIGN KEY und CASCADE<br />
+CREATE TABLE order_items (<br />
+    item_id INT PRIMARY KEY,<br />
+    order_id INT,<br />
+    item_name VARCHAR(50),<br />
+    CONSTRAINT fk_order FOREIGN KEY (order_id)<br />
+        REFERENCES orders(order_id)<br />
+        ON DELETE CASCADE<br />
+        ON UPDATE CASCADE<br />
+);<br />
+```</p>
+<blockquote>
+<p>CONSTRAINT keyword ist hier nur, um diesem constraint einen Namen zu geben</p>
+</blockquote>
+<p><code>CREATE TABLE referencing_table (
+    -- ...
+    referencing_column1 data_type,
+    referencing_column2 data_type,
+    -- ...
+    FOREIGN KEY (referencing_column1, referencing_column2, ...)
+        REFERENCES referenced_table (referenced_column1, referenced_column2, ...)
+        ON DELETE referential_action
+        ON UPDATE referential_action
+);</code></p>
+<h3>UNIQUE</h3>
+<p>ensures values are unique. Also allows (one) NULL value.  </p>
+<p><code>CREATE TABLE students (
+    student_id INT UNIQUE,
+    student_name VARCHAR(50)
+)</code></p>
+<h3>CHECK</h3>
+<p>Eigene Bedingungen von Spalten definieren.  </p>
+<p><code>CREATE TABLE employees (
+    employee_id INT PRIMARY KEY identity(1,1),
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    hire_date DATE,
+    salary money CHECK (salary &gt;= 0)    
+)</code></p>
+<h3>DEFAULT</h3>
+<p>sets default value  </p>
+<p><code>CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    order_date DATE DEFAULT GETDATE()
+)</code></p>
 <p><a name="14"></a></p>
 <h2>Wozu dient ein Index</h2>
+<p>Ein Index wird in der Regel nicht explizit benutzt. Er beschleunigt lediglich das Arbeiten in der Datenbank.<br />
+Ein richtiger Index ist extrem wichtig beim Beschleunigen einer Datenbank<br />
+beim Kreiieren wird automatisch auf ID Primärschlüssel ein Index gelegt.<br />
+Ohne Index muss man immer einen Tablescan machen num mit einem where einen Datensatz zu finden.<br />
+Indizen werden besonders schnell, wenn man einen unique Index erstellt.<br />
+Mehr Speicherplatz benötigt.  </p>
+<p><code>create unique index ixtextsp3 on test</code></p>
 <p><a name="15"></a></p>
 <h2>Transaktionen</h2>
 <p><a name="16"></a></p>
@@ -448,4 +563,5 @@ deadlock = zwei systeme warten auf sich gegenseitig, lösung: eins wir geopfert 
 <p>INDEX = sortierte teilsichten auf Daten, sortiert in Bäumen</p>
 <p>DML = Data Manipulation Language <br />
 DDL = Data Definition Language</p>
+<script>var codeElements = document.querySelectorAll('code'); codeElements.forEach(function(codeElement) { var brElement = document.createElement('br'); codeElement.parentNode.insertBefore(brElement, codeElement);});</script>
 </body>

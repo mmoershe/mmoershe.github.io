@@ -1,20 +1,20 @@
-[1. select mit from, where, order by](#1)
-[2. Erweiterungen mit group by, having](#2)
-[3. Erweiterungen mit den verschiedenen join-Arten](#3)
-[4. Erweiterungen mit union](#4)
-[5. Erweiterungen mit berechneten Spalten, Aliasnamen](#5)
-[6. Views, Funktionen](#6)
-[7. case, like](#7)
-[8. Datentypen](#8)
-[9. Umgang mit null-Werten](#9)
-[10. Das CRUD-Prinzip](#10)
-[11. ER-Modelle](#11)
-[12. Erstellen von Tabellen](#12)
-[13. Constraints und die jeweilige Wirkung,](#13)
-[14. Wozu dient ein Index](#14)
-[15. Transaktionen](#15)
-[16. Der ETL-Prozess](#16)
-[17. REST / UNORGANISED](#17)
+[1. select mit from, where, order by](#1)  
+[2. Erweiterungen mit group by, having](#2)  
+[3. Erweiterungen mit den verschiedenen join-Arten](#3)  
+[4. Erweiterungen mit union](#4)  
+[5. Erweiterungen mit berechneten Spalten, Aliasnamen](#5)  
+[6. Views, Funktionen](#6)  
+[7. case, like](#7)  
+[8. Datentypen](#8)  
+[9. Umgang mit null-Werten](#9)  
+[10. Das CRUD-Prinzip](#10)  
+[11. ER-Modelle](#11)  
+[12. Erstellen von Tabellen](#12)  
+[13. Constraints und die jeweilige Wirkung,](#13)  
+[14. Wozu dient ein Index](#14)  
+[15. Transaktionen](#15)  
+[16. Der ETL-Prozess](#16)  
+[17. REST / UNORGANISED](#17)  
 
 # KLAUSUR 
 
@@ -110,6 +110,75 @@ utter chaos
 <a name="6"></a>
 
 ## Views, Funktionen
+
+### VIEW 
+
+Erstellung virtueller Tabellen um Datenzugriff zu steuern.  
+Beispielsweise um bestimmte Columns aus Sicherheitsgründen zu verbergen, unnötige komplexe Daten zu abstrahieren und erleichtern, etc...   
+
+```
+CREATE VIEW sales_summary AS
+SELECT product_id, SUM(quantity * price) AS total_sales
+FROM sales
+GROUP BY product_id;
+```
+> Von nun an kann *sales_summary* als eigener table benutzt werden.  
+
+### Functions
+
+#### concat(*string1 + string2 + string_n*) 
+
+concatenates two or more values into a string.  
+works with all datatypes and variables  
+```
+select concat(Titel, 'asf') from Vorlesungen V 
+     join Professoren P 
+          on V.gelesenVon = P.PersNr
+     where Name like concat('%', @ProfessorName, '%')
+```
+
+#### left(*string, n: int*) / right(*string, n: int*)
+
+returns the first n characters from the left (or right) side of a string. If n is higher than len(string), the entire string is returned. Negative values for n throws an error. 
+
+```
+select left('I adore Python', 5)
+--> 'I ado'
+select right('I adore Python', 5)
+--> 'ython'
+```
+
+#### len(x)
+
+#### convert(), try_convert() or cast() 
+
+minor differences I don't care about. *cast()* is the simpler and more basic function.  
+
+##### convert(*datatype, expression*)
+
+```
+convert(int, '1')
+```
+
+##### try_convert(*datatype, experssion*)  
+>if conversion fails, it returns ***null*** instead of throwing an error. MSSQL exlusive.  
+
+```
+try_convert(int, '1')
+```
+
+##### cast(*expression* **as** *datatype*)
+```
+cast('1' as int)
+```
+
+#### choose(*index, val1, val2, ..., valn*)
+
+```
+select choose(DayOfWeek, 'Monday', 'Tuesday', 'Wednesday', 'Thursady', 'Friday', 'Saturday', 'Sunday') as 'DayOfWeek', 
+     count(*) from Datumswerte
+          group by DayOfWeek
+```
 
 <a name="7"></a>
 
@@ -263,11 +332,130 @@ drop table if exists table_name
 
 <a name="13"></a>
 
-## Constraints und die jeweilige Wirkung,
+## Constraints und die jeweilige Wirkungen
+
+### PRIMARY KEY
+
+Gewährleistet die Eindeutigkeit und Unveränderlichkeit der ausgewählten Spalten in einer Tabelle. Der Primärschlüssel identifiziert eindeutig jeden Datensatz in der Tabelle.
+
+#### IDENTITY
+
+to automatically increment ID, so theres no need to give it with every insert()  
+only one allowed per table
+```
+IDENTITY(*seed:int=1, increment:int=1*)
+```
+
+```
+CREATE TABLE employees ( 
+     employee_id PRIMARY KEY IDENTITY(1,1)
+)
+```
+
+### FOREIGN KEY
+
+Definiert eine Beziehung zwischen den Datensätzen in zwei Tabellen, indem sie sicherstellt, dass Werte in einer Spalte einer Tabelle auf Werte in einer anderen Spalte in einer anderen Tabelle verweisen. Dies wird als referenzielle Integrität bezeichnet.
+
+```
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    product_id INT,
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+)
+```
+
+#### CASCADE
+
+```
+-- Erstellen der Haupttabelle (orders)
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_name VARCHAR(50)
+);
+
+-- Erstellen der referenzierenden Tabelle (order_items) mit FOREIGN KEY und CASCADE
+CREATE TABLE order_items (
+    item_id INT PRIMARY KEY,
+    order_id INT,
+    item_name VARCHAR(50),
+    CONSTRAINT fk_order FOREIGN KEY (order_id)
+        REFERENCES orders(order_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+```
+
+> CONSTRAINT keyword ist hier nur, um diesem constraint einen Namen zu geben
+
+```
+CREATE TABLE referencing_table (
+    -- ...
+    referencing_column1 data_type,
+    referencing_column2 data_type,
+    -- ...
+    FOREIGN KEY (referencing_column1, referencing_column2, ...)
+        REFERENCES referenced_table (referenced_column1, referenced_column2, ...)
+        ON DELETE referential_action
+        ON UPDATE referential_action
+);
+```
+
+### UNIQUE
+
+ensures values are unique. Also allows (one) NULL value.  
+
+```
+CREATE TABLE students (
+    student_id INT UNIQUE,
+    student_name VARCHAR(50)
+)
+```
+
+### CHECK 
+
+Eigene Bedingungen von Spalten definieren.  
+
+```
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY identity(1,1),
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    hire_date DATE,
+    salary money CHECK (salary >= 0)    
+)
+```
+
+### DEFAULT
+
+sets default value  
+
+```
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    order_date DATE DEFAULT GETDATE()
+)
+```
+
+
 
 <a name="14"></a>
 
 ## Wozu dient ein Index
+
+Ein Index wird in der Regel nicht explizit benutzt. Er beschleunigt lediglich das Arbeiten in der Datenbank.  
+Ein richtiger Index ist extrem wichtig beim Beschleunigen einer Datenbank  
+beim Kreiieren wird automatisch auf ID Primärschlüssel ein Index gelegt.  
+Ohne Index muss man immer einen Tablescan machen num mit einem where einen Datensatz zu finden.  
+Indizen werden besonders schnell, wenn man einen unique Index erstellt.
+Mehr Speicherplatz benötigt.  
+
+```
+create unique index ixtextsp3 on test 
+```
+
+
+
+
 
 <a name="15"></a>
 
