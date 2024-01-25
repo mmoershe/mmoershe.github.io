@@ -151,26 +151,48 @@ END</code></p>
 <p><a name="8"></a></p>
 <h2>Datentypen</h2>
 <h3>STRINGS</h3>
+<p>Der TEXT oder NTEXT Datentyp ist veraltet und sollte nicht mehr benutzt werden. Er soll mit (n)varchar(max) ersetzt werden.   </p>
 <blockquote>
 <p>N = Unicode</p>
 </blockquote>
 <h4>char(n) / nchar(n)</h4>
 <p>Fixed-length character string with the length <em>n</em>. Missing characters are padded with spaces.  </p>
-<h4>varchar(n)</h4>
+<h4>varchar(n) / nvarchar(n)</h4>
 <p>kleiner, schneller, sparsamer, deutsch Sonderzeichen such as aöü<br />
 nvarchar, doppelt so schnell für andere Sonderzeichen und Akzente, für Namen sinnvoll<br />
 es gibt auch varchar(max)  hat kein Maximum, welches natürlicherweise bei ~4096 liegt.   </p>
 <blockquote>
 <p>PLZ einfach immer als varchar(5) in Deutschland, smallint ist zu klein, int ist ungünstig weil im Osten PLZen mit 0 anfangen! (Außerdem müssen wir nicht mit diesen rechnen)  </p>
 </blockquote>
-<h3>INT</h3>
-<p>int<br />
-smallint  </p>
+<h3>INTs</h3>
+<h4>TINYINT</h4>
+<p>0 to 255<br />
+10^3<br />
+1 Byte</p>
+<h4>SMALLINT</h4>
+<p>-32.768 to 32.767<br />
+10^4<br />
+2 Byte</p>
+<h4>INT</h4>
+<p>-2.147.483.658 to 2.147.483.647<br />
+10^9<br />
+4 Bytes</p>
+<h4>BIGINT</h4>
+<p>10^18<br />
+8 Bytes</p>
 <h3>float</h3>
-<p>float</p>
+<h4>FLOAT</h4>
+<p>standard</p>
+<h4>DOUBLE</h4>
+<p>more precise</p>
+<h4>DECIMAL</h4>
+<p>fixed-point, for maximum precision </p>
 <h3>MORE PARTICULAR DATATYPES</h3>
-<h4>MONEY</h4>
-<h4>DATE</h4>
+<h4>BIT</h4>
+<p>0, 1 oder NULL.<br />
+Als Ersatz für den fehlenden Booleschen Datentypen  </p>
+<h4>MONEY / SMALLMONEY</h4>
+<h4>DATE / TIME / DATEATIME / SMALLDATETIME</h4>
 <p><a name="9"></a></p>
 <h2>Umgang mit null-Werten</h2>
 <p>"is not null" anstatt von "=null" <br />

@@ -227,25 +227,49 @@ select * from elden_ring_weapons
 
 ### STRINGS
 
+Der TEXT oder NTEXT Datentyp ist veraltet und sollte nicht mehr benutzt werden. Er soll mit (n)varchar(max) ersetzt werden.   
+
 > N = Unicode
 
 #### char(n) / nchar(n)
 Fixed-length character string with the length *n*. Missing characters are padded with spaces.  
 
-#### varchar(n)
+#### varchar(n) / nvarchar(n)
 kleiner, schneller, sparsamer, deutsch Sonderzeichen such as aöü  
 nvarchar, doppelt so schnell für andere Sonderzeichen und Akzente, für Namen sinnvoll  
 es gibt auch varchar(max)  hat kein Maximum, welches natürlicherweise bei ~4096 liegt.   
 > PLZ einfach immer als varchar(5) in Deutschland, smallint ist zu klein, int ist ungünstig weil im Osten PLZen mit 0 anfangen! (Außerdem müssen wir nicht mit diesen rechnen)  
-### INT
-int  
-smallint  
+### INTs
+#### TINYINT
+0 to 255  
+10^3  
+1 Byte
+#### SMALLINT
+-32.768 to 32.767  
+10^4  
+2 Byte
+#### INT  
+-2.147.483.658 to 2.147.483.647  
+10^9  
+4 Bytes
+#### BIGINT
+10^18  
+8 Bytes
+
 ### float 
-float
+#### FLOAT
+standard
+#### DOUBLE
+more precise
+#### DECIMAL
+fixed-point, for maximum precision 
 ### MORE PARTICULAR DATATYPES
 
-#### MONEY
-#### DATE  
+#### BIT
+0, 1 oder NULL.  
+Als Ersatz für den fehlenden Booleschen Datentypen  
+#### MONEY / SMALLMONEY
+#### DATE / TIME / DATEATIME / SMALLDATETIME
 
 <a name="9"></a>
 
