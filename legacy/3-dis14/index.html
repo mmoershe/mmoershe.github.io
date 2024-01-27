@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>DIS13</title>
 <link rel="stylesheet" type="text/css" href="styles/styles.css">
 </head>
@@ -23,8 +24,8 @@
 </div>
 <p><a name='1'></a></p>
 <h1>Data Warehouse / OLAP</h1>
-<p>Prüfung: Selber Stern-Schema erstellen?<br />
-Übung 3 könnte Klausur sein, oder man bekommt Faktentabelle und soll Dimensionstabellen erstellen etc...  </p>
+<p>PrÃ¼fung: Selber Stern-Schema erstellen?<br />
+Ãœbung 3 kÃ¶nnte Klausur sein, oder man bekommt Faktentabelle und soll Dimensionstabellen erstellen etc...  </p>
 <p>"Fakten" in der Faktentabelle sind Werte ohne weitere Dimensionstabelle<br />
 Beispiele, Folie 26: Anzahl  </p>
 <h2>Zwei Arten von Datenbank-Anwendungen:</h2>
@@ -32,23 +33,23 @@ Beispiele, Folie 26: Anzahl  </p>
 <p>arbeiten immer auf dem aktuellsten Stand<br />
 Zugriff umfasst immer eine kleine Datenmenge <br />
 - einfach Lese- und Schreibaufgaben <br />
-Schnelle Antwortzeiten benötigt!  </p>
+Schnelle Antwortzeiten benÃ¶tigt!  </p>
 <p><code>Inhalt des Moduls "Datenbanksysteme"</code>  </p>
-<p>Ungeeignet für Data Mining, weil wir wollen:<br />
-- ...historische Daten (aus verschiedenen Zeiträumen, nicht nur aktuell)<br />
-- ...große Datenmengen<br />
-- ...wir wollen Daten aggregieren, also längere Antwortzeiten wären keine Problem  </p>
+<p>Ungeeignet fÃ¼r Data Mining, weil wir wollen:<br />
+- ...historische Daten (aus verschiedenen ZeitrÃ¤umen, nicht nur aktuell)<br />
+- ...groÃŸe Datenmengen<br />
+- ...wir wollen Daten aggregieren, also lÃ¤ngere Antwortzeiten wÃ¤ren keine Problem  </p>
 <h3>2. OLAP / Online Analytical Processing</h3>
 <p><code>Fokus dieses Moduls</code><br />
-Es geht nicht um das alltägliche Tagesgeschäft, sondern eher um <em>(größere)</em> strategische Entscheidungen --&gt; <strong>DECISION SUPPORT</strong> <br />
+Es geht nicht um das alltÃ¤gliche TagesgeschÃ¤ft, sondern eher um <em>(grÃ¶ÃŸere)</em> strategische Entscheidungen --&gt; <strong>DECISION SUPPORT</strong> <br />
 historisch Daten<br />
-große Datenmengen -&gt; Lange Lesetransaktionen [in dem Kontext auch akzeptabel]<br />
+groÃŸe Datenmengen -&gt; Lange Lesetransaktionen [in dem Kontext auch akzeptabel]<br />
 Meist Integration, Konsolidierung und Aggregation der Daten<br />
 Was muss man bei OLAP Datenbanken beim Entwurf beachten?  </p>
 <hr />
-<p>OLTP- und OLAP- Anwendungen nicht auf dem selben Datenbestand ausgeführt werden.<br />
-System für OLAP-Anwendungen nimmt man auch Data Warehouse<br />
-Von Zeit zu Zeit werden Daten aus dem OLTP System in das Warehouse übertragen, aber auch von Dateien wie Excel usw. [Dadurch historische Daten?]  </p>
+<p>OLTP- und OLAP- Anwendungen nicht auf dem selben Datenbestand ausgefÃ¼hrt werden.<br />
+System fÃ¼r OLAP-Anwendungen nimmt man auch Data Warehouse<br />
+Von Zeit zu Zeit werden Daten aus dem OLTP System in das Warehouse Ã¼bertragen, aber auch von Dateien wie Excel usw. [Dadurch historische Daten?]  </p>
 <hr />
 <h2>Defintion</h2>
 <blockquote>
@@ -64,37 +65,37 @@ Von Zeit zu Zeit werden Daten aus dem OLTP System in das Warehouse übertragen, a
 <ul>
 <li>Daten aus unterschiedlichen Datenquellen werden integriert, also zusammengefasst  </li>
 </ul>
-<h3>non-volatile / Nicht-flüchtige Datenbasis</h3>
+<h3>non-volatile / Nicht-flÃ¼chtige Datenbasis</h3>
 <ul>
 <li>stabile, persistente Datenbasis</li>
-<li>Daten im Data Warehouse werden nur im äußersten Notfall geändert. Data Warehouse wächst dadurch immer weiter! [Kapazitäten!]  </li>
+<li>Daten im Data Warehouse werden nur im Ã¤uÃŸersten Notfall geÃ¤ndert. Data Warehouse wÃ¤chst dadurch immer weiter! [KapazitÃ¤ten!]  </li>
 </ul>
 <h3>time variant / Historische Daten</h3>
 <ul>
-<li>Speicherung über längeren Zeitraum </li>
-<li>Vergleich der Daten über die Zeit möglich</li>
+<li>Speicherung Ã¼ber lÃ¤ngeren Zeitraum </li>
+<li>Vergleich der Daten Ã¼ber die Zeit mÃ¶glich</li>
 </ul>
 <h2>Datenmodellierung</h2>
 <p><strong>Fakten</strong><br />
 - betriebswirtschaftliche Kennzahlen <br />
-  - <em>[Erlöse, Gewinne, Verluste, Umsätze, ...]</em></p>
+  - <em>[ErlÃ¶se, Gewinne, Verluste, UmsÃ¤tze, ...]</em></p>
 <p><strong>Dimensionen</strong><br />
 - Betrachtung dieser Kennzahlen aus unterschiedlichen Perspektiven <br />
   - <em>[zeitlich, regional, produkzbezogen, ...]</em>  </p>
 <p><strong>Hierarchien, Konsolidierungsebenen</strong><br />
-- Unterteilung der Auswertungsdimensionen möglich <br />
-    - <em>[zeitlich: Jahr, Quartal, Monat; regional: Bundesländer, Bezirke, Städte/Gemeinden; ...]</em></p>
+- Unterteilung der Auswertungsdimensionen mÃ¶glich <br />
+    - <em>[zeitlich: Jahr, Quartal, Monat; regional: BundeslÃ¤nder, Bezirke, StÃ¤dte/Gemeinden; ...]</em></p>
 <h2>Data Cube</h2>
 <p><strong>Theoretisches Konstrukt</strong> welches dem Data Warehouse zu Grunde liegt. <br />
-Hochdimensionaler Würfel  <br />
+Hochdimensionaler WÃ¼rfel  <br />
 Kanten: Dimensionen<br />
 Zelle: eine oder mehrere Kennzahlen <br />
-zwei Operationen durchführen:  </p>
+zwei Operationen durchfÃ¼hren:  </p>
 <h3>Roll-Up</h3>
 <p>In der Hierarchie eine Stufe nach Oben <br />
 Datan werden verdichtet  </p>
 <blockquote>
-<p>Weniger Attribute in <strong>GROUP BY</strong> =&gt; stärkere Verdichtung =&gt; Roll-Up</p>
+<p>Weniger Attribute in <strong>GROUP BY</strong> =&gt; stÃ¤rkere Verdichtung =&gt; Roll-Up</p>
 </blockquote>
 <h3>Drill-Down</h3>
 <p>In der Hierarchie eine Stufe nach Unten<br />
@@ -103,9 +104,9 @@ auf feinerer Ebene gehen   </p>
 <p>Mehr Attribute in <strong>GROUP BY</strong> =&gt;  weniger starke Verdichtung =&gt; Drill-Down</p>
 </blockquote>
 <hr />
-<p>Direkt Data Cube erstellen [MOLAP] war nicht erfolgreich und hat sich nicht durchgesetzt. Transformation war damals aber nicht nötig.<br />
+<p>Direkt Data Cube erstellen [MOLAP] war nicht erfolgreich und hat sich nicht durchgesetzt. Transformation war damals aber nicht nÃ¶tig.<br />
 Durchgesetzt haben sich die ROLAP [relationale OLAPs]<br />
-Vorteil: Verfügbarkeit<br />
+Vorteil: VerfÃ¼gbarkeit<br />
 Speicherung und Zugriff muss gut umgesetzt sein.  </p>
 <h2>Snowflake Schema vs Stern Schema</h2>
 <table>
@@ -141,29 +142,29 @@ Speicherung und Zugriff muss gut umgesetzt sein.  </p>
 <td></td>
 </tr>
 <tr>
-<td>Geeignet für komplexere Systeme</td>
+<td>Geeignet fÃ¼r komplexere Systeme</td>
 <td></td>
 </tr>
 </tbody>
 </table>
 <h3>Snowflake Schema</h3>
-<p>Eigene Tabelle für jede Klassifikationsstufe / Hierarchiestufe<br />
+<p>Eigene Tabelle fÃ¼r jede Klassifikationsstufe / Hierarchiestufe<br />
 Eine Faktentabelle und theoretisch unendliche untergeordnete Klassifikationstabellen<br />
 <strong>normalisiert</strong><br />
 skalierbar<br />
-unterliegt keinen Update-Anomalien (durch Normalisierung und Verknüpfung durch Keys lassen sich Daten ohne Probleme/Auswirkungen ändern, da nicht direkt diese Zellen referenziert werden.)  <br />
+unterliegt keinen Update-Anomalien (durch Normalisierung und VerknÃ¼pfung durch Keys lassen sich Daten ohne Probleme/Auswirkungen Ã¤ndern, da nicht direkt diese Zellen referenziert werden.)  <br />
 relativ aufwendiges Zusammenholen von Informationen (VIELE JOINS)<br />
 viele Foreign Keys<br />
 dadurch geringe Redundanzen --&gt; effiziente Speichernutzung  </p>
 <h3>Stern Schema</h3>
 <p>Eine Faktentabelle <br />
-Für jede Dimension EINE Dimensionstabelle<br />
+FÃ¼r jede Dimension EINE Dimensionstabelle<br />
 --&gt; viel Redundanz!!<br />
 Anfragebearbeitung aber schneller!!  </p>
 <p><strong>STERN JOIN:</strong><br />
 - SELECT<br />
-  - Kenngrößen (evtl. aggregiert)<br />
-  - Ergebnisgranularität (Dimensionen)<br />
+  - KenngrÃ¶ÃŸen (evtl. aggregiert)<br />
+  - ErgebnisgranularitÃ¤t (Dimensionen)<br />
     - z.B. Zeit.Monat, Geographie.Stadt<br />
 - FROM<br />
   - Faktentabelle<br />
@@ -175,10 +176,10 @@ Anfragebearbeitung aber schneller!!  </p>
 <hr />
 <h2>Optimierungs-Heuristiken</h2>
 <h3>Materialisierung von Aggregaten</h3>
-<p>Aggregation nicht immer neu berechnen, sondern häufig genutzte Aggregationen materialisieren </p>
+<p>Aggregation nicht immer neu berechnen, sondern hÃ¤ufig genutzte Aggregationen materialisieren </p>
 <h3>CUBE-Operator</h3>
-<p>Erweiterung des <strong>group by</strong>s  und aggregiert Daten über mehrere Dimensionnen hinweg.<br />
-Query-Komplexität reduziert<br />
+<p>Erweiterung des <strong>group by</strong>s  und aggregiert Daten Ã¼ber mehrere Dimensionnen hinweg.<br />
+Query-KomplexitÃ¤t reduziert<br />
 Aggregierung wird effizient INTERN gerechnet.<br />
 - Faktentabelle wird beispielsweise nur einmal gelesen  </p>
 <h2>ROW STORE vs COLUMN STORE</h2>
@@ -187,19 +188,19 @@ relative neue Innovation ist die COLUMN STORE.<br />
 Jede einzelne Spalte wird zu einer eigenen Tabelle welche mit einer ID versehen ist.<br />
 <strong>Vorteil:</strong><br />
 - Schnelle Anfragebearbeitung, da relativ wenige Daten bei einer Anfrage bewegt werden. <br />
-  - Es muss nicht die ganze Tabelle mit vielen für die Anfrage irrelevanten Spalten gelesen werden, sondern wirklich genau nur die relevante Spalte.  </p>
+  - Es muss nicht die ganze Tabelle mit vielen fÃ¼r die Anfrage irrelevanten Spalten gelesen werden, sondern wirklich genau nur die relevante Spalte.  </p>
 <p><strong>Nachteil:</strong><br />
 - Generierung von Redundanz  </p>
-<h2>Übung 3</h2>
-<p>Kunde könnte mehrere Verträge haben. Keine Informationen in die Faktentabelle, welche man irgendwo anders herbekommt, keine berechneten Werte. [bool(SMS) ist vielleicht etwas redundant, abewesend von Empfänger Nummer könnte auf SMS hinweisen.]<br />
+<h2>Ãœbung 3</h2>
+<p>Kunde kÃ¶nnte mehrere VertrÃ¤ge haben. Keine Informationen in die Faktentabelle, welche man irgendwo anders herbekommt, keine berechneten Werte. [bool(SMS) ist vielleicht etwas redundant, abewesend von EmpfÃ¤nger Nummer kÃ¶nnte auf SMS hinweisen.]<br />
 Hier ist jetzt kein Fakt in der Faktentabelle. Die Kombination von Information stellt aber schon den Fakt da.<br />
 Both "Beginn" und "Ende" greifen auf die selbe Dimensionstabelle zu!<br />
-Die Dauer wäre dann <em>Ende - Beginn</em><br />
+Die Dauer wÃ¤re dann <em>Ende - Beginn</em><br />
 Vorwarnung: wenn man eine Faktentabelle bekommt, dann Faktentabelle auch so lassen!! Das vorgegebene ist Fix! <br />
-Bei "Verträge" auch Beginn und Ende machen, weil Kunde kann Vertrag auch beenden oder ändern. Darüber stellt man fest welcher Vertrag/Tarif gerade gilt.<br />
-Im Stern-Schema müsste man beispielsweise alle Tarif Infos in die Verträge Tabelle kommen, um nicht eine weitere Dimensionstabelle zu machen. In der Praxis würde man eine weitere Dimensionstabelle machen. Hier macht es inhaltlich Sinn eine weitere Dimensionstabelle für Tarif oder Addresse zu machen. Auch in der Klausur ist er gnädig. Bei der Zeit weitere Dimensionstabellen wären aber nicht in Ordnung.<br />
-VertragsID und Kundennummer sind ja in der Faktentabelle verbunden, also die Kundennummer muss nicht nochmal in die Verträge Tabelle.<br />
-Bei der Empfänger Nummer im Optimalfall auch die Vorwahl erfassen und weitere Sachen erfassen. [Gehört die Nummer zu einem Unternehmen etc.. ]  </p>
+Bei "VertrÃ¤ge" auch Beginn und Ende machen, weil Kunde kann Vertrag auch beenden oder Ã¤ndern. DarÃ¼ber stellt man fest welcher Vertrag/Tarif gerade gilt.<br />
+Im Stern-Schema mÃ¼sste man beispielsweise alle Tarif Infos in die VertrÃ¤ge Tabelle kommen, um nicht eine weitere Dimensionstabelle zu machen. In der Praxis wÃ¼rde man eine weitere Dimensionstabelle machen. Hier macht es inhaltlich Sinn eine weitere Dimensionstabelle fÃ¼r Tarif oder Addresse zu machen. Auch in der Klausur ist er gnÃ¤dig. Bei der Zeit weitere Dimensionstabellen wÃ¤ren aber nicht in Ordnung.<br />
+VertragsID und Kundennummer sind ja in der Faktentabelle verbunden, also die Kundennummer muss nicht nochmal in die VertrÃ¤ge Tabelle.<br />
+Bei der EmpfÃ¤nger Nummer im Optimalfall auch die Vorwahl erfassen und weitere Sachen erfassen. [GehÃ¶rt die Nummer zu einem Unternehmen etc.. ]  </p>
 <h3>Faktentabelle / Verbindungen</h3>
 <table>
 <thead>
@@ -208,7 +209,7 @@ Bei der Empfänger Nummer im Optimalfall auch die Vorwahl erfassen und weitere Sa
 <th>Beginn</th>
 <th>Ende</th>
 <th>Vertragsid</th>
-<th>Empfänger Telefonnummer</th>
+<th>EmpfÃ¤nger Telefonnummer</th>
 <th>bool(SMS)</th>
 </tr>
 </thead>
@@ -231,7 +232,7 @@ Bei der Empfänger Nummer im Optimalfall auch die Vorwahl erfassen und weitere Sa
 <th>Geburtsdatum</th>
 <th>Vorname</th>
 <th>Nachname</th>
-<th>Straße</th>
+<th>StraÃŸe</th>
 <th>Hausnummer</th>
 <th>PLZ</th>
 <th>Ort</th>
@@ -247,13 +248,13 @@ Bei der Empfänger Nummer im Optimalfall auch die Vorwahl erfassen und weitere Sa
 <td>23.02.1988</td>
 <td>Peter</td>
 <td>Hansson</td>
-<td>Siemensstraße</td>
+<td>SiemensstraÃŸe</td>
 <td>445</td>
 <td>4235</td>
 <td>Hansdorf</td>
 <td>Hessen</td>
 <td>Deutschland</td>
-<td>Männlich</td>
+<td>MÃ¤nnlich</td>
 <td>Schlosser</td>
 </tr>
 </tbody>
@@ -298,7 +299,7 @@ Bei der Empfänger Nummer im Optimalfall auch die Vorwahl erfassen und weitere Sa
 </tr>
 </tbody>
 </table>
-<h3>Verträge</h3>
+<h3>VertrÃ¤ge</h3>
 <table>
 <thead>
 <tr>
@@ -322,13 +323,13 @@ Bei der Empfänger Nummer im Optimalfall auch die Vorwahl erfassen und weitere Sa
 <th>TarifID</th>
 <th>Mindestpreis</th>
 <th>Preis_SMS</th>
-<th>Grundgebühr</th>
+<th>GrundgebÃ¼hr</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>7</td>
-<td>9000€</td>
+<td>9000â‚¬</td>
 <td></td>
 <td></td>
 </tr>
@@ -337,48 +338,48 @@ Bei der Empfänger Nummer im Optimalfall auch die Vorwahl erfassen und weitere Sa
 <p><a name='2'></a></p>
 <h1>Datenvorbereitung</h1>
 <p>Datenvorbereitung ist zwischen Selection und Data Mining und beschreibt Preprocessing und Transformation  </p>
-<p><strong>Datensatz</strong> --&gt; <code>Ein Datensatz beschreibt einen geordneten Vektor von Ausprägungen, die ein Objekt (z.B. Kunde, Nutzer, Produkt) für eine fixe Menge von Variablen (Attribute, Eigenschaften, Merkmale) besitzt.</code><br />
-<strong>Datenset</strong> --&gt; <code>Eine Menge von Datensätzen, die die gleiche Variablenstruktur besitzen, werden als Datenset bezeichnet.</code><br />
+<p><strong>Datensatz</strong> --&gt; <code>Ein Datensatz beschreibt einen geordneten Vektor von AusprÃ¤gungen, die ein Objekt (z.B. Kunde, Nutzer, Produkt) fÃ¼r eine fixe Menge von Variablen (Attribute, Eigenschaften, Merkmale) besitzt.</code><br />
+<strong>Datenset</strong> --&gt; <code>Eine Menge von DatensÃ¤tzen, die die gleiche Variablenstruktur besitzen, werden als Datenset bezeichnet.</code><br />
 Data Cleaning, Data Integration, Data Transformation, Data Reduction</p>
 <h2>Data Cleaning</h2>
-<p>Daten können inkonsistent, unvollständig, verrauscht sein.</p>
+<p>Daten kÃ¶nnen inkonsistent, unvollstÃ¤ndig, verrauscht sein.</p>
 <p><strong>Ursachen:</strong><br />
-- Problem bei Eingabe, Übertragung oder Erfassung<br />
+- Problem bei Eingabe, Ãœbertragung oder Erfassung<br />
 - Diskrepanz bei Namenskonvention <br />
-- Duplizierte Datensätze<br />
+- Duplizierte DatensÃ¤tze<br />
   - Daten mehrfacht erhoben</p>
 <p><strong>Wirkung:</strong><br />
-Unvollständige, fehlende, widersprüchliche oder irrelevante Daten.  </p>
+UnvollstÃ¤ndige, fehlende, widersprÃ¼chliche oder irrelevante Daten.  </p>
 <p>Datenbereinigung: <br />
-Ergänzen, Verrauschungen glätten, Korrigieren, entfernen  </p>
+ErgÃ¤nzen, Verrauschungen glÃ¤tten, Korrigieren, entfernen  </p>
 <h3>Missing Values</h3>
 <ol>
-<li>Datensätze mit fehlenden Datensätzen werden nicht berücksichtigt</li>
+<li>DatensÃ¤tze mit fehlenden DatensÃ¤tzen werden nicht berÃ¼cksichtigt</li>
 <li>fehlende Werte eienr Variable durch Mittelwert oder Median ersetzen</li>
-<li>wahrscheinlichsten Wert zum Auffüllen des fehlenden Wertes bestimmten </li>
-<li>Variable ersetzen durch künstliche binäre Variable ["value_exists_yn]</li>
+<li>wahrscheinlichsten Wert zum AuffÃ¼llen des fehlenden Wertes bestimmten </li>
+<li>Variable ersetzen durch kÃ¼nstliche binÃ¤re Variable ["value_exists_yn]</li>
 </ol>
-<h3>Verrauschte Daten glätten</h3>
-<p>Einfluss von extremen Werten reduzieren und zufällige Datenschwankungen ausgleichen.<br />
+<h3>Verrauschte Daten glÃ¤tten</h3>
+<p>Einfluss von extremen Werten reduzieren und zufÃ¤llige Datenschwankungen ausgleichen.<br />
 Binning<br />
-means (oder median) üblich, boundaries eher selten  </p>
+means (oder median) Ã¼blich, boundaries eher selten  </p>
 <h4>Clustering</h4>
-<p>Werte clustern und so Ausreißer identifizieren </p>
+<p>Werte clustern und so AusreiÃŸer identifizieren </p>
 <h4>Regression</h4>
 <p>starke Manipulation der Daten<br />
 vorsichtig sein  </p>
 <h2>Data Integration</h2>
-<p><strong>Kombination von Daten aus mehreren Quellen in einem kohärenten Datenspeicher</strong>  </p>
+<p><strong>Kombination von Daten aus mehreren Quellen in einem kohÃ¤renten Datenspeicher</strong>  </p>
 <h3>Typische Aufgaben</h3>
 <p>Schema Integration, die selbe Information kann in mehreren Datenbanken verschiedene Namen haben [Kundennummer, Kndnnmr, customernr...]<br />
-Semantische Homogenität!<br />
+Semantische HomogenitÃ¤t!<br />
 Datenwertkonflikte beheben, unterschiedliche Darstellungen oder Skalen von Informationen, beispielsweise Datumformat, float to int, ...<br />
 Redundante Variablen entfernen! [Korrelationsanalyse]  </p>
 <h2>Data Transformation</h2>
 <h3>Normalisierung</h3>
-<p>Variablen haben häufig andere Ausprägungen der Spannweiten<br />
---&gt; nervig für Data Mining<br />
-Einflüsse müssen normiert werden.<br />
+<p>Variablen haben hÃ¤ufig andere AusprÃ¤gungen der Spannweiten<br />
+--&gt; nervig fÃ¼r Data Mining<br />
+EinflÃ¼sse mÃ¼ssen normiert werden.<br />
 Zwei Normalisierungstypen: <br />
 Min-max-Normalisierung und Z-Normalisierung<br />
 Z-Normalisierung ist preferred<br />
@@ -389,14 +390,14 @@ skalierungen: nominal (kategorial), nominal, metrischen (kontinuierlich)<br />
 metrische Variable in eine ordinale oder nominale variable konvertieren.<br />
 Unterteilung des Bereichs des Attributs in Intervalle<br />
 --&gt; gewisse Informationsverlust  </p>
-<p>Ähnlichkeit zum Binning <br />
+<p>Ã„hnlichkeit zum Binning <br />
 1. Paritionierung mit gleicher Breite (Abstand)<br />
 Aufteilung in gleich gro0e Intervalle (einheitliches Gitter)<br />
 Breite des Intervals: W = (hoechsterWert - niedrigsterWert)/N<br />
-Problem: Ausreißer haben großen Einfluss</p>
+Problem: AusreiÃŸer haben groÃŸen Einfluss</p>
 <ol>
-<li>Partitionierung mit gleicher Tiefe (Häufigkeit)<br />
-Bessere Datenskalierung, hilft gegen Ausreißern  </li>
+<li>Partitionierung mit gleicher Tiefe (HÃ¤ufigkeit)<br />
+Bessere Datenskalierung, hilft gegen AusreiÃŸern  </li>
 </ol>
 <h3>Dichotomisierung</h3>
 <p>Konvertierung von nominaler Variable zu metrischer Variable<br />
@@ -405,40 +406,40 @@ Umwandlung von Dichotom zu 0 und 1<br />
 macht aber sinn wenn man Wahrscheinlichkeit oder so summiert oder sowas.<br />
 Redundanz beachten und entfernen!</p>
 <h2>Data Reduction</h2>
-<p>Leistungsfähigkeit verbessern.<br />
-Repräsentative Reduktion, Datensätze entfernen, welche durch andere Datensätze repräsentiert werden.<br />
-Entfernung sollte zufällig geschehen<br />
-Reduziertes und unreduziertes Ergebnis sollte ähnlich sein!<br />
+<p>LeistungsfÃ¤higkeit verbessern.<br />
+ReprÃ¤sentative Reduktion, DatensÃ¤tze entfernen, welche durch andere DatensÃ¤tze reprÃ¤sentiert werden.<br />
+Entfernung sollte zufÃ¤llig geschehen<br />
+Reduziertes und unreduziertes Ergebnis sollte Ã¤hnlich sein!<br />
 Vielleicht Daten verdichten (von Quartal auf Year)  </p>
 <h2>Rapid Miner</h2>
 <p>nichts links bei input, soll ja alles automatisiert sein!!!!!!!<br />
 Row number ist nicht wie ID durch operator (Generate ID)<br />
-Rollen sieht man nicht rofl, aber für einen selber für später<br />
+Rollen sieht man nicht rofl, aber fÃ¼r einen selber fÃ¼r spÃ¤ter<br />
 "ori" gibt Daten so aus wie sie in den Operator reingekomme sind.<br />
-nicht originale Datenbank verändern.  </p>
+nicht originale Datenbank verÃ¤ndern.  </p>
 <p><a name='3'></a></p>
 <h1>Assoziationsanalyse</h1>
-<p>Ursprung: Supermarkt: Welche Produkte werden gleichzeitig gekauft? (Point-of-Sale-Daten), geht aber mittlerweile darüber hinaus.<br />
+<p>Ursprung: Supermarkt: Welche Produkte werden gleichzeitig gekauft? (Point-of-Sale-Daten), geht aber mittlerweile darÃ¼ber hinaus.<br />
 Es geht darum, Verbindungen zwischen Objekten zu finden, welche in Transaktion vorkommen.<br />
-Man möchte Regeln finden, welche das Vorhandensein einer Menge von Items mit einer anderen Menge von Items verknüpft.<br />
+Man mÃ¶chte Regeln finden, welche das Vorhandensein einer Menge von Items mit einer anderen Menge von Items verknÃ¼pft.<br />
 Wir sind an folgdenden Regeln interessiert, welche...<br />
 - nicht-trivial (vielleicht sogar unterwartet), <br />
 - praktisch umsetzbar, <br />
-- erklärbar sind.</p>
+- erklÃ¤rbar sind.</p>
 <h2>Assoziationsregeln</h2>
-<p>Aufbau: Prämisse {body} -&gt; Schlussfolgerung {head}<br />
+<p>Aufbau: PrÃ¤misse {body} -&gt; Schlussfolgerung {head}<br />
 (IM RPM: Premise --&gt; Conclusion)<br />
 beides werden als Menge von Items dargestellt.<br />
-zwei Maßzahlen zur Bewertung dieser Regel:  </p>
+zwei MaÃŸzahlen zur Bewertung dieser Regel:  </p>
 <h3>Support</h3>
 <ul>
-<li>bewertet Unterstützung der Regel</li>
+<li>bewertet UnterstÃ¼tzung der Regel</li>
 <li>Anteil der Transaktionen welche beide Mengen beinhalten von allen Transaktionen</li>
 </ul>
 <h3>Konfidenz</h3>
 <ul>
-<li>bewertet Verlässlichkeit der Regel </li>
-<li>Anteil Transkationen, bei denen beide Mengen vorkommen von allen Transkationen, bei denen die Prämissen-Menge vorkommt.  </li>
+<li>bewertet VerlÃ¤sslichkeit der Regel </li>
+<li>Anteil Transkationen, bei denen beide Mengen vorkommen von allen Transkationen, bei denen die PrÃ¤missen-Menge vorkommt.  </li>
 <li>Bei der Konfidenz ist die RICHTUNG wichtig, beim Support nicht. </li>
 <li>deswegen werden sie ein wenig unterschiedlich aufgeschrieben. <ul>
 <li>conf(A --&gt; B)</li>
@@ -450,239 +451,239 @@ zwei Maßzahlen zur Bewertung dieser Regel:  </p>
 Bei einer Assoziationsregel mit hoher Konfidenz sollte man nicht Produkte aus beiden Mengen rabattieren!<br />
 [Da das jeweils andere Produkt ja sowieso mitgekauft wird.]</em>  </p>
 <h3>Lift</h3>
-<p>Eine hohe Konfidenz ist nur aussagekräftig, wenn der Support gering ist.<br />
---&gt; Wenn eine Produkt sowieso sehr häufig gekauft wird [-&gt; hoher Support], dann ist logischerweise eine hohe Konfidenz das Ergebnis, jedoch nicht für die Assoziation oder Kombination der Produkte aussagekräftig.<br />
-Für dieses Problem gibt es die Maßzahl <strong>Lift</strong>, welcher die Konfidenz und den Support in Verhältnis setzt.<br />
-hoch = gut, höher als 1  </p>
+<p>Eine hohe Konfidenz ist nur aussagekrÃ¤ftig, wenn der Support gering ist.<br />
+--&gt; Wenn eine Produkt sowieso sehr hÃ¤ufig gekauft wird [-&gt; hoher Support], dann ist logischerweise eine hohe Konfidenz das Ergebnis, jedoch nicht fÃ¼r die Assoziation oder Kombination der Produkte aussagekrÃ¤ftig.<br />
+FÃ¼r dieses Problem gibt es die MaÃŸzahl <strong>Lift</strong>, welcher die Konfidenz und den Support in VerhÃ¤ltnis setzt.<br />
+hoch = gut, hÃ¶her als 1  </p>
 <p>lift(X -&gt; Y) = conf(X -&gt; y) / sup(y)<br />
 lift(X -&gt; Y) = sup(X U Y) / sup(X)sup(Y)</p>
 <h2>Apriroi-Ansatz</h2>
 <p>(statt Brute-Force-Ansatz)<br />
 Idee:<br />
-Wenn ein Itemset häufig ist, sind auch die Teilmengen des Itemsets häufig!<br />
---&gt; wenn {A, B} häufig gekauft wird, dann wird das Itemset {A} oder {B} mindestens auch so häufig gekauft<br />
+Wenn ein Itemset hÃ¤ufig ist, sind auch die Teilmengen des Itemsets hÃ¤ufig!<br />
+--&gt; wenn {A, B} hÃ¤ufig gekauft wird, dann wird das Itemset {A} oder {B} mindestens auch so hÃ¤ufig gekauft<br />
 Warum? <code>Anti-Monotonie-Eigenschaft des Supports</code><br />
 <strong>auch andersherum:</strong><br />
-Wenn ein Itemset <em>nicht</em> häufig ist, gilt das auch für jede Obermenge dieses Itemsets!!  </p>
+Wenn ein Itemset <em>nicht</em> hÃ¤ufig ist, gilt das auch fÃ¼r jede Obermenge dieses Itemsets!!  </p>
 <p><a name='4'></a></p>
 <h1>Klassifikationsanalyse</h1>
 <p>Objekte in vorgegeben Klassen einordnen, Objekte sind durch Variablen bestimmt.<br />
 Zuerst Model erstellen auf Basis von Objekten, wessen Klassenzuordnung wir kennen, dann auf unbekannte anwenden.<br />
 <strong>Klassifizierungsleistung/Classification accuracy/Trefferquote, Prognosequote</strong>: Anteil der Objekte die korrekt klassifiziert werden. <br />
 (sollte zwischen Validierungs- und Trainingsdate relativ identisch sein.)<br />
-Es ist eventuell sogar erwünscht, nur eine Accuracy von 90% bei den Trainingsdaten zu erhalten, um eine bessere Generalisierungsleistung zu erzielen.<br />
+Es ist eventuell sogar erwÃ¼nscht, nur eine Accuracy von 90% bei den Trainingsdaten zu erhalten, um eine bessere Generalisierungsleistung zu erzielen.<br />
 OCCAM'S RAZOR<br />
-- einfach häufig besser<br />
+- einfach hÃ¤ufig besser<br />
   - auch im Bezug auf Generalisierungsleistung</p>
-<p>Model soll Daten nicht Trainingsdaten nicht auswendig lernen, sondern natürlich general einsetzbar sein! (Generalisierungsleistung)  </p>
+<p>Model soll Daten nicht Trainingsdaten nicht auswendig lernen, sondern natÃ¼rlich general einsetzbar sein! (Generalisierungsleistung)  </p>
 <h2>Dreistufiger-Prozess</h2>
 <h3>Model Konstruktion (Training / Learning)</h3>
 <p><strong>Zielvariable / target</strong><br />
-- Variable im Trainings-Datensatz, der sich die vordefinierte Klasse entnehmen lässt.</p>
+- Variable im Trainings-Datensatz, der sich die vordefinierte Klasse entnehmen lÃ¤sst.</p>
 <p><strong>Klassenbezeichnung / class labels</strong><br />
-- Ausprägung der Zielvariable</p>
+- AusprÃ¤gung der Zielvariable</p>
 <p><strong>Trainingsdaten / training set</strong><br />
 - Menge des Trainings-Datensatzes, welches zum Trainierungs oder Lernen verwendet wird. </p>
-<p><em>Modell kann in verschiedenen Formen repräsentiert werden, einige Beispiele:</em><br />
+<p><em>Modell kann in verschiedenen Formen reprÃ¤sentiert werden, einige Beispiele:</em><br />
 - Decision Trees, Regelwerk, Wahrscheinlichkeiten, Neuronale Netzwerke, ...</p>
 <h3>Model Validierungs (Klassifizierungsleistung)</h3>
 <p><strong>Validierungsdaten / test set</strong><br />
-- Trainingsdatensätze, welche nicht für's Modeltrainings verwendet wurde. </p>
+- TrainingsdatensÃ¤tze, welche nicht fÃ¼r's Modeltrainings verwendet wurde. </p>
 <p>Trefferquote auf Trainingsdaten und Validierungsdaten bestimmen.<br />
 <strong>Der Unterschied sollte kleiner als 10% sein, sonst nicht ausreichende Generalisierungsleistung.</strong>  </p>
 <blockquote>
-<p>Üblicherweise werden 70-80% der Trainings-Datensätze zum Trainieren und 20-30% für die Validierungsdaten verwendet.<br />
--&gt; Man möchte logischerweise eine gute Basis für das Training schaffen, jedoch gleichzeitig ausreichend validieren!</p>
+<p>Ãœblicherweise werden 70-80% der Trainings-DatensÃ¤tze zum Trainieren und 20-30% fÃ¼r die Validierungsdaten verwendet.<br />
+-&gt; Man mÃ¶chte logischerweise eine gute Basis fÃ¼r das Training schaffen, jedoch gleichzeitig ausreichend validieren!</p>
 </blockquote>
 <h3>Model Anwendung</h3>
-<p>Das Modell wird verwendet um für unklassifizierte Objekte die Klasse zu prognostizieren. </p>
+<p>Das Modell wird verwendet um fÃ¼r unklassifizierte Objekte die Klasse zu prognostizieren. </p>
 <hr />
 <h2>Decision Trees</h2>
-<p>Statistische Zusammenhänge != Kausalität  </p>
+<p>Statistische ZusammenhÃ¤nge != KausalitÃ¤t  </p>
 <p>Widerspruchsfrei!  </p>
-<p>Achtung vor Overfitting, sorgt für schlechte Generalisierungsleistung.  </p>
+<p>Achtung vor Overfitting, sorgt fÃ¼r schlechte Generalisierungsleistung.  </p>
 <p><strong>Wurzelknoten</strong><br />
 - Oberster / Erster Knoten</p>
 <p><strong>Innere Knoten</strong><br />
-- Repräsentiert Ausprägung einer Variable</p>
-<p><strong>Äste / Kanten</strong><br />
+- ReprÃ¤sentiert AusprÃ¤gung einer Variable</p>
+<p><strong>Ã„ste / Kanten</strong><br />
 - Verbindung zwischen Knoten</p>
 <p><strong>Blattknoten</strong><br />
-- Letzter Knoten, von welchen keine weiteren Äste abgehen<br />
-- Repräsentiert Klassen-Bezeichnung</p>
+- Letzter Knoten, von welchen keine weiteren Ã„ste abgehen<br />
+- ReprÃ¤sentiert Klassen-Bezeichnung</p>
 <p>Wenn Variablen metrisch, dann mit Intervallen arbeiten!<br />
 [if temperature &gt; 80...]  </p>
-<p>Jeder Pfad in einem Entscheidungsbaum repräsentiert eine Regel.  </p>
+<p>Jeder Pfad in einem Entscheidungsbaum reprÃ¤sentiert eine Regel.  </p>
 <h3>Konstruktieren</h3>
 <h4>1. Baumkonstruktion</h4>
 <p>Rekursiver Prozess aus drei Schritten.  </p>
 <h4>2. Baumbeschneidung (Pruning)</h4>
 <p>Zur Verbesserung der Generalisierungsleistung<br />
-Äste zu Knoten entfernen, welche nur durch wenige Datensätze gestützt sind.  </p>
+Ã„ste zu Knoten entfernen, welche nur durch wenige DatensÃ¤tze gestÃ¼tzt sind.  </p>
 <h3>Variablen-Auswahl im decision Tree</h3>
-<p>Es gibt einige Maßzahlen zur optimalen nächsten Variablenauswahl.<br />
+<p>Es gibt einige MaÃŸzahlen zur optimalen nÃ¤chsten Variablenauswahl.<br />
 Alle haben Vor- und Nachteile, am besten alle ausprobieren und bestes Ergebnis benutzen.  </p>
 <h4>Information Gain</h4>
 <p>Information Gain hilft, um Variable zu finden, welche ...<br />
 Wiederholen lol  </p>
 <h4>Gain Ratio</h4>
-<p>"Information Gain" bevorzugt Variablen mit groß Anzahl von Auösprägungen  </p>
+<p>"Information Gain" bevorzugt Variablen mit groÃŸ Anzahl von AuÃ¶sprÃ¤gungen  </p>
 <h4>Gini Index</h4>
 <p>pass </p>
 <h3>Overfitting and Pruning</h3>
 <p><strong>Overfitting</strong><br />
 - Baum lernt lediglich Trainingsdaten auswendig<br />
-  - aufgrund von vielen Blattknoten und relativ wenigen Trainingsdatensätzen..<br />
+  - aufgrund von vielen Blattknoten und relativ wenigen TrainingsdatensÃ¤tzen..<br />
   - Spezialisierung<br />
-- Kleine (zufällige) Unterschiede in den Trainingsdaten werden zu eigenen Regeln, wobei diese generalisiert nicht anwendbar sind.  </p>
+- Kleine (zufÃ¤llige) Unterschiede in den Trainingsdaten werden zu eigenen Regeln, wobei diese generalisiert nicht anwendbar sind.  </p>
 <blockquote>
-<p>Ein überangepasster Decision Tree hat möglicherweise Regeln entwickelt, die speziell auf die Nuancen der Trainingsdaten zugeschnitten sind, ohne die zugrunde liegenden Muster zu erfassen. Das führt dazu, dass der Baum auf neuen Daten schlecht generalisiert. </p>
+<p>Ein Ã¼berangepasster Decision Tree hat mÃ¶glicherweise Regeln entwickelt, die speziell auf die Nuancen der Trainingsdaten zugeschnitten sind, ohne die zugrunde liegenden Muster zu erfassen. Das fÃ¼hrt dazu, dass der Baum auf neuen Daten schlecht generalisiert. </p>
 </blockquote>
 <p><strong>Prepruning</strong><br />
 - Baum vorher beschneiden. <br />
-- Knoten entfernen, welche nur durch wenige Datensätzen gestützt werden.<br />
-  - Was sind "wenige" Datensätze?<br />
+- Knoten entfernen, welche nur durch wenige DatensÃ¤tzen gestÃ¼tzt werden.<br />
+  - Was sind "wenige" DatensÃ¤tze?<br />
   - <br />
 <strong>Postpruning</strong><br />
-- Nachträglich beschneiden <br />
-- Bäume verschieden beschneiden und nachher besten durch Tests herausfinden.  </p>
+- NachtrÃ¤glich beschneiden <br />
+- BÃ¤ume verschieden beschneiden und nachher besten durch Tests herausfinden.  </p>
 <p><a name='5'></a></p>
 <h1>Clusteranalyse</h1>
 <p>Objekte in Gruppen einteilen.<br />
 [Im Unterschied zur Klassifikation sind diese Gruppen jedoch nicht bekannt!]<br />
 Gruppen werden aus Daten raus generiert.<br />
-Es kann auch Objekte geben, welche sich keinem Cluster zuordnen lassen [Ausreißer]  </p>
+Es kann auch Objekte geben, welche sich keinem Cluster zuordnen lassen [AusreiÃŸer]  </p>
 <h2>Segmentierungsansatz (naiv)</h2>
-<p>Eine Variable wählen, für jede Ausprägung eine Gruppe bildeln<br />
-Nächste Variable und Untergruppen bilden<br />
+<p>Eine Variable wÃ¤hlen, fÃ¼r jede AusprÃ¤gung eine Gruppe bildeln<br />
+NÃ¤chste Variable und Untergruppen bilden<br />
 Exponentionell viele Gruppen mit jeweils relativ wenigen Objekten<br />
 Schlechte Ergebnisse, dieser Ansatz hat viele Probleme </p>
 <h2>Anforderungen an ein ordentliches Clustersystem</h2>
 <ul>
-<li>Variablenausprägungen welche <em>ähnlich</em> sind sollen zusammengefasst werden, nicht nur identische.  </li>
+<li>VariablenausprÃ¤gungen welche <em>Ã¤hnlich</em> sind sollen zusammengefasst werden, nicht nur identische.  </li>
 <li>Robuste Gruppenbildung </li>
-<li>keine fundamentalen Änderungen bei missing values, Austauschungen oder Reihenfolgenänderungen</li>
-<li>Überschaubare Anzahl an Clustern </li>
+<li>keine fundamentalen Ã„nderungen bei missing values, Austauschungen oder ReihenfolgenÃ¤nderungen</li>
+<li>Ãœberschaubare Anzahl an Clustern </li>
 <li>~ 5 bis 7 Cluster </li>
 </ul>
-<h2>Änhlichkeit bzw. Unähnlichkeit</h2>
-<p>Aus Ähnlichkeitsmaß lässt sich das Distanzmaß errechnen:<br />
-<strong>1 - Ähnlichkeitsmaß = Distanzmaß</strong><br />
-Andersherum ist dies nur möglich, wenn man das Maximum kennt.  </p>
+<h2>Ã„nhlichkeit bzw. UnÃ¤hnlichkeit</h2>
+<p>Aus Ã„hnlichkeitsmaÃŸ lÃ¤sst sich das DistanzmaÃŸ errechnen:<br />
+<strong>1 - Ã„hnlichkeitsmaÃŸ = DistanzmaÃŸ</strong><br />
+Andersherum ist dies nur mÃ¶glich, wenn man das Maximum kennt.  </p>
 <p>Manhattenn-Distanz<br />
 Euklidische-Distanz<br />
-Cosinusähnlichkeit  </p>
-<p>Cosinusähnlichkeit benutzen, wenn 0 keine inhaltliche Relevanz hat</p>
+CosinusÃ¤hnlichkeit  </p>
+<p>CosinusÃ¤hnlichkeit benutzen, wenn 0 keine inhaltliche Relevanz hat</p>
 <p>Bei Manhattan und Eklid ist eventuell problematisch, dass die "0" gleich keine Eingabe steht.  </p>
-<p>Tanimoto Maß ist ein guter Kompromiss.  </p>
-<h3>Ähnlichkeitsmaß</h3>
+<p>Tanimoto MaÃŸ ist ein guter Kompromiss.  </p>
+<h3>Ã„hnlichkeitsmaÃŸ</h3>
 <ul>
-<li>Wert höher je größer die Änhlichkeit</li>
+<li>Wert hÃ¶her je grÃ¶ÃŸer die Ã„nhlichkeit</li>
 <li>Maximaler Wert beim Vergleich von identischen Objekten</li>
 <li>Maximaler Wert kann jedoch auch mit nicht identischen Objekten erreicht werden. </li>
 <li>Intervall [0,1]</li>
 </ul>
-<h3>Unähnlichkeit -&gt; Distanzmaß</h3>
+<h3>UnÃ¤hnlichkeit -&gt; DistanzmaÃŸ</h3>
 <ul>
-<li>Wert höher je größer die Distanz</li>
+<li>Wert hÃ¶her je grÃ¶ÃŸer die Distanz</li>
 <li>Minimaler Wert beim Vergleich von identischen Objekten </li>
-<li>Maß nach oben unbeschränkt!</li>
+<li>MaÃŸ nach oben unbeschrÃ¤nkt!</li>
 </ul>
 <h2>Partitionierende Verfahren</h2>
 <ul>
-<li>Schnell und für große Datenmengen geeignet. </li>
+<li>Schnell und fÃ¼r groÃŸe Datenmengen geeignet. </li>
 <li>Iterativ</li>
-<li>Objekte können bis zur letzten Iteration das Cluster ändern </li>
+<li>Objekte kÃ¶nnen bis zur letzten Iteration das Cluster Ã¤ndern </li>
 <li>Clusterzahl k muss vorgeben werden [Problem]  </li>
-<li>inhaltlich begründet</li>
+<li>inhaltlich begrÃ¼ndet</li>
 <li>basierend auf Ergebnisse anderer Verfahren </li>
 <li>Vorgaben </li>
 <li>Zufall und Variation </li>
 <li>Anfangspartition festlegen und Objekte einsortieren </li>
 <li>Zufall und Variation</li>
 <li>basierend auf Ergebnisse anderer Verfahren </li>
-<li>Änhlichkeit von jedem Objekt zu jedem Clauster berechnen und zur größten Ähnlichkeit verschieben </li>
+<li>Ã„nhlichkeit von jedem Objekt zu jedem Clauster berechnen und zur grÃ¶ÃŸten Ã„hnlichkeit verschieben </li>
 </ul>
 <h3>k-means-Algorithmus (Clusterzentrenanalyse)</h3>
-<p>iterative Erkennung eines Centroiden und Berechnung der Ähnlichkeit zu eben jenem Centroiden<br />
-Platzierung der anfänglichen Centroiden ist relevant fürs Ergebnis!  </p>
+<p>iterative Erkennung eines Centroiden und Berechnung der Ã„hnlichkeit zu eben jenem Centroiden<br />
+Platzierung der anfÃ¤nglichen Centroiden ist relevant fÃ¼rs Ergebnis!  </p>
 <h2>Hierarchische Verfahren</h2>
 <ul>
-<li>Für kleine Datenmengen </li>
-<li>Findet gut Ausreißer</li>
-<li>agglomerative, Objekte werden zu Clustern zusammengeführt</li>
-<li>Jedes Objekt fängt als eigenes Cluster an  </li>
-<li>Paarweise Änhlichkeiten berechnen und das Cluster mit größter Ähnlichkeit zusammenführen [Anzahl Cluster =- 1]  </li>
+<li>FÃ¼r kleine Datenmengen </li>
+<li>Findet gut AusreiÃŸer</li>
+<li>agglomerative, Objekte werden zu Clustern zusammengefÃ¼hrt</li>
+<li>Jedes Objekt fÃ¤ngt als eigenes Cluster an  </li>
+<li>Paarweise Ã„nhlichkeiten berechnen und das Cluster mit grÃ¶ÃŸter Ã„hnlichkeit zusammenfÃ¼hren [Anzahl Cluster =- 1]  </li>
 <li>Wiederholung</li>
 </ul>
-<p>Ähnlichkeit zwischen Clustern ist nicht gleich Ähnlichkeit zwischen Objekten  </p>
-<h3>Ähnlichkeit zwischen Clustern</h3>
+<p>Ã„hnlichkeit zwischen Clustern ist nicht gleich Ã„hnlichkeit zwischen Objekten  </p>
+<h3>Ã„hnlichkeit zwischen Clustern</h3>
 <ul>
 <li>single-linkage </li>
-<li>Ähnlichkeit zwischen den beiden Clustern ist die Ähnlichkeit zwischen den zwei nächstgelegenen Datenpunkten aus jeweils eines der beiden Clustern </li>
-<li>Identifiziert Ausreißer</li>
+<li>Ã„hnlichkeit zwischen den beiden Clustern ist die Ã„hnlichkeit zwischen den zwei nÃ¤chstgelegenen Datenpunkten aus jeweils eines der beiden Clustern </li>
+<li>Identifiziert AusreiÃŸer</li>
 <li>Complete-linkage </li>
-<li>Ähnlichkeit zwischen zwei Clustern ist die Ähnlichkeit zwischen den beiden entferntesten Datenpunkten aus jeweils eines der beiden Clustern </li>
-<li>Ausreißer sorgen für Probleme </li>
+<li>Ã„hnlichkeit zwischen zwei Clustern ist die Ã„hnlichkeit zwischen den beiden entferntesten Datenpunkten aus jeweils eines der beiden Clustern </li>
+<li>AusreiÃŸer sorgen fÃ¼r Probleme </li>
 </ul>
-<p>Häufig Kombination der Methoden.<br />
-Erst single-linkage, dann Ausreißer entfernen und mit complete-linkage beenden.  </p>
+<p>HÃ¤ufig Kombination der Methoden.<br />
+Erst single-linkage, dann AusreiÃŸer entfernen und mit complete-linkage beenden.  </p>
 <p>Im Dendogramm die optimale Clusterzahl finden (visuell)<br />
-Mit dem Silhouetten-Koeffizient  lässt sich auch die optimale Clusterzahl berechnen  </p>
+Mit dem Silhouetten-Koeffizient  lÃ¤sst sich auch die optimale Clusterzahl berechnen  </p>
 <h2>Modellbasierte Verfahren</h2>
 <p><a name='6'></a></p>
 <h1>Neuronale Netzwerke</h1>
 <p>wenn kein Spaltenname in Excel vergeben, macht der Rapid Miner eine Durchnummerierung<br />
-blackbox, kein Regelsystem, jedoch leistungsfähig af<br />
+blackbox, kein Regelsystem, jedoch leistungsfÃ¤hig af<br />
 Neuronen, weights, Abbild des Gehirns  </p>
 <p>fp-growth minimum support bestimmte prozentzahl</p>
-<p>Assoziatioanalyse = Ähnlichkeit von Worten innerhalb eines Dokumentes<br />
-cluster = ähnlichkeit zwischen Dokumenten  [read csv, rename, select attributes, set role, hierarchische clustering für Ausreißer (cosinusÄhnlichkeit), flatten Clustering, data to similarity, performance]  </p>
+<p>Assoziatioanalyse = Ã„hnlichkeit von Worten innerhalb eines Dokumentes<br />
+cluster = Ã¤hnlichkeit zwischen Dokumenten  [read csv, rename, select attributes, set role, hierarchische clustering fÃ¼r AusreiÃŸer (cosinusÃ„hnlichkeit), flatten Clustering, data to similarity, performance]  </p>
 <p>perceptron ist ein Neuronales netzwerk ohne hidden layer  </p>
 <p><a name='7'></a></p>
 <h1>Empfehlungssysteme</h1>
-<p>Assoziationsanalyse nicht perfekt, einfach zu viele Regln und kleine Confidence, man könnte aber einfach die höhste Confidence nehmen<br />
-(kann man für Empfehlungssysteme nutzen, aber nicht optimal.)<br />
-Klassifikationsanalyse, was zeichnet Personen aus, welche ein bestimmtes Video schauen? (sozio-demographisch, andere geschaute Videos), auch aufwendig, da man für jedes Video eine Klassifikationsanalyse durchführen müsste; kommt eher nur für wichtige Dinge in Einsatz, wenn sich der Aufwand lohnt.<br />
-Clusteranalyse auch möglich, bestimmte Videos sind ähnlich, Videos im gleichen Cluster vorschlagen.<br />
+<p>Assoziationsanalyse nicht perfekt, einfach zu viele Regln und kleine Confidence, man kÃ¶nnte aber einfach die hÃ¶hste Confidence nehmen<br />
+(kann man fÃ¼r Empfehlungssysteme nutzen, aber nicht optimal.)<br />
+Klassifikationsanalyse, was zeichnet Personen aus, welche ein bestimmtes Video schauen? (sozio-demographisch, andere geschaute Videos), auch aufwendig, da man fÃ¼r jedes Video eine Klassifikationsanalyse durchfÃ¼hren mÃ¼sste; kommt eher nur fÃ¼r wichtige Dinge in Einsatz, wenn sich der Aufwand lohnt.<br />
+Clusteranalyse auch mÃ¶glich, bestimmte Videos sind Ã¤hnlich, Videos im gleichen Cluster vorschlagen.<br />
 ODER Personen clustern<br />
 aus dieser Idee kommt das, was sich durchgesetzt hat:<br />
 Collaborative Filtering<br />
-"was haben Personen, welche mir ähnlich sind, ein bestimmtes Produkt bewertet?"<br />
+"was haben Personen, welche mir Ã¤hnlich sind, ein bestimmtes Produkt bewertet?"<br />
 --&gt; Deren hochbewertete Produkte/Videos werden mir wieder empfohlen.<br />
-Wann sind andere mir genau "ähnlich"? Was heißt hier "ähnlich"?<br />
-Zwei Ansätze: <br />
+Wann sind andere mir genau "Ã¤hnlich"? Was heiÃŸt hier "Ã¤hnlich"?<br />
+Zwei AnsÃ¤tze: <br />
 <a name='8'></a></p>
 <h1>User-Item-Ansatz</h1>
 <p>Wie haben Nutzer ein bestimmtes Item bewertet?<br />
 und wie habe ICH dieses bestimmte item bewertet?<br />
-Haben wir eine ähnliches Bewertungsgeschichte?<br />
-Wenn wir ähnliche Bewertungen haben, die andere Person aber einen weitere Film, welche ich nicht kenne, positiv bewertet, wird er mir auch gefallen.<br />
-Wenn wir ähnliche Bewertungen haben, die andere Person aber einen weitere Film, welche ich nicht kenne, positiv bewertet, wird er mir auch gefallen.<br />
+Haben wir eine Ã¤hnliches Bewertungsgeschichte?<br />
+Wenn wir Ã¤hnliche Bewertungen haben, die andere Person aber einen weitere Film, welche ich nicht kenne, positiv bewertet, wird er mir auch gefallen.<br />
+Wenn wir Ã¤hnliche Bewertungen haben, die andere Person aber einen weitere Film, welche ich nicht kenne, positiv bewertet, wird er mir auch gefallen.<br />
 Nachteil: <br />
-Wenn neue Nutzer/Items dazukommen, muss alles neu berechnet werden, dafür aber gute Ergebnisse (Hoher Aufwand)<br />
-Vorschläge müssen ja auch schnell generiert werden.  </p>
+Wenn neue Nutzer/Items dazukommen, muss alles neu berechnet werden, dafÃ¼r aber gute Ergebnisse (Hoher Aufwand)<br />
+VorschlÃ¤ge mÃ¼ssen ja auch schnell generiert werden.  </p>
 <p><a name='9'></a></p>
 <h1>Item-Item-Ansatz</h1>
-<p>KLAUSUR: In der Lage sein, beide Ansätze erklären, nicht konkret ausrechnen.<br />
+<p>KLAUSUR: In der Lage sein, beide AnsÃ¤tze erklÃ¤ren, nicht konkret ausrechnen.<br />
 Nicht Nutzer werden verglichen, sondern Items.<br />
-Welche Objekte haben von den selben Nutzern ähnliche Bewertungen bekommen.<br />
-Ählnichkeit wird über Items hergestellt.<br />
-Ich schlage einem Nutzer mit einer Vorliebe für ein bestimmtes Item ein ähnlich Item mit gleichen Bewertungen vor.<br />
+Welche Objekte haben von den selben Nutzern Ã¤hnliche Bewertungen bekommen.<br />
+Ã„hlnichkeit wird Ã¼ber Items hergestellt.<br />
+Ich schlage einem Nutzer mit einer Vorliebe fÃ¼r ein bestimmtes Item ein Ã¤hnlich Item mit gleichen Bewertungen vor.<br />
 Viel schneller.<br />
 "Wie werden Objekte bewertet"?  Es geht NUR ums Rating!<br />
-Metadaten, wie Länge des Films, Schauspieler, Genre, etc..., sind erstmal egal. <br />
+Metadaten, wie LÃ¤nge des Films, Schauspieler, Genre, etc..., sind erstmal egal. <br />
 Es werden fast keine Daten erhoben.<br />
 Einfaches Prinzip<br />
-nicht viele Bewertungen nötig.<br />
-Individuelle Bewertung ins Verhältnis von der allgemeinen Bewertung setzen.  </p>
+nicht viele Bewertungen nÃ¶tig.<br />
+Individuelle Bewertung ins VerhÃ¤ltnis von der allgemeinen Bewertung setzen.  </p>
 <p><a name='10'></a></p>
 <h1>unsortiert</h1>
 <p>Klausur zwei stunden <br />
 kein SQL  </p>
-<h2>Blöcke</h2>
-<p>Klausur sind drei Teile aus vier möglichen Blöcken<br />
-Wenn er uns eine Faktentabelle gibt, muss diese so bleiben, Bezeichnung von Attributen NICHT ändern.  </p>
+<h2>BlÃ¶cke</h2>
+<p>Klausur sind drei Teile aus vier mÃ¶glichen BlÃ¶cken<br />
+Wenn er uns eine Faktentabelle gibt, muss diese so bleiben, Bezeichnung von Attributen NICHT Ã¤ndern.  </p>
 <ol>
 <li>Allgemeines zum Data Mining(Theorie) / Data Warehouse/OLAP  <ul>
 <li>~ die ersten beiden Vorlesungen  </li>
@@ -691,13 +692,13 @@ Wenn er uns eine Faktentabelle gibt, muss diese so bleiben, Bezeichnung von Attr
 <li>Algorithmen auf einem konkreten Beispiel anwenden (Praxis), <em>Assoziationsanalyse, Entscheidungsbaumverfahren, Clusteranalyse (hierarchische und k-means)</em> (hat nichts mit dem RapidMiner zu tun)  <ul>
 <li>Entscheidungsbaum muss zu den Daten passen. Beispielregel angeben, anzahl Regeln angeben.  </li>
 <li>clusteranalyse, neighest neighbour oder das andere vorgegeben</li>
-<li>Eventuell Buntstifte und Geodreieck für die Distanz mitnehmen lol  </li>
+<li>Eventuell Buntstifte und Geodreieck fÃ¼r die Distanz mitnehmen lol  </li>
 <li>bei jedem Zeichenschritt bisschen schreiben was man gemacht hat  </li>
 </ul>
 </li>
-<li>RapidMiner, man bekommt Ergebnis und muss es interpretieren, oder ein Parameterfenster und einzelne Parameter erklären, nur was in Tutorials ist!  <ul>
-<li>Erst beschreiben, was man sieht. Dabei ruhig kurz, aber präzis. Schrittweise pro Operator.  </li>
-<li>wenn offensichtlich ist, welcher Algorithmus es ist, auch hinzufügen. FP-Growth und Create Association Rules ist OFFENSICHTLICH zur Erzeugung von Assoziationsregeln in der Assoziationsanalyse.  </li>
+<li>RapidMiner, man bekommt Ergebnis und muss es interpretieren, oder ein Parameterfenster und einzelne Parameter erklÃ¤ren, nur was in Tutorials ist!  <ul>
+<li>Erst beschreiben, was man sieht. Dabei ruhig kurz, aber prÃ¤zis. Schrittweise pro Operator.  </li>
+<li>wenn offensichtlich ist, welcher Algorithmus es ist, auch hinzufÃ¼gen. FP-Growth und Create Association Rules ist OFFENSICHTLICH zur Erzeugung von Assoziationsregeln in der Assoziationsanalyse.  </li>
 </ul>
 </li>
 <li>TextMining, Empfehlungssysteme; konkretes Anwendungsbeispiel   </li>
@@ -705,13 +706,13 @@ Wenn er uns eine Faktentabelle gibt, muss diese so bleiben, Bezeichnung von Attr
 </ol>
 <p>garbage in - garbage out </p>
 <p>Heuristiken, kein perfektes Ergebnis im Unterschied zur Statistik </p>
-<p>Neuronale Netzwerk sind leistungsfähig af und in dem Aspekt allen Verfahren überlegen, der Vorteil der andereren System ist die Transparenz und Nachvollziehbarkeit. Ethische Fragen!?!?!??"!?§"!?§?"!§?"!§?$§I$%  </p>
-<p>Korrelation != Kausalität  </p>
-<p>In der Prüfung keine SQL Befehle  </p>
-<p>In der Klausur bekommt man Bilder vom Rapid Miner und man muss die Operationen erklären<br />
-auch einzelne Paramter erklären<br />
-und Ergebnisse erklären<br />
+<p>Neuronale Netzwerk sind leistungsfÃ¤hig af und in dem Aspekt allen Verfahren Ã¼berlegen, der Vorteil der andereren System ist die Transparenz und Nachvollziehbarkeit. Ethische Fragen!?!?!??"!?Â§"!?Â§?"!Â§?"!Â§?$Â§I$%  </p>
+<p>Korrelation != KausalitÃ¤t  </p>
+<p>In der PrÃ¼fung keine SQL Befehle  </p>
+<p>In der Klausur bekommt man Bilder vom Rapid Miner und man muss die Operationen erklÃ¤ren<br />
+auch einzelne Paramter erklÃ¤ren<br />
+und Ergebnisse erklÃ¤ren<br />
 alles in den Tutorials an Prozessen  </p>
-<p>in rapid miner heißt NN nicht unbedingt Neuronales Netz, sondern neighest Neighbour!!!!!!!!!!!!!!!!!  </p>
+<p>in rapid miner heiÃŸt NN nicht unbedingt Neuronales Netz, sondern neighest Neighbour!!!!!!!!!!!!!!!!!  </p>
 <script>var codeElements = document.querySelectorAll('code'); codeElements.forEach(function(codeElement) { var brElement = document.createElement('br'); codeElement.parentNode.insertBefore(brElement, codeElement);});</script>
 </body>

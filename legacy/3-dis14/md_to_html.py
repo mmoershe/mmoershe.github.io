@@ -33,8 +33,8 @@ if __name__ == "__main__":
 
 	script_tag: str = "<script>var codeElements = document.querySelectorAll('code'); codeElements.forEach(function(codeElement) { var brElement = document.createElement('br'); codeElement.parentNode.insertBefore(brElement, codeElement);});</script>"
 
-	with open(HTML_PATH, 'w') as file:
-		file.write(f"<!DOCTYPE html>\n<html>\n<head>\n<title>DIS13</title>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"styles/styles.css\">\n</head>\n<body>\n<p><a name=\"0\"></a></p>\n{generate_returnButton()}\n{html_h1_directory}\n{html_content}\n{script_tag}\n</body>")
+	with open(HTML_PATH, 'w', encoding='utf-8') as file:
+		file.write(f"<!DOCTYPE html>\n<html>\n<head>\n<meta charset=\"UTF-8\">\n<title>DIS13</title>\n<link rel=\"stylesheet\" type=\"text/css\" href=\"styles/styles.css\">\n</head>\n<body>\n<p><a name=\"0\"></a></p>\n{generate_returnButton()}\n{html_h1_directory}\n{html_content}\n{script_tag}\n</body>")
 
 	print("done.")
 	# beginning
