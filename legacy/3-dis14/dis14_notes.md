@@ -6,25 +6,30 @@ Prüfung: Selber Stern-Schema erstellen?
 "Fakten" in der Faktentabelle sind Werte ohne weitere Dimensionstabelle  
 Beispiele, Folie 26: Anzahl  
 
-Zwei Arten von Datenbank-Anwendungen: 
+## Zwei Arten von Datenbank-Anwendungen: 
 
-## 1. OLTP / Online Transaction Processing  
-- arbeiten immer auf dem aktuellsten Stand  
-- Zugriff umfasst immer eine kleine Datenmenge 
-  - einfach Lese- und Schreibaufgaben   
-- Schnelle Antwortzeiten benötigt!  
+### 1. OLTP / Online Transaction Processing  
+
+arbeiten immer auf dem aktuellsten Stand  
+Zugriff umfasst immer eine kleine Datenmenge 
+- einfach Lese- und Schreibaufgaben   
+Schnelle Antwortzeiten benötigt!  
 
 `Inhalt des Moduls "Datenbanksysteme"`  
 
 Ungeeignet für Data Mining, weil wir wollen:  
-- historische Daten (aus verschiedenen Zeiträumen, nicht nur aktuell)  
-- große Datenmengen  
-- wir wollen Daten aggregieren, also längere Antwortzeiten wären keine Problem  
+- ...historische Daten (aus verschiedenen Zeiträumen, nicht nur aktuell)  
+- ...große Datenmengen  
+- ...wir wollen Daten aggregieren, also längere Antwortzeiten wären keine Problem  
 
-## 2. OLAP / Online Analytical Processing 
-- es geht nicht um das alltägliche Tagesgeschäft, sondern eher um *(größere)* strategische Entscheidungen --> **DECISION SUPPORT**  
-- Fokus dieses Moduls  
-  - > Was muss man bei OLAP Datenbanken beim Entwurf beachten?  
+### 2. OLAP / Online Analytical Processing 
+
+`Fokus dieses Moduls`  
+Es geht nicht um das alltägliche Tagesgeschäft, sondern eher um *(größere)* strategische Entscheidungen --> **DECISION SUPPORT**   
+historisch Daten  
+große Datenmengen -> Lange Lesetransaktionen [in dem Kontext auch akzeptabel]  
+Meist Integration, Konsolidierung und Aggregation der Daten  
+Was muss man bei OLAP Datenbanken beim Entwurf beachten?  
 
 ---
 
@@ -34,21 +39,23 @@ Von Zeit zu Zeit werden Daten aus dem OLTP System in das Warehouse übertragen, 
 
 ---
 
+## Defintion 
+
 > A Data Warehouse is a **subject-oriented**, **integrated**, **non-volatile**, and **time variant** colletion of data to supoprt management decisions.  
 *[W.H. Inmon, 1996]*
 
-**subject-oriented / Fachorientiert**
+### subject-oriented / Fachorientiert
 - spezifisches Anwendungsziel  
 - irrelevanten Daten weglassen
 
-**integrated / Integrierte Datenbasis**
+### integrated / Integrierte Datenbasis
 - Daten aus unterschiedlichen Datenquellen werden integriert, also zusammengefasst  
 
-**non-volatile / Nicht-flüchtige Datenbasis**
+### non-volatile / Nicht-flüchtige Datenbasis
 - stabile, persistente Datenbasis
 - Daten im Data Warehouse werden nur im äußersten Notfall geändert. Data Warehouse wächst dadurch immer weiter! [Kapazitäten!]  
 
-**time variant / Historische Daten**
+### time variant / Historische Daten  
 - Speicherung über längeren Zeitraum 
 - Vergleich der Daten über die Zeit möglich
 
@@ -68,7 +75,7 @@ Von Zeit zu Zeit werden Daten aus dem OLTP System in das Warehouse übertragen, 
 
 ## Data Cube
 
-Theoretisches Konstrukt welches dem Data Warehouse zu Grunde liegt.   
+**Theoretisches Konstrukt** welches dem Data Warehouse zu Grunde liegt.   
 Hochdimensionaler Würfel    
 Kanten: Dimensionen  
 Zelle: eine oder mehrere Kennzahlen   
@@ -78,13 +85,13 @@ zwei Operationen durchführen:
 In der Hierarchie eine Stufe nach Oben   
 Datan werden verdichtet  
 
->Weniger Attribute in **GROUP BY** => stärkere Verdichtung => Roll-Up
+> Weniger Attribute in **GROUP BY** => stärkere Verdichtung => Roll-Up
 
 ### Drill-Down
 In der Hierarchie eine Stufe nach Unten  
 auf feinerer Ebene gehen   
 
->Mehr Attribute in **GROUP BY** =>  weniger starke Verdichtung => Drill-Down
+> Mehr Attribute in **GROUP BY** =>  weniger starke Verdichtung => Drill-Down
 
 ---
 
@@ -95,20 +102,34 @@ Speicherung und Zugriff muss gut umgesetzt sein.
 
 ## Snowflake Schema vs Stern Schema
 
+|Snowflake Schema|Star Schema|
+|---|---|
+|Normalisierung|Denormalisierung|
+|Vermeidung von Redundanzen|Sehr Redundant|
+|Memory Efficient|Schnelle Anfragebearbeitung bei einfachen Queries|
+|Hohe Skalierbarkeit|Einfache Erstellung/Wartung|
+|High Data Integrity (FK)|Eventuell Update-Anomalien|
+|-> more Flexible||
+|Geeignet für komplexere Systeme||
+
+
 ### Snowflake Schema 
 
 Eigene Tabelle für jede Klassifikationsstufe / Hierarchiestufe  
 Eine Faktentabelle und theoretisch unendliche untergeordnete Klassifikationstabellen  
-normalisiert  
+**normalisiert**  
 skalierbar  
-unterliegt keinen Update-Anomalien  
-relativ aufwendiges Zusammenholen von Informationen (erfordert Join über mehrere Tabellen)  
+unterliegt keinen Update-Anomalien (durch Normalisierung und Verknüpfung durch Keys lassen sich Daten ohne Probleme/Auswirkungen ändern, da nicht direkt diese Zellen referenziert werden.)    
+relativ aufwendiges Zusammenholen von Informationen (VIELE JOINS)  
+viele Foreign Keys  
+dadurch geringe Redundanzen --> effiziente Speichernutzung  
+
 
 ### Stern Schema 
 
 Eine Faktentabelle 
 Für jede Dimension EINE Dimensionstabelle  
---> Redundanz!!  
+--> viel Redundanz!!  
 Anfragebearbeitung aber schneller!!  
 
 **STERN JOIN:**
@@ -126,11 +147,22 @@ Anfragebearbeitung aber schneller!!
 
 ---
 
-**CUBE**-Operator für einfachere Formulierung und optimierte Aggregation [Faktentabelle wird nur einmal gelesen]  
+## Optimierungs-Heuristiken
+
+### Materialisierung von Aggregaten
+
+Aggregation nicht immer neu berechnen, sondern häufig genutzte Aggregationen materialisieren 
+
+### CUBE-Operator
+
+Erweiterung des **group by**s  und aggregiert Daten über mehrere Dimensionnen hinweg.  
+Query-Komplexität reduziert
+Aggregierung wird effizient INTERN gerechnet.  
+- Faktentabelle wird beispielsweise nur einmal gelesen  
 
 ## ROW STORE vs COLUMN STORE 
 
-ROW STORE stellt eine normale Faktentabelle mit Zeilen und Spalten da.  
+ROW STORE [klassisch] stellt eine normale Faktentabelle mit Zeilen und Spalten da.  
 relative neue Innovation ist die COLUMN STORE.  
 Jede einzelne Spalte wird zu einer eigenen Tabelle welche mit einer ID versehen ist.  
 **Vorteil:**

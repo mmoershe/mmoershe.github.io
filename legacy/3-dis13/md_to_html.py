@@ -5,7 +5,7 @@ CURRENT_PATH: str = os.path.dirname(__file__)
 all_markdown_files: list = [i for i in os.listdir(CURRENT_PATH) if i.endswith('.md')]
 assert len(all_markdown_files) == 1, "There isn't the correct amount (1) of Markdown-Files in this directory."
 MARKDOWN_PATH: str = os.path.join(CURRENT_PATH, all_markdown_files[0])
-HTML_PATH: str = os.path.join(CURRENT_PATH, "index.html")
+HTML_PATH: str = os.path.join(CURRENT_PATH, "index.html")   
 
 
 if __name__ == '__main__': 

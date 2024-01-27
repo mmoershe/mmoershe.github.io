@@ -27,49 +27,53 @@
 Übung 3 könnte Klausur sein, oder man bekommt Faktentabelle und soll Dimensionstabellen erstellen etc...  </p>
 <p>"Fakten" in der Faktentabelle sind Werte ohne weitere Dimensionstabelle<br />
 Beispiele, Folie 26: Anzahl  </p>
-<p>Zwei Arten von Datenbank-Anwendungen: </p>
-<h2>1. OLTP / Online Transaction Processing</h2>
-<ul>
-<li>arbeiten immer auf dem aktuellsten Stand  </li>
-<li>Zugriff umfasst immer eine kleine Datenmenge </li>
-<li>einfach Lese- und Schreibaufgaben   </li>
-<li>Schnelle Antwortzeiten benötigt!  </li>
-</ul>
+<h2>Zwei Arten von Datenbank-Anwendungen:</h2>
+<h3>1. OLTP / Online Transaction Processing</h3>
+<p>arbeiten immer auf dem aktuellsten Stand<br />
+Zugriff umfasst immer eine kleine Datenmenge <br />
+- einfach Lese- und Schreibaufgaben <br />
+Schnelle Antwortzeiten benötigt!  </p>
 <p><code>Inhalt des Moduls "Datenbanksysteme"</code>  </p>
 <p>Ungeeignet für Data Mining, weil wir wollen:<br />
-- historische Daten (aus verschiedenen Zeiträumen, nicht nur aktuell)<br />
-- große Datenmengen<br />
-- wir wollen Daten aggregieren, also längere Antwortzeiten wären keine Problem  </p>
-<h2>2. OLAP / Online Analytical Processing</h2>
-<ul>
-<li>es geht nicht um das alltägliche Tagesgeschäft, sondern eher um <em>(größere)</em> strategische Entscheidungen --&gt; <strong>DECISION SUPPORT</strong>  </li>
-<li>Fokus dieses Moduls  </li>
-<li>
-<blockquote>
-<p>Was muss man bei OLAP Datenbanken beim Entwurf beachten?  </p>
-</blockquote>
-</li>
-</ul>
+- ...historische Daten (aus verschiedenen Zeiträumen, nicht nur aktuell)<br />
+- ...große Datenmengen<br />
+- ...wir wollen Daten aggregieren, also längere Antwortzeiten wären keine Problem  </p>
+<h3>2. OLAP / Online Analytical Processing</h3>
+<p><code>Fokus dieses Moduls</code><br />
+Es geht nicht um das alltägliche Tagesgeschäft, sondern eher um <em>(größere)</em> strategische Entscheidungen --&gt; <strong>DECISION SUPPORT</strong> <br />
+historisch Daten<br />
+große Datenmengen -&gt; Lange Lesetransaktionen [in dem Kontext auch akzeptabel]<br />
+Meist Integration, Konsolidierung und Aggregation der Daten<br />
+Was muss man bei OLAP Datenbanken beim Entwurf beachten?  </p>
 <hr />
 <p>OLTP- und OLAP- Anwendungen nicht auf dem selben Datenbestand ausgeführt werden.<br />
 System für OLAP-Anwendungen nimmt man auch Data Warehouse<br />
 Von Zeit zu Zeit werden Daten aus dem OLTP System in das Warehouse übertragen, aber auch von Dateien wie Excel usw. [Dadurch historische Daten?]  </p>
 <hr />
+<h2>Defintion</h2>
 <blockquote>
 <p>A Data Warehouse is a <strong>subject-oriented</strong>, <strong>integrated</strong>, <strong>non-volatile</strong>, and <strong>time variant</strong> colletion of data to supoprt management decisions.<br />
 <em>[W.H. Inmon, 1996]</em></p>
 </blockquote>
-<p><strong>subject-oriented / Fachorientiert</strong><br />
-- spezifisches Anwendungsziel<br />
-- irrelevanten Daten weglassen</p>
-<p><strong>integrated / Integrierte Datenbasis</strong><br />
-- Daten aus unterschiedlichen Datenquellen werden integriert, also zusammengefasst  </p>
-<p><strong>non-volatile / Nicht-flüchtige Datenbasis</strong><br />
-- stabile, persistente Datenbasis<br />
-- Daten im Data Warehouse werden nur im äußersten Notfall geändert. Data Warehouse wächst dadurch immer weiter! [Kapazitäten!]  </p>
-<p><strong>time variant / Historische Daten</strong><br />
-- Speicherung über längeren Zeitraum <br />
-- Vergleich der Daten über die Zeit möglich</p>
+<h3>subject-oriented / Fachorientiert</h3>
+<ul>
+<li>spezifisches Anwendungsziel  </li>
+<li>irrelevanten Daten weglassen</li>
+</ul>
+<h3>integrated / Integrierte Datenbasis</h3>
+<ul>
+<li>Daten aus unterschiedlichen Datenquellen werden integriert, also zusammengefasst  </li>
+</ul>
+<h3>non-volatile / Nicht-flüchtige Datenbasis</h3>
+<ul>
+<li>stabile, persistente Datenbasis</li>
+<li>Daten im Data Warehouse werden nur im äußersten Notfall geändert. Data Warehouse wächst dadurch immer weiter! [Kapazitäten!]  </li>
+</ul>
+<h3>time variant / Historische Daten</h3>
+<ul>
+<li>Speicherung über längeren Zeitraum </li>
+<li>Vergleich der Daten über die Zeit möglich</li>
+</ul>
 <h2>Datenmodellierung</h2>
 <p><strong>Fakten</strong><br />
 - betriebswirtschaftliche Kennzahlen <br />
@@ -81,7 +85,7 @@ Von Zeit zu Zeit werden Daten aus dem OLTP System in das Warehouse übertragen, a
 - Unterteilung der Auswertungsdimensionen möglich <br />
     - <em>[zeitlich: Jahr, Quartal, Monat; regional: Bundesländer, Bezirke, Städte/Gemeinden; ...]</em></p>
 <h2>Data Cube</h2>
-<p>Theoretisches Konstrukt welches dem Data Warehouse zu Grunde liegt. <br />
+<p><strong>Theoretisches Konstrukt</strong> welches dem Data Warehouse zu Grunde liegt. <br />
 Hochdimensionaler Würfel  <br />
 Kanten: Dimensionen<br />
 Zelle: eine oder mehrere Kennzahlen <br />
@@ -104,17 +108,57 @@ Durchgesetzt haben sich die ROLAP [relationale OLAPs]<br />
 Vorteil: Verfügbarkeit<br />
 Speicherung und Zugriff muss gut umgesetzt sein.  </p>
 <h2>Snowflake Schema vs Stern Schema</h2>
+<table>
+<thead>
+<tr>
+<th>Snowflake Schema</th>
+<th>Star Schema</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Normalisierung</td>
+<td>Denormalisierung</td>
+</tr>
+<tr>
+<td>Vermeidung von Redundanzen</td>
+<td>Sehr Redundant</td>
+</tr>
+<tr>
+<td>Memory Efficient</td>
+<td>Schnelle Anfragebearbeitung bei einfachen Queries</td>
+</tr>
+<tr>
+<td>Hohe Skalierbarkeit</td>
+<td>Einfache Erstellung/Wartung</td>
+</tr>
+<tr>
+<td>High Data Integrity (FK)</td>
+<td>Eventuell Update-Anomalien</td>
+</tr>
+<tr>
+<td>-&gt; more Flexible</td>
+<td></td>
+</tr>
+<tr>
+<td>Geeignet für komplexere Systeme</td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <h3>Snowflake Schema</h3>
 <p>Eigene Tabelle für jede Klassifikationsstufe / Hierarchiestufe<br />
 Eine Faktentabelle und theoretisch unendliche untergeordnete Klassifikationstabellen<br />
-normalisiert<br />
+<strong>normalisiert</strong><br />
 skalierbar<br />
-unterliegt keinen Update-Anomalien<br />
-relativ aufwendiges Zusammenholen von Informationen (erfordert Join über mehrere Tabellen)  </p>
+unterliegt keinen Update-Anomalien (durch Normalisierung und Verknüpfung durch Keys lassen sich Daten ohne Probleme/Auswirkungen ändern, da nicht direkt diese Zellen referenziert werden.)  <br />
+relativ aufwendiges Zusammenholen von Informationen (VIELE JOINS)<br />
+viele Foreign Keys<br />
+dadurch geringe Redundanzen --&gt; effiziente Speichernutzung  </p>
 <h3>Stern Schema</h3>
 <p>Eine Faktentabelle <br />
 Für jede Dimension EINE Dimensionstabelle<br />
---&gt; Redundanz!!<br />
+--&gt; viel Redundanz!!<br />
 Anfragebearbeitung aber schneller!!  </p>
 <p><strong>STERN JOIN:</strong><br />
 - SELECT<br />
@@ -129,9 +173,16 @@ Anfragebearbeitung aber schneller!!  </p>
   - Restriktionen in Dimensionen <br />
     - z.B. Produkt.Produktgruppe = "Elektrogeraete", Zeit.Monat = "Januar 2000", ...</p>
 <hr />
-<p><strong>CUBE</strong>-Operator für einfachere Formulierung und optimierte Aggregation [Faktentabelle wird nur einmal gelesen]  </p>
+<h2>Optimierungs-Heuristiken</h2>
+<h3>Materialisierung von Aggregaten</h3>
+<p>Aggregation nicht immer neu berechnen, sondern häufig genutzte Aggregationen materialisieren </p>
+<h3>CUBE-Operator</h3>
+<p>Erweiterung des <strong>group by</strong>s  und aggregiert Daten über mehrere Dimensionnen hinweg.<br />
+Query-Komplexität reduziert<br />
+Aggregierung wird effizient INTERN gerechnet.<br />
+- Faktentabelle wird beispielsweise nur einmal gelesen  </p>
 <h2>ROW STORE vs COLUMN STORE</h2>
-<p>ROW STORE stellt eine normale Faktentabelle mit Zeilen und Spalten da.<br />
+<p>ROW STORE [klassisch] stellt eine normale Faktentabelle mit Zeilen und Spalten da.<br />
 relative neue Innovation ist die COLUMN STORE.<br />
 Jede einzelne Spalte wird zu einer eigenen Tabelle welche mit einer ID versehen ist.<br />
 <strong>Vorteil:</strong><br />
