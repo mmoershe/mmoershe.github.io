@@ -7,13 +7,13 @@ assert len(all_markdown_files) == 1, "There isn't the correct amount (1) of Mark
 MARKDOWN_PATH: str = os.path.join(CURRENT_PATH, all_markdown_files[0])
 HTML_PATH: str = os.path.join(CURRENT_PATH, "index.html")
 
+
 def generate_a_tag(headline: str, index: int) -> str:
 	return f'<a href="#{index}">{index}. {headline}</a><br />'
 
 
 def generate_returnButton() -> str: 
 	result: list = [f'<button class="returnbutton"><a href="#0">', '&uarr;', '</a></button>']
-	
 	return '\n'.join(result)
 
 
