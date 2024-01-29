@@ -41,7 +41,7 @@ Von Zeit zu Zeit werden Daten aus dem OLTP System in das Warehouse übertragen, 
 
 ## Defintion 
 
-> A Data Warehouse is a **subject-oriented**, **integrated**, **non-volatile**, and **time variant** colletion of data to supoprt management decisions.  
+> A Data Warehouse is a **subject-oriented**, **integrated**, **non-volatile**, and **time variant** colletion of data to support management decisions.  
 *[W.H. Inmon, 1996]*
 
 ### subject-oriented / Fachorientiert
@@ -242,21 +242,57 @@ Ergänzen, Verrauschungen glätten, Korrigieren, entfernen
 
 ### Missing Values
 
+Varianten  
 1. Datensätze mit fehlenden Datensätzen werden nicht berücksichtigt
-2. fehlende Werte eienr Variable durch Mittelwert oder Median ersetzen
+2. Fehlende Werte eienr Variable durch Mittelwert oder Median ersetzen
+  - Eher für Einzelfälle  
 3. wahrscheinlichsten Wert zum Auffüllen des fehlenden Wertes bestimmten 
-4. Variable ersetzen durch künstliche binäre Variable ["value_exists_yn]
+  - Fehlenden Wert prognostizieren 
+  - Hoher Aufwand 
+4. Variable ersetzen durch künstliche binäre Variable ["value_exists_yn"]
+  - Informationsverlust 
+  - Häufigste Lösung
 
 ### Verrauschte Daten glätten 
 
 Einfluss von extremen Werten reduzieren und zufällige Datenschwankungen ausgleichen.  
-Binning
-means (oder median) üblich, boundaries eher selten  
+
+#### Binning 
+
+array: list = [4, 8, 15, 21, 21, 24, 25, 28, 34]
+
+|||||
+|---|---|---|---|
+|Bin1|4|8|15|
+|Bin2|21|21|24|
+|Bin3|25|28|34|
+
+means
+
+|||||
+|---|---|---|---|
+|Bin1|9|9|9|
+|Bin2|22|22|22|
+|Bin3|29|29|29|
+
+boundaries 
+--> Min und Max von jedem Behälter finden und restliche Werte mit nächstgelegenen Extremwert ersetzen. 
+
+|||||
+|---|---|---|---|
+|Bin1|4|4|15|
+|Bin2|21|21|24|
+|Bin3|25|25|34|
+
+means (oder median) üblich, boundaries eher selten und für Verrauschungen innerhalb der Werte.  
 
 #### Clustering 
-Werte clustern und so Ausreißer identifizieren 
+
+Durch Clustering Aureißer finden und diese eventuell eliminieren
 
 #### Regression  
+
+Daten an eine Funktion anpassen 
 starke Manipulation der Daten  
 vorsichtig sein  
 
@@ -268,7 +304,7 @@ vorsichtig sein
 Schema Integration, die selbe Information kann in mehreren Datenbanken verschiedene Namen haben [Kundennummer, Kndnnmr, customernr...]  
 Semantische Homogenität!  
 Datenwertkonflikte beheben, unterschiedliche Darstellungen oder Skalen von Informationen, beispielsweise Datumformat, float to int, ...  
-Redundante Variablen entfernen! [Korrelationsanalyse]  
+Redundante Variablen entfernen! [z.Bsp. mit Korrelationsanalyse]  
 
 ## Data Transformation
 
@@ -280,13 +316,24 @@ Einflüsse müssen normiert werden.
 Zwei Normalisierungstypen: 
 Min-max-Normalisierung und Z-Normalisierung  
 Z-Normalisierung ist preferred  
+Min-Max hat Probleme mit Ausreißer, die 
 Normalisierung muss unbedingt dokumentiert werden. Es muss genau so wiederholbar sein um Fehler zu korrigieren oder Daten erneut zu analysieren  
+
+**Min-Max-Normalisierung** 
+v' = ((v - min) / (max - min)) * (newmax - newmin) + newmin  
+wenn newmin, newmax = [0, 1], dann reicht:  
+v' = (v - min) / (max - min)  
+
+**Z-Normalisierung**
+ v’ = (v - Mittelwert) / Standardabweichung  
+Nach Z-Normalisation gilt: Mittelwert=0 und Standardabweichung=1
 
 
 ### Diskretisierung
 
 Wenn Variablen mit unerschiedlichen Skalierungen  
-skalierungen: nominal (kategorial), nominal, metrischen (kontinuierlich)  
+skalierungen: nominal (kategorial), ordinal, metrischen (kontinuierlich)  
+
 metrische Variable in eine ordinale oder nominale variable konvertieren.  
 Unterteilung des Bereichs des Attributs in Intervalle  
 --> gewisse Informationsverlust  
@@ -306,12 +353,23 @@ Konvertierung von nominaler Variable zu metrischer Variable
 keine richtige metrische Variable, sondern Dummy-Variable  
 Umwandlung von Dichotom zu 0 und 1  
 macht aber sinn wenn man Wahrscheinlichkeit oder so summiert oder sowas.  
-Redundanz beachten und entfernen!
+Redundanz beachten und entfernen!  
+
+*Beispiel:*  
+Man hat die Variable 'Outlook' mit der Domain = [overcast, rain, sunny]  
+und erstellt Dummy Variablen:  
+- Outlook_overcast
+- Outlook_rain
+- Outlook_sunny  
+mit den Domains = [0, 1]  
+Einer dieser Variablen kann komplett wegfallen, da man auf einer der Variablen mit Hilfe der anderen schließen kann  
+(Outlook_sunny löschen weil redundant. Outlook_sunny = 1 if Outlook_overcast == 0 and Outlook_rain == 0)  
 
 ## Data Reduction  
 
 Leistungsfähigkeit verbessern.  
-Repräsentative Reduktion, Datensätze entfernen, welche durch andere Datensätze repräsentiert werden.  
+Repräsentative Reduktion
+--> Datensätze entfernen, welche durch andere Datensätze repräsentiert werden.  
 Entfernung sollte zufällig geschehen  
 Reduziertes und unreduziertes Ergebnis sollte ähnlich sein!  
 Vielleicht Daten verdichten (von Quartal auf Year)  
@@ -334,28 +392,64 @@ Wir sind an folgdenden Regeln interessiert, welche...
 - praktisch umsetzbar, 
 - erklärbar sind.
 
+Wir haben eine Menge ***M*** von Transaktionen gegeben  
+|TransactionID|Items|
+|---|---|
+|100|A, B, C|
+|200|A, B|
+|300|A, D|
+|400|B, E, F|
+
+***|M|*** ist die Anzahl der Transaktionen in ***M***  
+***|M|*** = 4  
+***I*** ist die Menge der unterschiedlichen Item in ***M***  
+***I*** = {A, B, C, D, E, F}  
+Form the Regel: X -> Y (Aus Menge X folgt Menge Y)  
+wobei A ∩ B = ∅ [X und Y sind disjunkt]  
+
 ## Assoziationsregeln
 
 Aufbau: Prämisse {body} -> Schlussfolgerung {head}  
 (IM RPM: Premise --> Conclusion)  
 beides werden als Menge von Items dargestellt.  
-zwei Maßzahlen zur Bewertung dieser Regel:  
+die zwei wichtigen Maßzahl zur Bewertung dieser Regeln sind Support und Konfidenz
 
-### Support
+### Support-Anzahl(Itemset): σ() [Sigma]
+
+Anzahl der Transaktionen in ***M***, in den das Itemset vorkommt.  
+σ({A, B}) = 2  
+
+### Support(Itemsets)
+Relativer Anteil der Transaktionen ***M***, in denen das Itemset enthalten ist.  
+sup(Itemset) = σ(itemset) / ***|M|***  
+= 2/5
+
+### minsup / frequent Itemsets
+
+Ein künstlicher erdachter Grenzwerkt für den Support eines Itemsets.  
+Itemsets mit sup(Itemset) >= minsup gelten als ***frequent Itemsets***
+
+### Support(X -> Y)
 - bewertet Unterstützung der Regel
 - Anteil der Transaktionen welche beide Mengen beinhalten von allen Transaktionen
+Support der Vereinigung von den Mengen X (Prämisse) und Y (conclusion) 
+sup(x -> Y) = sup(X u Y)
 
-### Konfidenz
+### Konfidenz(X -> Y)
 - bewertet Verlässlichkeit der Regel 
 - Anteil Transkationen, bei denen beide Mengen vorkommen von allen Transkationen, bei denen die Prämissen-Menge vorkommt.  
 - Bei der Konfidenz ist die RICHTUNG wichtig, beim Support nicht. 
   - deswegen werden sie ein wenig unterschiedlich aufgeschrieben. 
     - conf(A --> B)
     - supp(A, B)
+conf(X -> Y) = σ(X u Y)/ σ(X) = sup(X -> Y) / sup(x)
+
 
 *Beispielhafte, konkrete Idee:  
 Bei einer Assoziationsregel mit hoher Konfidenz sollte man nicht Produkte aus beiden Mengen rabattieren!  
 [Da das jeweils andere Produkt ja sowieso mitgekauft wird.]*  
+
+> Für ***n*** Items gibt es 2^***n*** Itemsets!  
 
 ### Lift 
 Eine hohe Konfidenz ist nur aussagekräftig, wenn der Support gering ist.  
@@ -376,18 +470,62 @@ Warum? `Anti-Monotonie-Eigenschaft des Supports`
 **auch andersherum:**  
 Wenn ein Itemset *nicht* häufig ist, gilt das auch für jede Obermenge dieses Itemsets!!  
 
+Mit dem Apriroi-Algorithmus schaut man Schritt für Schritt ob der minsupp gegeben ist und wirft Mengen und Untermengen raus, welche diese nicht erfüllen. Dann bildet und rechnet man Regeln mit verbliebenden Mengen.  
+
+## Bewertung 
+
+- Sortiere die Regeln nach Support und Konfidenz absteigend.
+- Ein hoher Support gibt wieder, dass sich die Regel häufig
+anwenden lässt (Relevanz), während die Konfidenz die
+Verlässlichkeit der Regel widerspiegelt (Effizienz).
+- In der Praxis sind oft die Regeln mit hohem Support und
+hoher Konfidenz bereits bekannt. Deshalb sind meistens vor
+allem die Regeln im Mittelfeld interessant.
+- Zusätzlich kann der Lift berechnet werden. Je höher der Lift
+um so stärker wird das Auftreten der Schlussfolgerung durch
+die Prämissen erhöht.
+
+## RapidMiner
+
+![image](raw/assoziationsregeln_rapidminer.PNG)
+
+### FP_Growth
+***frequent itemsets*** finden, also Itemsets, mit einem gewissen Mindestsupport.  
+*positive value*: Was gilt als True?  
+*min support*: minsup  
+*find number of itemsets*: true or false  
+-> *min number of datasets*: int
+
+### Create Association Rules 
+Erstellt aus frequent itemsets Assoziationsregeln und filtert alle Regeln nach einem Kriterium.  
+*criterion*: Kriterium nachdem gefiltert werden soll, meist confidence [confidence, lift, conviction...]  
+*min confidence / min criterion*: minimum was vom ausgewählten Kriterium in der Regel gegeben sein muss.  
+
+
 # Klassifikationsanalyse 
 
 Objekte in vorgegeben Klassen einordnen, Objekte sind durch Variablen bestimmt.  
 Zuerst Model erstellen auf Basis von Objekten, wessen Klassenzuordnung wir kennen, dann auf unbekannte anwenden.  
+
+## Allgemein
+
 **Klassifizierungsleistung/Classification accuracy/Trefferquote, Prognosequote**: Anteil der Objekte die korrekt klassifiziert werden.   
 (sollte zwischen Validierungs- und Trainingsdate relativ identisch sein.)  
+
 Es ist eventuell sogar erwünscht, nur eine Accuracy von 90% bei den Trainingsdaten zu erhalten, um eine bessere Generalisierungsleistung zu erzielen.  
+also eine 100% konsistentes Model bei den Trainingsdaten ist eventuell ***overfitted***
 OCCAM'S RAZOR  
-- einfach häufig besser
-  - auch im Bezug auf Generalisierungsleistung
+- einfache Regeln und Variablen häufig besser
+  - Einfaches Model spart Daten und ist leichter zu vermitteln.  
+  - Bessere Generalisierungsleistung  
   
-Model soll Daten nicht Trainingsdaten nicht auswendig lernen, sondern natürlich general einsetzbar sein! (Generalisierungsleistung)  
+Model soll Daten Trainingsdaten nicht auswendig lernen, sondern natürlich general einsetzbar sein! (Generalisierungsleistung)  
+
+Effizienzaspekte: 
+1. Trainingsdauer
+  - Effizienz des Algorithus um das Modell zu trainieren 
+2. Anwendungsdauer
+  - Effizienz der Anwendung des Models 
 
 ## Dreistufiger-Prozess
 
@@ -403,9 +541,9 @@ Model soll Daten nicht Trainingsdaten nicht auswendig lernen, sondern natürlich
 - Menge des Trainings-Datensatzes, welches zum Trainierungs oder Lernen verwendet wird. 
 
 *Modell kann in verschiedenen Formen repräsentiert werden, einige Beispiele:*  
-- Decision Trees, Regelwerk, Wahrscheinlichkeiten, Neuronale Netzwerke, ...
+- Decision Trees, Regelwerk, Wahrscheinlichkeiten, Neuronale Netzwerke, If Statements...
 
-### Model Validierungs (Klassifizierungsleistung)
+### Model Validierung (Klassifizierungsleistung)
 
 **Validierungsdaten / test set**
 - Trainingsdatensätze, welche nicht für's Modeltrainings verwendet wurde. 
@@ -415,6 +553,17 @@ Trefferquote auf Trainingsdaten und Validierungsdaten bestimmen.
 
 > Üblicherweise werden 70-80% der Trainings-Datensätze zum Trainieren und 20-30% für die Validierungsdaten verwendet.  
 -> Man möchte logischerweise eine gute Basis für das Training schaffen, jedoch gleichzeitig ausreichend validieren!
+
+Ergebnis der Model Validierung ist eine **Klassifizierungsmatrix/confusion matrix)**
+
+Zwei Klassen: T und F
+
+![confusion_matrix](raw/confusion_matrix.PNG)
+
+Gesamttrefferquote: (20 + 18) / 38  = 87%  
+Trefferquote Klasse T: 18 / 20  
+Trefferquote Klasse F: 15 / 18  
+
 
 ### Model Anwendung
 
@@ -438,15 +587,20 @@ Achtung vor Overfitting, sorgt für schlechte Generalisierungsleistung.
 
 **Äste / Kanten**
 - Verbindung zwischen Knoten
+- Repräsentiert eines Tests  
 
 **Blattknoten**
 - Letzter Knoten, von welchen keine weiteren Äste abgehen
 - Repräsentiert Klassen-Bezeichnung
 
+**Pfad**
+- Weg vom Wurzelknoten bis zu einem Blattknoten
+
 Wenn Variablen metrisch, dann mit Intervallen arbeiten!  
 [if temperature > 80...]  
 
 Jeder Pfad in einem Entscheidungsbaum repräsentiert eine Regel.  
+--> jeder Entscheidungsbaum lässt sich in Regeln konvertieren  
 
 ### Konstruktieren 
 
@@ -456,13 +610,14 @@ Rekursiver Prozess aus drei Schritten.
 
 #### 2. Baumbeschneidung (Pruning)
 
-Zur Verbesserung der Generalisierungsleistung  
+Zur Verbesserung der Generalisierungsleistung / Auswendiglernen reduzieren  
 Äste zu Knoten entfernen, welche nur durch wenige Datensätze gestützt sind.  
 
 ### Variablen-Auswahl im decision Tree
 
 Es gibt einige Maßzahlen zur optimalen nächsten Variablenauswahl.  
 Alle haben Vor- und Nachteile, am besten alle ausprobieren und bestes Ergebnis benutzen.  
+Zufällige Auswahl hat auch schon gute Ergebnisse  
 
 #### Information Gain
 
@@ -471,7 +626,9 @@ Wiederholen lol
 
 #### Gain Ratio 
 
-"Information Gain" bevorzugt Variablen mit groß Anzahl von Auösprägungen  
+"Information Gain" bevorzugt Variablen mit groß Anzahl von Ausprägungen    
+C4.5-Algorithmus  
+tendiert zu unbalancierten Bäumen (extremer Kontrast bei Länge der Pfäden)  
 
 #### Gini Index
 
@@ -494,7 +651,39 @@ pass
 **Postpruning**
 - Nachträglich beschneiden 
 - Bäume verschieden beschneiden und nachher besten durch Tests herausfinden.  
+Beispiel: Jeder Blattknoten muss durch >10 Datensätze gestützt sein.  
 
+## Rapid Miner 
+
+![RapidMiner Decision Tree](raw/decision_tree.PNG)
+
+### Split Data 
+Aufteilung der Datensätze in Trainings- und Testmenge. Verhältnis: ~7-3
+
+### Discretize Freq / Apply Discreticise Model 
+
+Diskretisierung, da ID3 Algorithmus nur mit nominal skalierten Variabel umgehen kann
+subset attribute auswählen, man kann auswahl invertieren  
+*range name type*: **interval** / long / short  
+*number of bins*: Anzahl der Bins bei Intervallbildung  
+
+### ID3 
+erstellt unpruned Decision Tree, Orientierung an ID3 Algorithmus, braucht nominal skalierte Daten  
+*criterion*: information gain / gain ratio / gini index / accuracy [Variablen Auswahl]
+*minimal size for split*: **2**
+*minimal leaf size*: **1**
+
+### Multiply 
+Mulitpliziert hier das trainierte Model, sodass wir es auf Trainings- UND Testmenge anwenden können!
+
+### Apply Model 
+
+Wendet ein model auf ein Datenset an.  
+Hier wendet es einmal den durch die Trainingsmenge trainierten DecisionTree auf die Trainingsmenge (oben) und auf die Testmenge an.   
+
+### Performance (Classification)
+Nimmt LabelledData von einer Klassifikationsanalyse und bewertet diese, in dem es eine ***confusion matrix*** erstellt.  
+es lässt sich ein main criterion auswählen, *accuracy* macht hier am meisten Sinn  
 
 # Clusteranalyse 
 
