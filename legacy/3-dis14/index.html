@@ -766,13 +766,17 @@ es lässt sich ein main criterion auswählen, <em>accuracy</em> macht hier am me
 <p><a name='5'></a></p>
 <h1>Clusteranalyse</h1>
 <p>Objekte in Gruppen einteilen.<br />
-[Im Unterschied zur Klassifikation sind diese Gruppen jedoch nicht bekannt!]<br />
-Gruppen werden aus Daten raus generiert.<br />
-Es kann auch Objekte geben, welche sich keinem Cluster zuordnen lassen [Ausreißer]  </p>
-<h2>Segmentierungsansatz (naiv)</h2>
+[Im Unterschied zur Klassifikation sind diese Gruppen jedoch vorher nicht bekannt!]<br />
+--&gt; Gruppen werden aus Daten raus generiert.<br />
+Es kann auch Objekte geben, welche sich keinem Cluster zuordnen lassen [Ausreißer]<br />
+Ein Cluster bildet eine Gruppe von Objekten welche sich <em>ähnlich</em> sind.<br />
+Objekte unterschiedlicher Cluster sind sich <em>unähnlich</em>  </p>
+<h2>Segmentierungsansatz (naiv / einfach)</h2>
 <p>Eine Variable wählen, für jede Ausprägung eine Gruppe bildeln<br />
 Nächste Variable und Untergruppen bilden<br />
+Ein Cluster würde beispielsweise alle "unter 20 Jährigen, weiblich, einkommen über 1000€, gute Bildung" abbilden<br />
 Exponentionell viele Gruppen mit jeweils relativ wenigen Objekten<br />
+Diskretisierung nötig -&gt; Informationsverlust<br />
 Schlechte Ergebnisse, dieser Ansatz hat viele Probleme </p>
 <h2>Anforderungen an ein ordentliches Clustersystem</h2>
 <ul>
@@ -805,25 +809,25 @@ Cosinusähnlichkeit  </p>
 <li>Minimaler Wert beim Vergleich von identischen Objekten </li>
 <li>Maß nach oben unbeschränkt!</li>
 </ul>
-<h2>Partitionierende Verfahren</h2>
+<h2>Partitionierende Verfahren / k-means-Algorithmus</h2>
 <ul>
 <li>Schnell und für große Datenmengen geeignet. </li>
 <li>Iterativ</li>
-<li>Objekte können bis zur letzten Iteration das Cluster ändern </li>
-<li>Clusterzahl k muss vorgeben werden [Problem]  </li>
-<li>inhaltlich begründet</li>
-<li>basierend auf Ergebnisse anderer Verfahren </li>
-<li>Vorgaben </li>
-<li>Zufall und Variation </li>
-<li>Anfangspartition festlegen und Objekte einsortieren </li>
-<li>Zufall und Variation</li>
-<li>basierend auf Ergebnisse anderer Verfahren </li>
-<li>Änhlichkeit von jedem Objekt zu jedem Clauster berechnen und zur größten Ähnlichkeit verschieben </li>
+<li>Objekte können bis zur letzten Iteration das Cluster ändern  </li>
 </ul>
-<h3>k-means-Algorithmus (Clusterzentrenanalyse)</h3>
+<p>Clusterzahl k muss vorgeben werden [Problem]<br />
+  - inhaltlich begründet<br />
+  - basierend auf Ergebnisse anderer Verfahren <br />
+  - Vorgaben <br />
+  - Zufall und Variation <br />
+  - Silhouetten-Koeffizient<br />
+Anfangspartition festlegen und Objekte einsortieren <br />
+- Zufall und Variation<br />
+- basierend auf Ergebnisse anderer Verfahren <br />
+Änhlichkeit von jedem Objekt zu jedem Clauster berechnen und zur größten Ähnlichkeit verschieben </p>
 <p>iterative Erkennung eines Centroiden und Berechnung der Ähnlichkeit zu eben jenem Centroiden<br />
 Platzierung der anfänglichen Centroiden ist relevant fürs Ergebnis!  </p>
-<h2>Hierarchische Verfahren</h2>
+<h2>Agglomeratives / Hierarchisches Verfahren</h2>
 <ul>
 <li>Für kleine Datenmengen </li>
 <li>Findet gut Ausreißer</li>
@@ -832,7 +836,7 @@ Platzierung der anfänglichen Centroiden ist relevant fürs Ergebnis!  </p>
 <li>Paarweise Änhlichkeiten berechnen und das Cluster mit größter Ähnlichkeit zusammenführen [Anzahl Cluster =- 1]  </li>
 <li>Wiederholung</li>
 </ul>
-<p>Ähnlichkeit zwischen Clustern ist nicht gleich Ähnlichkeit zwischen Objekten  </p>
+<p>Ähnlichkeit zwischen Clustern ist nicht gleich Ähnlichkeit zwischen Objekten:  </p>
 <h3>Ähnlichkeit zwischen Clustern</h3>
 <ul>
 <li>single-linkage </li>
@@ -844,9 +848,18 @@ Platzierung der anfänglichen Centroiden ist relevant fürs Ergebnis!  </p>
 </ul>
 <p>Häufig Kombination der Methoden.<br />
 Erst single-linkage, dann Ausreißer entfernen und mit complete-linkage beenden.  </p>
-<p>Im Dendogramm die optimale Clusterzahl finden (visuell)<br />
+<p>Im Dendogramm die optimale Clusterzahl finden (visuell) [erster großer Sprung]  <br />
 Mit dem Silhouetten-Koeffizient  lässt sich auch die optimale Clusterzahl berechnen  </p>
-<h2>Modellbasierte Verfahren</h2>
+<h2>Silhouetten-Koeffizient</h2>
+<p>Die Silhouette von Objekt i S(i) drückt aus, wie sehr ein Objekt in das zugeordnete Cluster A passt.<br />
+Ergebnis liegt zwischen 1 und -1<br />
+Der <strong><em>Silhouetten-Koeffizient</em></strong> ist einfach das arithmetische Mittel aller Silhouetten Objekte in einem Cluster c oder im Gesamtdatensatz.<br />
+Die optimale Clusteranzahl <em>k</em> lässt sich hiermit ermitteln.<br />
+Das Clustering mit dem höchsten Silhouetten-Koeffizienten enthält das optimale k  </p>
+<p>Interpretation-Faustregeln:<br />
+s(i) &lt; 0.25 -&gt; schlecht<br />
+0.25 &lt; s(i) &gt; 0.5 -&gt; mittelmäßig<br />
+0.5 &lt; s(i) -&gt; gut  </p>
 <p><a name='6'></a></p>
 <h1>Neuronale Netzwerke</h1>
 <p>wenn kein Spaltenname in Excel vergeben, macht der Rapid Miner eine Durchnummerierung<br />

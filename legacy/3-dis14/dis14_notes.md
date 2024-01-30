@@ -688,15 +688,19 @@ es lässt sich ein main criterion auswählen, *accuracy* macht hier am meisten S
 # Clusteranalyse 
 
 Objekte in Gruppen einteilen.  
-[Im Unterschied zur Klassifikation sind diese Gruppen jedoch nicht bekannt!]  
-Gruppen werden aus Daten raus generiert.  
+[Im Unterschied zur Klassifikation sind diese Gruppen jedoch vorher nicht bekannt!]  
+--> Gruppen werden aus Daten raus generiert.  
 Es kann auch Objekte geben, welche sich keinem Cluster zuordnen lassen [Ausreißer]  
+Ein Cluster bildet eine Gruppe von Objekten welche sich *ähnlich* sind.  
+Objekte unterschiedlicher Cluster sind sich *unähnlich*  
 
-## Segmentierungsansatz (naiv)
+## Segmentierungsansatz (naiv / einfach)
 
 Eine Variable wählen, für jede Ausprägung eine Gruppe bildeln  
 Nächste Variable und Untergruppen bilden  
+Ein Cluster würde beispielsweise alle "unter 20 Jährigen, weiblich, einkommen über 1000€, gute Bildung" abbilden
 Exponentionell viele Gruppen mit jeweils relativ wenigen Objekten  
+Diskretisierung nötig -> Informationsverlust  
 Schlechte Ergebnisse, dieser Ansatz hat viele Probleme 
 
 ## Anforderungen an ein ordentliches Clustersystem 
@@ -736,28 +740,28 @@ Tanimoto Maß ist ein guter Kompromiss.
 - Minimaler Wert beim Vergleich von identischen Objekten 
 - Maß nach oben unbeschränkt!
 
-## Partitionierende Verfahren 
+## Partitionierende Verfahren / k-means-Algorithmus
 
 - Schnell und für große Datenmengen geeignet. 
 - Iterativ
-- Objekte können bis zur letzten Iteration das Cluster ändern 
-- Clusterzahl k muss vorgeben werden [Problem]  
+- Objekte können bis zur letzten Iteration das Cluster ändern  
+
+Clusterzahl k muss vorgeben werden [Problem]  
   - inhaltlich begründet
   - basierend auf Ergebnisse anderer Verfahren 
   - Vorgaben 
   - Zufall und Variation 
-- Anfangspartition festlegen und Objekte einsortieren 
-  - Zufall und Variation
-  - basierend auf Ergebnisse anderer Verfahren 
-- Änhlichkeit von jedem Objekt zu jedem Clauster berechnen und zur größten Ähnlichkeit verschieben 
-
-### k-means-Algorithmus (Clusterzentrenanalyse)
+  - Silhouetten-Koeffizient
+Anfangspartition festlegen und Objekte einsortieren 
+- Zufall und Variation
+- basierend auf Ergebnisse anderer Verfahren 
+Änhlichkeit von jedem Objekt zu jedem Clauster berechnen und zur größten Ähnlichkeit verschieben 
 
 iterative Erkennung eines Centroiden und Berechnung der Ähnlichkeit zu eben jenem Centroiden  
 Platzierung der anfänglichen Centroiden ist relevant fürs Ergebnis!  
 
 
-## Hierarchische Verfahren  
+## Agglomeratives / Hierarchisches Verfahren  
 - Für kleine Datenmengen 
 - Findet gut Ausreißer
 - agglomerative, Objekte werden zu Clustern zusammengeführt
@@ -765,7 +769,7 @@ Platzierung der anfänglichen Centroiden ist relevant fürs Ergebnis!
 - Paarweise Änhlichkeiten berechnen und das Cluster mit größter Ähnlichkeit zusammenführen [Anzahl Cluster =- 1]  
 - Wiederholung
 
-Ähnlichkeit zwischen Clustern ist nicht gleich Ähnlichkeit zwischen Objekten  
+Ähnlichkeit zwischen Clustern ist nicht gleich Ähnlichkeit zwischen Objekten:  
 ### Ähnlichkeit zwischen Clustern 
 - single-linkage 
   - Ähnlichkeit zwischen den beiden Clustern ist die Ähnlichkeit zwischen den zwei nächstgelegenen Datenpunkten aus jeweils eines der beiden Clustern 
@@ -777,10 +781,21 @@ Platzierung der anfänglichen Centroiden ist relevant fürs Ergebnis!
 Häufig Kombination der Methoden.  
 Erst single-linkage, dann Ausreißer entfernen und mit complete-linkage beenden.  
 
-Im Dendogramm die optimale Clusterzahl finden (visuell)  
+Im Dendogramm die optimale Clusterzahl finden (visuell) [erster großer Sprung]    
 Mit dem Silhouetten-Koeffizient  lässt sich auch die optimale Clusterzahl berechnen  
 
-## Modellbasierte Verfahren  
+## Silhouetten-Koeffizient
+
+Die Silhouette von Objekt i S(i) drückt aus, wie sehr ein Objekt in das zugeordnete Cluster A passt.  
+Ergebnis liegt zwischen 1 und -1  
+Der ***Silhouetten-Koeffizient*** ist einfach das arithmetische Mittel aller Silhouetten Objekte in einem Cluster c oder im Gesamtdatensatz.  
+Die optimale Clusteranzahl *k* lässt sich hiermit ermitteln.  
+Das Clustering mit dem höchsten Silhouetten-Koeffizienten enthält das optimale k  
+
+Interpretation-Faustregeln:  
+s(i) < 0.25 -> schlecht  
+0.25 < s(i) > 0.5 -> mittelmäßig  
+0.5 < s(i) -> gut  
 
 # Neuronale Netzwerke 
 
