@@ -860,6 +860,45 @@ Das Clustering mit dem höchsten Silhouetten-Koeffizienten enthält das optimale
 s(i) &lt; 0.25 -&gt; schlecht<br />
 0.25 &lt; s(i) &gt; 0.5 -&gt; mittelmäßig<br />
 0.5 &lt; s(i) -&gt; gut  </p>
+<<<<<<< Updated upstream
+=======
+<h2>Rapid Miner Clusteranalyse</h2>
+<h3>K-MEANS</h3>
+<p><img alt="clustering k-means" src="raw/cluster_k_means.PNG" /></p>
+<h4>Shuffle</h4>
+<p>k-means Ergebnisse sind teilweise von Reihenfolge der Datensätze abhänig.<br />
+random seed Angabe möglich</p>
+<h4>Clustering  [k-means]</h4>
+<p>Der eigentliche k-Means-Algorithmus.<br />
+<em>add cluster attribute</em>: [x] <br />
+--&gt; erstellt Attribut <strong>cluster</strong> und trägt clusternumer ein.<br />
+<em>k</em>: int<br />
+<em>max runs</em>: int<br />
+<em>determine good starts values</em>: [x]<br />
+--&gt; uses k-means++<br />
+<em>measure type</em>: NumericalMeasure, NominalMeasure, MixedMeasure<br />
+bei measure type = NumericalMeasure:<br />
+<em>numerical measure</em>: EuclideanDistance, Cosinus-Ähnlichkeit (cosineSimilarity), manhatten distance...<br />
+<em>random seed</em>  </p>
+<h4>Performance((Average) Silhouette) [Plugin]</h4>
+<p>berechnet Silhoutte für jedes Objekt, avg Silhouette für jeden Cluster UND avg Silhouette für den ganzen Gesamtdatensatz  </p>
+<h4>Correlation Matrix // Remove Corerlated Attributes</h4>
+<p>Wichtig für eine Clusterlösung ist, dass die beiden Attribute nicht korrelieren. Mit dem Operator <strong><em>Correlation Matrix</em></strong> stellt die Correlation zwischen allen Attributen dar. Hinzufügend kann der Operator <strong><em>Remove Correlated Attributes</em></strong> automatisch korrelierende Attribute rausfiltern.<br />
+<strong><em>Üblicher Grenzwert: 0.8</em></strong> (gilt mit und ohne Vorzeichen)</p>
+<h3>AGGLOMERATIV / HIERARCHISCH</h3>
+<p><img alt="agglomerative_rapid_miner" src="raw/cluster_agglomerativ.PNG" /></p>
+<h4>Clustering (Agglomerative Clustering)</h4>
+<h4>multiply</h4>
+<p>Cluster Model verdoppeln, um es gleichzeitig weiterzubenutzen UND um es einfach auszugeben um sich das Dendogram anzuzeigen.<br />
+Dendogramm kann Auskunft darüber geben, wieviele Cluster optimal sind.  </p>
+<h4>Flatten Clustering</h4>
+<p>Agglomerative Clustering läuft immer weiter, flatten clustering nimmt einen Stand von mittendrin.<br />
+<em>number of clusters</em></p>
+<h4>Data to similiarity</h4>
+<p>berechnet Ähnlichkeit von ExampleSet, nötig um Silhouette auszugeben UND anderes Ähnlichkeitsmaß zu benutzen.<br />
+<em>measure type</em>:<br />
+<em>x measure</em>:  </p>
+>>>>>>> Stashed changes
 <p><a name='6'></a></p>
 <h1>Neuronale Netzwerke</h1>
 <p>wenn kein Spaltenname in Excel vergeben, macht der Rapid Miner eine Durchnummerierung<br />

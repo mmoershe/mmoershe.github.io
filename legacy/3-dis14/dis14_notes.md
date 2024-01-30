@@ -796,6 +796,66 @@ Interpretation-Faustregeln:
 s(i) < 0.25 -> schlecht  
 0.25 < s(i) > 0.5 -> mittelmäßig  
 0.5 < s(i) -> gut  
+<<<<<<< Updated upstream
+=======
+
+## Rapid Miner Clusteranalyse
+
+### K-MEANS
+
+![clustering k-means](raw/cluster_k_means.PNG)
+
+#### Shuffle 
+
+k-means Ergebnisse sind teilweise von Reihenfolge der Datensätze abhänig.  
+random seed Angabe möglich
+
+#### Clustering  [k-means]  
+
+Der eigentliche k-Means-Algorithmus.  
+*add cluster attribute*: [x] 
+--> erstellt Attribut **cluster** und trägt clusternumer ein.  
+*k*: int  
+*max runs*: int
+*determine good starts values*: [x]  
+--> uses k-means++  
+*measure type*: NumericalMeasure, NominalMeasure, MixedMeasure  
+bei measure type = NumericalMeasure:  
+*numerical measure*: EuclideanDistance, Cosinus-Ähnlichkeit (cosineSimilarity), manhatten distance...
+*random seed*  
+
+#### Performance((Average) Silhouette) [Plugin]
+
+berechnet Silhoutte für jedes Objekt, avg Silhouette für jeden Cluster UND avg Silhouette für den ganzen Gesamtdatensatz  
+
+#### Correlation Matrix // Remove Corerlated Attributes
+
+Wichtig für eine Clusterlösung ist, dass die beiden Attribute nicht korrelieren. Mit dem Operator ***Correlation Matrix*** stellt die Correlation zwischen allen Attributen dar. Hinzufügend kann der Operator ***Remove Correlated Attributes*** automatisch korrelierende Attribute rausfiltern.  
+***Üblicher Grenzwert: 0.8*** (gilt mit und ohne Vorzeichen)
+
+### AGGLOMERATIV / HIERARCHISCH
+
+![agglomerative_rapid_miner](raw/cluster_agglomerativ.PNG)
+
+#### Clustering (Agglomerative Clustering)  
+
+#### multiply 
+
+Cluster Model verdoppeln, um es gleichzeitig weiterzubenutzen UND um es einfach auszugeben um sich das Dendogram anzuzeigen.  
+Dendogramm kann Auskunft darüber geben, wieviele Cluster optimal sind.  
+
+#### Flatten Clustering 
+
+Agglomerative Clustering läuft immer weiter, flatten clustering nimmt einen Stand von mittendrin.  
+*number of clusters*
+
+#### Data to similiarity 
+
+berechnet Ähnlichkeit von ExampleSet, nötig um Silhouette auszugeben UND anderes Ähnlichkeitsmaß zu benutzen.  
+*measure type*:  
+*x measure*:  
+
+>>>>>>> Stashed changes
 
 # Neuronale Netzwerke 
 
