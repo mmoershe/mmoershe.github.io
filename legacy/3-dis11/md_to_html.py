@@ -10,7 +10,7 @@ RAW_FOLDER_PATH: str = r"C:\Users\Henri\OneDrive - TH Köln\Slackline\3\DIS11-In
 assert os.path.exists(RAW_FOLDER_PATH)
 HTML_PATH: str = os.path.join(CURRENT_PATH, "index.html")
 
-laptop_path: str = r""
+laptop_path: str = r"C:\Users\User\OneDrive - TH Köln\Slackline\3\DIS11-Informationssysteme-Content-_&_Dokumentenmanagementsysteme"
 
 def generate_a_tag(headline: str, index: int) -> str:
 	return f'<a href="#{index}">{index}. {headline}</a><br />'
