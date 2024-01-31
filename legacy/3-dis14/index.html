@@ -18,9 +18,7 @@
 <a href="#5">5. Clusteranalyse</a><br />
 <a href="#6">6. Neuronale Netzwerke</a><br />
 <a href="#7">7. Empfehlungssysteme</a><br />
-<a href="#8">8. User-Item-Ansatz</a><br />
-<a href="#9">9. Item-Item-Ansatz</a><br />
-<a href="#10">10. unsortiert</a><br />
+<a href="#8">8. unsortiert</a><br />
 </div>
 <p><a name='1'></a></p>
 <h1>Data Warehouse / OLAP</h1>
@@ -860,8 +858,6 @@ Das Clustering mit dem höchsten Silhouetten-Koeffizienten enthält das optimale
 s(i) &lt; 0.25 -&gt; schlecht<br />
 0.25 &lt; s(i) &gt; 0.5 -&gt; mittelmäßig<br />
 0.5 &lt; s(i) -&gt; gut  </p>
-<<<<<<< Updated upstream
-=======
 <h2>Rapid Miner Clusteranalyse</h2>
 <h3>K-MEANS</h3>
 <p><img alt="clustering k-means" src="raw/cluster_k_means.PNG" /></p>
@@ -895,12 +891,34 @@ Dendogramm kann Auskunft darüber geben, wieviele Cluster optimal sind.  </p>
 <p>Agglomerative Clustering läuft immer weiter, flatten clustering nimmt einen Stand von mittendrin.<br />
 <em>number of clusters</em></p>
 <h4>Data to similiarity</h4>
-<p>berechnet Ähnlichkeit von ExampleSet, nötig um Silhouette auszugeben UND anderes Ähnlichkeitsmaß zu benutzen.<br />
+<p>berechnet Ähnlichkeit von ExampleSet, nötig um &lt;  ette auszugeben UND anderes Ähnlichkeitsmaß zu benutzen.<br />
 <em>measure type</em>:<br />
 <em>x measure</em>:  </p>
->>>>>>> Stashed changes
 <p><a name='6'></a></p>
 <h1>Neuronale Netzwerke</h1>
+<p>auch<br />
+<strong>Artificial Neural Network</strong> (<em>ANN</em>)<br />
+/<br />
+<strong>Künstliches Neuronales Netzwerk</strong> (<em>KNN</em>)  </p>
+<h2>Perceptron</h2>
+<p>--&gt; ANN mit nur einem Neuron und ohne hidden layers.  </p>
+<p><img alt="Perzeptron" src="raw/perceptron_ann.PNG" /></p>
+<p>Neuron soll 1 ausgeben, wenn mindestens zwei der input nodes 1 sind.<br />
+die <em>links</em> von den einzelnen Inputs zum Output Node sind unterschiedlich gewichtet <strong><em>w</em></strong><br />
+Hier sind alle gleichgewichtig<br />
+<strong><em>t</em></strong> = threshold, ab wann Output Node 1 ausgibt.  </p>
+<h2>Multi-Layer ANN</h2>
+<p>viele Neuronen, und somit Hidden Layer und mehrere Schichten    </p>
+<p><img alt="Multi-Layer ANN" src="raw/Neural_network.svg" /></p>
+<p><strong>Hidden Layer</strong> = Alle Neuronen "zwischen" Input Layer und Output Layer. Diese Aktivitäten sind nicht direkt von außen sichtbar.  </p>
+<p>Wenn das Ergebnis im Output Layer fehlerhaft ist, müssen wir ja nicht die direkten weight am Output Layer ändern, sondern jene, die davor stattfinden, also müssen wir "zurückgehen"<br />
+--&gt; Backpropagation  </p>
+<p>Am Anfang werden alle weights (w0, w1, ... wn) mit 1 initialisiert<br />
+Danach weights anpassen bis class labels consistent mit Trainingsdaten übereinstimmen  </p>
+<h2>Self-Organizing Maps (SOM)</h2>
+<p>werden für Cluster-Analysen benutzt.<br />
+Neuronen in einer Gitterstruktur  </p>
+<h2>sonstiges</h2>
 <p>wenn kein Spaltenname in Excel vergeben, macht der Rapid Miner eine Durchnummerierung<br />
 blackbox, kein Regelsystem, jedoch leistungsfähig af<br />
 Neuronen, weights, Abbild des Gehirns  </p>
@@ -919,10 +937,9 @@ aus dieser Idee kommt das, was sich durchgesetzt hat:<br />
 Collaborative Filtering<br />
 "was haben Personen, welche mir ähnlich sind, ein bestimmtes Produkt bewertet?"<br />
 --&gt; Deren hochbewertete Produkte/Videos werden mir wieder empfohlen.<br />
-Wann sind andere mir genau "ähnlich"? Was heißt hier "ähnlich"?<br />
-Zwei Ansätze: <br />
-<a name='8'></a></p>
-<h1>User-Item-Ansatz</h1>
+Wann sind andere mir genau "ähnlich"? Was heißt hier "ähnlich"?  </p>
+<p>Zwei Ansätze: </p>
+<h2>User-Item-Ansatz</h2>
 <p>Wie haben Nutzer ein bestimmtes Item bewertet?<br />
 und wie habe ICH dieses bestimmte item bewertet?<br />
 Haben wir eine ähnliches Bewertungsgeschichte?<br />
@@ -931,8 +948,7 @@ Wenn wir ähnliche Bewertungen haben, die andere Person aber einen weitere Film,
 Nachteil: <br />
 Wenn neue Nutzer/Items dazukommen, muss alles neu berechnet werden, dafür aber gute Ergebnisse (Hoher Aufwand)<br />
 Vorschläge müssen ja auch schnell generiert werden.  </p>
-<p><a name='9'></a></p>
-<h1>Item-Item-Ansatz</h1>
+<h2>Item-Item-Ansatz</h2>
 <p>KLAUSUR: In der Lage sein, beide Ansätze erklären, nicht konkret ausrechnen.<br />
 Nicht Nutzer werden verglichen, sondern Items.<br />
 Welche Objekte haben von den selben Nutzern ähnliche Bewertungen bekommen.<br />
@@ -945,7 +961,7 @@ Es werden fast keine Daten erhoben.<br />
 Einfaches Prinzip<br />
 nicht viele Bewertungen nötig.<br />
 Individuelle Bewertung ins Verhältnis von der allgemeinen Bewertung setzen.  </p>
-<p><a name='10'></a></p>
+<p><a name='8'></a></p>
 <h1>unsortiert</h1>
 <p>Klausur zwei stunden <br />
 kein SQL  </p>
@@ -965,12 +981,14 @@ Wenn er uns eine Faktentabelle gibt, muss diese so bleiben, Bezeichnung von Attr
 </ul>
 </li>
 <li>RapidMiner, man bekommt Ergebnis und muss es interpretieren, oder ein Parameterfenster und einzelne Parameter erklären, nur was in Tutorials ist!  <ul>
-<li>Erst beschreiben, was man sieht. Dabei ruhig kurz, aber präzis. Schrittweise pro Operator.  </li>
+<li>Erst beschreiben, was man sieht. Dabei ruhig kurz, aber präzise. Schrittweise pro Operator.  </li>
 <li>wenn offensichtlich ist, welcher Algorithmus es ist, auch hinzufügen. FP-Growth und Create Association Rules ist OFFENSICHTLICH zur Erzeugung von Assoziationsregeln in der Assoziationsanalyse.  </li>
 </ul>
 </li>
-<li>TextMining, Empfehlungssysteme; konkretes Anwendungsbeispiel   </li>
+<li>TextMining, Empfehlungssysteme; konkretes Anwendungsbeispiel   <ul>
 <li>SEHR FREI, details ausdenken und diese interpretieren. Wieder ohne Bezug zum RapidMiner, grobes Vorgehen  </li>
+</ul>
+</li>
 </ol>
 <p>garbage in - garbage out </p>
 <p>Heuristiken, kein perfektes Ergebnis im Unterschied zur Statistik </p>

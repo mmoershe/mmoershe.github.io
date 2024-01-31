@@ -796,8 +796,6 @@ Interpretation-Faustregeln:
 s(i) < 0.25 -> schlecht  
 0.25 < s(i) > 0.5 -> mittelmäßig  
 0.5 < s(i) -> gut  
-<<<<<<< Updated upstream
-=======
 
 ## Rapid Miner Clusteranalyse
 
@@ -851,14 +849,50 @@ Agglomerative Clustering läuft immer weiter, flatten clustering nimmt einen Sta
 
 #### Data to similiarity 
 
-berechnet Ähnlichkeit von ExampleSet, nötig um Silhouette auszugeben UND anderes Ähnlichkeitsmaß zu benutzen.  
+berechnet Ähnlichkeit von ExampleSet, nötig um <  ette auszugeben UND anderes Ähnlichkeitsmaß zu benutzen.  
 *measure type*:  
 *x measure*:  
 
->>>>>>> Stashed changes
 
 # Neuronale Netzwerke 
 
+auch  
+**Artificial Neural Network** (*ANN*)  
+/  
+**Künstliches Neuronales Netzwerk** (*KNN*)  
+
+## Perceptron 
+
+--> ANN mit nur einem Neuron und ohne hidden layers.  
+
+![Perzeptron](raw/perceptron_ann.PNG)
+
+Neuron soll 1 ausgeben, wenn mindestens zwei der input nodes 1 sind.  
+die *links* von den einzelnen Inputs zum Output Node sind unterschiedlich gewichtet ***w***  
+Hier sind alle gleichgewichtig  
+***t*** = threshold, ab wann Output Node 1 ausgibt.  
+
+## Multi-Layer ANN 
+
+viele Neuronen, und somit Hidden Layer und mehrere Schichten    
+
+![Multi-Layer ANN](raw/Neural_network.svg)
+
+**Hidden Layer** = Alle Neuronen "zwischen" Input Layer und Output Layer. Diese Aktivitäten sind nicht direkt von außen sichtbar.  
+
+Wenn das Ergebnis im Output Layer fehlerhaft ist, müssen wir ja nicht die direkten weight am Output Layer ändern, sondern jene, die davor stattfinden, also müssen wir "zurückgehen"  
+--> Backpropagation  
+
+Am Anfang werden alle weights (w0, w1, ... wn) mit 1 initialisiert  
+Danach weights anpassen bis class labels consistent mit Trainingsdaten übereinstimmen  
+
+## Self-Organizing Maps (SOM)
+
+werden für Cluster-Analysen benutzt.  
+Neuronen in einer Gitterstruktur  
+
+
+## sonstiges 
 wenn kein Spaltenname in Excel vergeben, macht der Rapid Miner eine Durchnummerierung  
 blackbox, kein Regelsystem, jedoch leistungsfähig af  
 Neuronen, weights, Abbild des Gehirns  
@@ -883,8 +917,9 @@ Collaborative Filtering
 "was haben Personen, welche mir ähnlich sind, ein bestimmtes Produkt bewertet?"  
 --> Deren hochbewertete Produkte/Videos werden mir wieder empfohlen.  
 Wann sind andere mir genau "ähnlich"? Was heißt hier "ähnlich"?  
+
 Zwei Ansätze: 
-# User-Item-Ansatz
+## User-Item-Ansatz
 Wie haben Nutzer ein bestimmtes Item bewertet?  
 und wie habe ICH dieses bestimmte item bewertet?  
 Haben wir eine ähnliches Bewertungsgeschichte?  
@@ -894,7 +929,7 @@ Nachteil:
 Wenn neue Nutzer/Items dazukommen, muss alles neu berechnet werden, dafür aber gute Ergebnisse (Hoher Aufwand)  
 Vorschläge müssen ja auch schnell generiert werden.  
 
-# Item-Item-Ansatz
+## Item-Item-Ansatz
 
 KLAUSUR: In der Lage sein, beide Ansätze erklären, nicht konkret ausrechnen.  
 Nicht Nutzer werden verglichen, sondern Items.  
@@ -926,10 +961,10 @@ Wenn er uns eine Faktentabelle gibt, muss diese so bleiben, Bezeichnung von Attr
       - Eventuell Buntstifte und Geodreieck für die Distanz mitnehmen lol  
       - bei jedem Zeichenschritt bisschen schreiben was man gemacht hat  
 3. RapidMiner, man bekommt Ergebnis und muss es interpretieren, oder ein Parameterfenster und einzelne Parameter erklären, nur was in Tutorials ist!  
-     - Erst beschreiben, was man sieht. Dabei ruhig kurz, aber präzis. Schrittweise pro Operator.  
+     - Erst beschreiben, was man sieht. Dabei ruhig kurz, aber präzise. Schrittweise pro Operator.  
      - wenn offensichtlich ist, welcher Algorithmus es ist, auch hinzufügen. FP-Growth und Create Association Rules ist OFFENSICHTLICH zur Erzeugung von Assoziationsregeln in der Assoziationsanalyse.  
 4. TextMining, Empfehlungssysteme; konkretes Anwendungsbeispiel   
- - SEHR FREI, details ausdenken und diese interpretieren. Wieder ohne Bezug zum RapidMiner, grobes Vorgehen  
+      - SEHR FREI, details ausdenken und diese interpretieren. Wieder ohne Bezug zum RapidMiner, grobes Vorgehen  
 
 garbage in - garbage out 
 

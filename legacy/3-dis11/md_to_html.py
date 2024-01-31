@@ -2,15 +2,16 @@ import markdown, os, sys
 from markdown.extensions import tables, nl2br
 import shutil
 
+MARKDOWN_NAME: str = "dis11_notes.md"
+
 CURRENT_PATH: str = os.path.dirname(__file__)
-all_markdown_files: list = [i for i in os.listdir(CURRENT_PATH) if i.endswith('.md')]
-MARKDOWN_PATH: str = r"C:\Users\Henri\OneDrive - TH Köln\Slackline\3\DIS11-Informationssysteme-Content-_&_Dokumentenmanagementsysteme\dis11_notes.md"
-assert os.path.exists(MARKDOWN_PATH), 'path doesnt work'
-RAW_FOLDER_PATH: str = r"C:\Users\Henri\OneDrive - TH Köln\Slackline\3\DIS11-Informationssysteme-Content-_&_Dokumentenmanagementsysteme\raw"
-assert os.path.exists(RAW_FOLDER_PATH)
+BASE_PATHS: str = [r"C:\Users\Henri\OneDrive - TH Köln\Slackline\3\DIS11-Informationssysteme-Content-_&_Dokumentenmanagementsysteme", r"C:\Users\User\OneDrive - TH Köln\Slackline\3\DIS11-Informationssysteme-Content-_&_Dokumentenmanagementsysteme"]
+assert any([os.path.exists(i) for i in BASE_PATHS]), "I don't have a path saved that exists on this machine."
+BASE_PATH: str = [path for path in BASE_PATHS if os.path.exists(path)][0]
+MARKDOWN_PATH: str = os.path.join(BASE_PATH, MARKDOWN_NAME)
+RAW_FOLDER_PATH: str = os.path.join(BASE_PATH, "raw")
 HTML_PATH: str = os.path.join(CURRENT_PATH, "index.html")
 
-laptop_path: str = r"C:\Users\User\OneDrive - TH Köln\Slackline\3\DIS11-Informationssysteme-Content-_&_Dokumentenmanagementsysteme"
 
 def generate_a_tag(headline: str, index: int) -> str:
 	return f'<a href="#{index}">{index}. {headline}</a><br />'
@@ -23,7 +24,6 @@ def generate_returnButton() -> str:
 
 def copy_raw_folder(src: str, dst: str) -> None: 
 	shutil.copytree(src, dst)
-
 
 
 if __name__ == "__main__":
@@ -47,8 +47,3 @@ if __name__ == "__main__":
 	copy_raw_folder(RAW_FOLDER_PATH, os.path.join(CURRENT_PATH, 'raw')) 
 
 	print("done.")
-	# beginning
-	
-
-	
-
