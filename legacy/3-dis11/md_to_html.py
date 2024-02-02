@@ -23,6 +23,7 @@ def generate_returnButton() -> str:
 
 
 def copy_raw_folder(src: str, dst: str) -> None: 
+	shutil.rmtree(dst)
 	shutil.copytree(src, dst)
 
 
