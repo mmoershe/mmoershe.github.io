@@ -1,4 +1,4 @@
-//	CODE LOOKUP
+// this used to check what code you entered to send you to the correct page, but this isnt used anymore. 
 
 document.getElementById('codeinput').addEventListener("keyup", function(key) {
 	if (key.keyCode != 13) return;
@@ -25,7 +25,7 @@ function fehlermeldung(amount) {
 
 }
 
-
+// checking whether JQuery is running or not. 
 window.onload = function() {
     if (window.jQuery) {  
         // jQuery is loaded  
