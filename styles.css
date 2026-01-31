@@ -76,3 +76,9 @@ ul.link-list>li {
 .primary-color {
     color: var(--primary-color);
 }
+
+@media (max-width: 1100px) {
+    .inner-container {
+        width: 90% !important;
+    }
+}
