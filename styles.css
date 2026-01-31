@@ -38,7 +38,7 @@ body {
 }
 
 .inner-container {
-    width: 100%;
+    width: 50%;
     height: 50%;
     background-color: transparent;
     display: flex;
@@ -60,22 +60,17 @@ ul.link-list>li>a {
     text-decoration: none;
 }
 
-ul.link-list > li:hover {
+ul.link-list>li:hover {
     color: var(--secondary-color);
     transition: color 500ms ease;
 }
 
-ul.link-list > li {
+ul.link-list>li {
     transition: color 500ms ease;
 }
 
-.ascii-text {
-    font-size: clamp(0.4rem, 4vw, 1rem);
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: pre;
-    line-height: 1;
-    max-width: 90vw;
+.ascii-image {
+    width: 100%;
 }
 
 .primary-color {
