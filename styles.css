@@ -60,6 +60,15 @@ ul.link-list>li>a {
     text-decoration: none;
 }
 
+ul.link-list > li:hover {
+    color: var(--secondary-color);
+    transition: color 500ms ease;
+}
+
+ul.link-list > li {
+    transition: color 500ms ease;
+}
+
 .ascii-text {
     font-size: clamp(0.4rem, 4vw, 1rem);
     overflow-x: auto;
