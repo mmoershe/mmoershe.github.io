@@ -37,7 +37,7 @@ body {
 }
 
 .inner-container {
-    width: 50%;
+    width: 100%;
     height: 50%;
     background-color: transparent;
     display: flex;
